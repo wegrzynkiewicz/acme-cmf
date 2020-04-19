@@ -1,0 +1,6 @@
+*.log
+*.cache
+.env
+.env.secrets
+.idea
+node_modules
