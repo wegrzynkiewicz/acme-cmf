@@ -14,5 +14,6 @@ export default class VersionCommand extends ConsoleCommand {
     async execute(context) {
         const version = await this.provide();
         context.output.writeLine(version);
+        context.output.flush();
     }
 }

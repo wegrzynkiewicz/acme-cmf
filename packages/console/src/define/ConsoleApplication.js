@@ -1,14 +1,25 @@
 import InputParser from '../runtime/InputParser';
+import NullWriteableStream from '../runtime/NullWritableStream';
 import RuntimeContext from '../runtime/RuntimeContext';
-import UsagePrinter from '../services/UsagePrinter';
+import UsagePrinter from '../runtime/UsagePrinter';
+import Output from '../runtime/Output';
+import Input from '../runtime/Input';
 
 export default class ConsoleApplication {
 
     constructor({name, payload}) {
-        this.name = name;
-        this.commands = new Map();
         this.aliases = new Map();
-        this.payload = payload === undefined ? null : payload;
+        this.commands = new Map();
+        this.middlewares = new Set();
+        this.name = name;
+        this.payload = payload;
+    }
+
+    getCommandByName(commandName) {
+        if (!this.aliases.has(commandName)) {
+            throw new Error(`Command named (${commandName}) not exists.`);
+        }
+        return this.aliases.get(commandName);
     }
 
     registerCommand(command) {
@@ -22,34 +33,75 @@ export default class ConsoleApplication {
         this.commands.set(command.name, command);
     }
 
-    getCommandByName(commandName) {
-        if (!this.aliases.has(commandName)) {
-            throw new Error(`Command named (${commandName}) not exists.`);
-        }
-        return this.aliases.get(commandName);
+    registerMiddleware(middleware) {
+        this.middlewares.add(middleware);
     }
 
-    async run({argv, startupCommandName, stderr, stdin, stdout}) {
-        const command = this.getCommandByName(startupCommandName);
+    async run({argv, commandName, stderr, stdin, stdout}) {
+        const command = this.getCommandByName(commandName);
         const parser = new InputParser({command});
         const {args, options} = parser.parse(argv);
+
+        const application = this;
+        const input = new Input({args, options, stdin});
+        const output = new Output({stderr, stdout});
+        const usagePrinter = new UsagePrinter();
         const context = new RuntimeContext({
-            application: this,
-            args,
-            argv,
-            options,
-            stderr,
-            stdin,
-            stdout,
-            usagePrinter: new UsagePrinter(),
+            application,
+            command,
+            input,
+            output,
+            usagePrinter,
         });
 
+        const middlewares = [...this.middlewares.values(), this];
+
+        function createNext() {
+            return async function next(contextFromMiddleware) {
+                if (middlewares.length > 0) {
+                    const middleware = middlewares.shift();
+                    const exitCode = await middleware.execute(contextFromMiddleware, createNext());
+                    return exitCode;
+                }
+                return null;
+            };
+        }
+
+        const next = createNext();
+        const exitCode = await next(context);
+
+        return exitCode;
+
+        /*
+                const quiet = options.get('quiet');
+
+                const help = options.get('help');
+                if (help) {
+                    const commandHelp = this.getCommandByName('help');
+                }
+
+                const quiet = options.get('quiet');
+                const output = new Output({
+                    stderr: quiet ? new NullWriteableStream() : stderr,
+                    stdout: quiet ? new NullWriteableStream() : stdout,
+                });
+
+                try {
+                    await command.execute(context);
+                } catch (error) {
+                    throw error;
+                }
+
+                return context;
+                */
+    }
+
+    async execute(context, next) {
         try {
-            await command.execute(context);
+            const exitCode = await context.command.execute(context, next);
+            return exitCode;
         } catch (error) {
             throw error;
         }
-
-        return context;
     }
 }

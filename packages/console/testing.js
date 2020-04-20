@@ -22,8 +22,10 @@ import * as Console from '.';
         },
     });
 
+    application.registerMiddleware(new Console.HelpDetectorMiddleware());
+
     application.registerCommand(new Console.MainCommand({
-        startupCommandName: 'intro',
+        commandName: 'intro',
     }));
     application.registerCommand(new Console.IntroCommand({
         provide: () => logo,
@@ -36,7 +38,7 @@ import * as Console from '.';
 
     await application.run({
         argv: process.argv.slice(2),
-        startupCommandName: 'main',
+        commandName: 'main',
         stderr: process.stderr,
         stdin: process.stdin,
         stdout: process.stdout,

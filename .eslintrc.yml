@@ -38,7 +38,7 @@ rules:
   brace-style:
     - error
   callback-return:
-    - error
+    - off
   camelcase:
     - error
   capitalized-comments:

@@ -36,7 +36,7 @@ export default class HelpCommand extends ConsoleCommand {
     }
 
     async execute(context) {
-        const commandName = context.args.get('command');
+        const commandName = context.input.args.get('command');
         const command = context.application.getCommandByName(commandName);
         await context.usagePrinter.printCommandUsage(context, command);
     }

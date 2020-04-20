@@ -4,7 +4,7 @@ export default class ConsoleArgument {
         if (typeof name !== 'string' || name.length === 0) {
             throw new Error('Invalid value name.');
         }
-        this.defaults = defaults === undefined ? null : defaults;
+        this.defaults = defaults;
         this.description = description === undefined ? '' : description;
         this.name = name;
         this.required = required === undefined ? false : required;

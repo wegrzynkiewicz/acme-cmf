@@ -1,15 +1,16 @@
 import ConsoleArgument from '../define/ConsoleArgument';
 import ConsoleCommand from '../define/ConsoleCommand';
-import InputParser from '../runtime/InputParser';
-import RuntimeContext from '../runtime/RuntimeContext';
 
 export default class MainCommand extends ConsoleCommand {
 
-    constructor({startupCommandName}) {
+    constructor({commandName}) {
+        if (typeof commandName !== 'string' || commandName.length === 0) {
+            throw new Error('Invalid startup command name.');
+        }
         super({
             args: [
                 new ConsoleArgument({
-                    defaults: startupCommandName,
+                    defaults: commandName,
                     description: 'The command to execute.',
                     name: 'command',
                     require: false,
@@ -29,23 +30,16 @@ export default class MainCommand extends ConsoleCommand {
     }
 
     async execute(context) {
-        const commandName = context.args.get('command');
-        const argv = context.args.get('arguments');
-        const command = context.application.getCommandByName(commandName);
-        const parser = new InputParser({command});
-
-        const {args, options} = parser.parse(argv);
-        const newContext = new RuntimeContext({
-            ...context,
-            args,
+        const {application, input, output} = context;
+        const commandName = input.args.get('command');
+        const argv = input.args.get('arguments');
+        const result = await application.run({
             argv,
-            options,
+            commandName,
+            stderr: output.stderr,
+            stdin: input.stdin,
+            stdout: output.stdout,
         });
-
-        try {
-            await command.execute(newContext);
-        } catch (error) {
-            throw error;
-        }
+        return result;
     }
 }

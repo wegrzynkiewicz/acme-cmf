@@ -26,7 +26,6 @@ export default class UsagePrinter {
             }
         }
         output.writeLine();
-        output.writeLine();
         output.flush();
     }
 

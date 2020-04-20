@@ -29,5 +29,7 @@ export default class IntroCommand extends ConsoleCommand {
         usagePrinter.printCommandOptions(context, command);
         usagePrinter.printCommands(context, application.commands);
         output.flush();
+
+        return 0;
     }
 }
