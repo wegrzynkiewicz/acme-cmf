@@ -1,17 +1,14 @@
 export default class UsagePrinter {
 
     printCommandUsage(context, command) {
-        const {output} = context;
-
-        this.printFirstLine(context, command);
+        this.printUsage(context, command);
         this.printCommandDescription(context, command);
+        this.printCommandAliases(context, command);
         this.printCommandArguments(context, command);
         this.printCommandOptions(context, command);
-
-        output.flush();
     }
 
-    printFirstLine(context, command) {
+    printUsage(context, command) {
         const {application, output} = context;
         const {args, name, options} = command;
         output.write('Usage:');
@@ -29,6 +26,7 @@ export default class UsagePrinter {
             }
         }
         output.writeLine();
+        output.writeLine();
         output.flush();
     }
 
@@ -36,21 +34,33 @@ export default class UsagePrinter {
         const {output} = context;
         const {description} = command;
         if (description) {
-            output.writeLine();
             output.writeLine(description);
+            output.writeLine();
+            output.flush();
         }
-        output.flush();
+    }
+
+    printCommandAliases(context, command) {
+        const {output} = context;
+        const {aliases} = command;
+        if (aliases.size > 0) {
+            output.writeLine('Aliases:');
+            const aliasLine = [...aliases.values()].join(', ');
+            output.writeLine(`  ${aliasLine}`);
+            output.writeLine();
+            output.flush();
+        }
     }
 
     printCommandArguments(context, command) {
         const {output} = context;
         const {args} = command;
         if (args.size > 0) {
-            output.writeLine();
             output.writeLine('Arguments:');
             for (const argument of args.values()) {
                 this.printCommandArgument(context, argument);
             }
+            output.writeLine();
         }
     }
 
@@ -73,11 +83,11 @@ export default class UsagePrinter {
         const {options} = command;
 
         if (options.size > 0) {
-            output.writeLine();
             output.writeLine('Options:');
             for (const option of options.values()) {
                 this.printCommandOption(context, option);
             }
+            output.writeLine();
         }
     }
 
@@ -130,11 +140,11 @@ export default class UsagePrinter {
     printCommands(context, commands) {
         const {output} = context;
         if (commands.size > 0) {
-            output.writeLine();
-            output.writeLine('Commands:');
+            output.writeLine('Available commands:');
             for (const command of commands.values()) {
                 this.printCommand(context, command);
             }
+            output.writeLine();
         }
     }
 

@@ -1,4 +1,5 @@
 export {default as HelpCommand} from './src/buildin/HelpCommand';
+export {default as IntroCommand} from './src/buildin/IntroCommand';
 export {default as ListCommand} from './src/buildin/ListCommand';
 export {default as MainCommand} from './src/buildin/MainCommand';
 export {default as VersionCommand} from './src/buildin/VersionCommand';

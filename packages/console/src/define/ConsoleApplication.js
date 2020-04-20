@@ -7,18 +7,26 @@ export default class ConsoleApplication {
     constructor({name, payload}) {
         this.name = name;
         this.commands = new Map();
+        this.aliases = new Map();
         this.payload = payload === undefined ? null : payload;
     }
 
     registerCommand(command) {
+        const names = [command.name, ...command.aliases];
+        for (const name of names) {
+            if (this.aliases.has(name)) {
+                throw new Error(`Command named (${name}) is already exists.`);
+            }
+            this.aliases.set(name, command);
+        }
         this.commands.set(command.name, command);
     }
 
     getCommandByName(commandName) {
-        if (!this.commands.has(commandName)) {
+        if (!this.aliases.has(commandName)) {
             throw new Error(`Command named (${commandName}) not exists.`);
         }
-        return this.commands.get(commandName);
+        return this.aliases.get(commandName);
     }
 
     async run({argv, startupCommandName, stderr, stdin, stdout}) {
