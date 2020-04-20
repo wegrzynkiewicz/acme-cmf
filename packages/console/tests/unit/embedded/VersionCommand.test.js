@@ -10,12 +10,13 @@ describe('VersionCommand', () => {
             },
         });
         const writeLine = sinon.fake();
-
-        await versionCommand.execute({
+        const context = {
             output: {
                 writeLine,
             },
-        });
+        };
+
+        await versionCommand.execute(context);
 
         sinon.assert.calledOnce(writeLine);
         sinon.assert.calledWith(writeLine, version);
