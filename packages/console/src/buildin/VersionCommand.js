@@ -2,16 +2,17 @@ import ConsoleCommand from '../define/ConsoleCommand';
 
 export default class VersionCommand extends ConsoleCommand {
 
-    constructor({version}) {
+    constructor({provide}) {
         super({
             aliases: ['show-version'],
             description: 'Show the current version of console app.',
             name: 'version',
         });
-        this.version = version;
+        this.provide = provide;
     }
 
     async execute(context) {
-        context.stdout.write(this.version);
+        const version = await this.provide();
+        context.output.writeLine(version);
     }
 }

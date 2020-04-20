@@ -8,7 +8,11 @@ import * as Console from '.';
     });
 
     application.registerCommand(new Console.MainCommand({startupCommandName: 'list'}));
-    application.registerCommand(new Console.VersionCommand({version: 'tragedia'}));
+    application.registerCommand(new Console.VersionCommand({
+        provide() {
+            return Promise.resolve('0.0.0');
+        },
+    }));
     application.registerCommand(new Console.HelpCommand());
     application.registerCommand(new Console.ListCommand());
 

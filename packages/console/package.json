@@ -3,6 +3,11 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
+    "esm": "^3.2.25",
     "minimist": "^1.2.5"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1",
+    "sinon": "^9.0.2"
   }
 }
