@@ -21,14 +21,12 @@ export default class IntroCommand extends ConsoleCommand {
             output.writeLine(logo);
         }
 
-        usagePrinter.printUsage(context, {
+        usagePrinter.writeHelp({
             ...command,
+            commands: application.commands,
+            description: '',
             name: '',
         });
-        usagePrinter.printCommandArguments(context, command);
-        usagePrinter.printCommandOptions(context, command);
-        usagePrinter.printCommands(context, application.commands);
-        output.flush();
 
         return 0;
     }

@@ -1,70 +1,112 @@
+/* eslint-disable quote-props */
+
+import Table from 'cli-table3';
+
 export default class UsagePrinter {
 
-    printCommandUsage(context, command) {
-        this.printUsage(context, command);
-        this.printCommandDescription(context, command);
-        this.printCommandAliases(context, command);
-        this.printCommandArguments(context, command);
-        this.printCommandOptions(context, command);
+    constructor({application, output}) {
+        this.application = application;
+        this.output = output;
     }
 
-    printUsage(context, command) {
-        const {application, output} = context;
+    createTable() {
+        const table = new Table({
+            chars: {
+                'bottom': '',
+                'bottom-left': '',
+                'bottom-mid': '',
+                'bottom-right': '',
+                'left': '',
+                'left-mid': '',
+                'mid': '',
+                'mid-mid': '',
+                'middle': '',
+                'right': '',
+                'right-mid': '',
+                'top': '',
+                'top-left': '',
+                'top-mid': '',
+                'top-right': '',
+            },
+            style: {
+                'padding-left': 0,
+                'padding-right': 3,
+            },
+        });
+        return table;
+    }
+
+    writeHelp(command) {
+        this.writeCommandUsage(command);
+        this.writeCommandDescription(command);
+        this.writeCommandAliases(command);
+
+        const table = this.createTable();
+        this.putCommandArgumentsToTable(command, table);
+        this.putCommandOptionsToTable(command, table);
+        this.putCommandCommandsToTable(command, table);
+        this.writeTable(table);
+    }
+
+    writeTable(table) {
+        if (table.length > 0) {
+            this.output.write(table.toString());
+            this.output.writeLine();
+        }
+    }
+
+    writeCommandUsage(command) {
         const {args, name, options} = command;
-        output.write('Usage:');
-        output.write(` ${application.name}`);
+
+        this.output.write('Usage:');
+        this.output.write(` ${this.application.name}`);
         if (name !== '') {
-            output.write(` ${name}`);
+            this.output.write(` ${name}`);
         }
         if (options.size > 0) {
-            output.write(' [options]');
+            this.output.write(' [options]');
         }
         if (args.size > 0) {
             for (const argument of args.values()) {
-                output.write(' ');
-                this.printCommandArgumentLabel(context, argument);
+                const commandArgumentLabel = this.getCommandArgumentLabel(argument);
+                this.output.write(` ${commandArgumentLabel}`);
             }
         }
-        output.writeLine();
-        output.flush();
+        this.output.writeLine();
+        this.output.writeLine();
     }
 
-    printCommandDescription(context, command) {
-        const {output} = context;
+    writeCommandDescription(command) {
         const {description} = command;
         if (description) {
-            output.writeLine(description);
-            output.writeLine();
-            output.flush();
+            this.output.writeLine(description);
+            this.output.writeLine();
         }
     }
 
-    printCommandAliases(context, command) {
-        const {output} = context;
+    writeCommandAliases(command) {
         const {aliases} = command;
         if (aliases.size > 0) {
-            output.writeLine('Aliases:');
+            this.output.writeLine('Aliases:');
             const aliasLine = [...aliases.values()].join(', ');
-            output.writeLine(`  ${aliasLine}`);
-            output.writeLine();
-            output.flush();
+            this.output.writeLine(`  ${aliasLine}`);
+            this.output.writeLine();
         }
     }
 
-    printCommandArguments(context, command) {
-        const {output} = context;
-        const {args} = command;
-        if (args.size > 0) {
-            output.writeLine('Arguments:');
-            for (const argument of args.values()) {
-                this.printCommandArgument(context, argument);
-            }
-            output.writeLine();
+    getCommandArguments(command) {
+        const list = [];
+        for (const argument of command.args.values()) {
+            const argumentData = [
+                `  ${this.getCommandArgumentLabel(argument)}`,
+                argument.description,
+            ];
+            list.push(argumentData);
         }
+        return list;
     }
 
-    printCommandArgumentLabel(context, argument) {
-        const {output} = context;
+    getCommandArgumentLabel(argument) {
         const {defaults, name, rest, required} = argument;
         let label = name;
         if (rest) {
@@ -74,45 +116,32 @@ export default class UsagePrinter {
             label += `="${defaults.toString()}"`;
         }
         label = required ? `<${label}>` : `[${label}]`;
-        output.write(label);
+        return label;
     }
 
-    printCommandOptions(context, command) {
-        const {output} = context;
-        const {options} = command;
-
-        if (options.size > 0) {
-            output.writeLine('Options:');
-            for (const option of options.values()) {
-                this.printCommandOption(context, option);
-            }
-            output.writeLine();
+    putCommandArgumentsToTable(command, table) {
+        if (command.args && command.args.size > 0) {
+            table.push(['Arguments:', '']);
+            table.push(...this.getCommandArguments(command));
+            table.push([]);
         }
     }
 
-    printCommandOptionParameterLabel(context, parameter) {
-        const {output} = context;
-        const {defaults, name, required} = parameter;
-        let label = name;
-        if (defaults) {
-            label += `="${defaults}"`;
+    getCommandOptions(command) {
+        const list = [];
+        for (const option of command.options.values()) {
+            const optionData = [
+                `  ${this.getCommandOptionLabel(option)}`,
+                option.description,
+            ];
+            list.push(optionData);
         }
-        label = required ? `<${label}>` : `[${label}]`;
-        output.write(label);
+        return list;
     }
 
-    printCommandArgument(context, argument) {
-        const {output} = context;
-        output.write('  ');
-        this.printCommandArgumentLabel(context, argument);
-        output.tab();
-        output.writeLine(argument.description);
-    }
+    getCommandOptionLabel(option) {
+        const {longFlags, parameter, shortFlags} = option;
 
-    printCommandOption(context, option) {
-        const {output} = context;
-        const {description, longFlags, parameter, shortFlags} = option;
-        output.write('  ');
         const flags = [];
         if (shortFlags.length > 0) {
             for (const shortFlag of shortFlags) {
@@ -124,55 +153,67 @@ export default class UsagePrinter {
                 flags.push(`--${longFlag}`);
             }
         }
-        output.write(flags.join(', '));
+
+        let label = flags.join(', ');
         if (parameter) {
-            output.write('=');
-            this.printCommandOptionParameterLabel(context, parameter);
+            label += '=';
+            label += this.getCommandOptionParameterLabel(parameter);
         }
-        if (description) {
-            output.tab();
-            output.write(`${description}`);
-        }
-        output.writeLine();
+
+        return label;
     }
 
-    printCommands(context, commands) {
-        const {output} = context;
-        if (commands.size > 0) {
-            output.writeLine('Available commands:');
-            for (const command of commands.values()) {
-                this.printCommand(context, command);
+    getCommandOptionParameterLabel(parameter) {
+        const {defaults, name, required} = parameter;
+        let label = name;
+        if (defaults) {
+            label += `="${defaults}"`;
+        }
+        label = required ? `<${label}>` : `[${label}]`;
+        return label;
+    }
+
+    putCommandOptionsToTable(command, table) {
+        if (command.options && command.options.size > 0) {
+            table.push(['Options:', '']);
+            table.push(...this.getCommandOptions(command));
+            table.push([]);
+        }
+    }
+
+    getAvailableCommands(command) {
+        const list = [];
+        for (const child of command.commands.values()) {
+            if (!child.hidden) {
+                list.push(this.getAvailableCommand(child));
             }
-            output.writeLine();
         }
+        return list;
     }
 
-    printCommand(context, command) {
-        const {output} = context;
-        const {name, hidden, description, options, args} = command;
-
-        if (hidden) {
-            return;
-        }
-
-        output.write(`  ${name}`);
-
+    getAvailableCommand(command) {
+        const {name, description, options, args} = command;
+        let label = `  ${name}`;
         if (options.length > 0) {
-            output.write(' [options]');
+            label += ' [options]';
         }
-
         if (args.size > 0) {
             for (const argument of args.values()) {
-                output.write(' ');
-                this.printCommandArgumentLabel(context, argument);
+                const argumentLabel = this.getCommandArgumentLabel(argument);
+                label += ` ${argumentLabel}`;
             }
         }
+        return [
+            label,
+            description,
+        ];
+    }
 
-        if (description) {
-            output.tab();
-            output.write(`${description}`);
+    putCommandCommandsToTable(command, table) {
+        if (command.commands && command.commands.size > 0) {
+            table.push(['Available commands:', '']);
+            table.push(...this.getAvailableCommands(command));
+            table.push([]);
         }
-
-        output.writeLine();
     }
 }

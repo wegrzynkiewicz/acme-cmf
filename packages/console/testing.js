@@ -12,7 +12,6 @@ import * as Console from '.';
     logo += version;
     logo += '\n';
     logo += '\u2550'.repeat(version.length);
-    logo += '\n';
 
     const application = new Console.Application({
         name: './bin/console',

@@ -3,6 +3,7 @@
   "private": true,
   "main": "index.js",
   "dependencies": {
+    "cli-table3": "^0.6.0",
     "esm": "^3.2.25",
     "minimist": "^1.2.5"
   },

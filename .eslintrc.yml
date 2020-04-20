@@ -507,7 +507,7 @@ rules:
   require-atomic-updates:
     - error
   require-await:
-    - error
+    - off
   require-unicode-regexp:
     - error
   require-yield:

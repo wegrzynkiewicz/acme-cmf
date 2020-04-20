@@ -45,7 +45,7 @@ export default class ConsoleApplication {
         const application = this;
         const input = new Input({args, options, stdin});
         const output = new Output({stderr, stdout});
-        const usagePrinter = new UsagePrinter();
+        const usagePrinter = new UsagePrinter({application, output});
         const context = new RuntimeContext({
             application,
             command,
