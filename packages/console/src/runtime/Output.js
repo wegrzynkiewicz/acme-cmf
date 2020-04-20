@@ -5,6 +5,11 @@ export default class Output {
         this.stdout = stdout;
     }
 
+    error(error) {
+        const message = (error || '').stack;
+        this.stderr.write(`${message}\n`);
+    }
+
     write(line = '') {
         this.stdout.write(line);
     }

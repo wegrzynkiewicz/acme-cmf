@@ -1,42 +1,53 @@
-import * as Console from '../../index';
-import InputParser from '../runtime/InputParser';
+import ConsoleApplication from '../define/ConsoleApplication';
+import ConsoleOption from '../define/ConsoleOption';
+import HelpCommand from '../embedded/HelpCommand';
+import HelpDetectMiddleware from '../embedded/HelpDetectMiddleware';
+import IntroCommand from '../embedded/IntroCommand';
+import ListCommand from '../embedded/ListCommand';
+import MainCommand from '../embedded/MainCommand';
+import QuietDetectMiddleware from '../embedded/QuietDetectMiddleware';
+import VersionCommand from '../embedded/VersionCommand';
 
-export default class ConsoleBasicApplication extends Console.Application {
+export default class ConsoleBasicApplication extends ConsoleApplication {
 
     constructor({name, payload, provideLogo, provideVersion}) {
         super({name, payload});
 
-        this.registerCommand(new Console.MainCommand({
+        this.registerCommand(new MainCommand({
             commandName: 'intro',
         }));
-        this.registerCommand(new Console.IntroCommand({
+        this.registerCommand(new IntroCommand({
             provide: provideLogo,
         }));
-        this.registerCommand(new Console.VersionCommand({
+        this.registerCommand(new VersionCommand({
             provide: provideVersion,
         }));
-        this.registerCommand(new Console.HelpCommand());
-        this.registerCommand(new Console.ListCommand());
+        this.registerCommand(new HelpCommand());
+        this.registerCommand(new ListCommand());
+
+        this.registerMiddleware(new QuietDetectMiddleware());
+        this.registerMiddleware(new HelpDetectMiddleware());
     }
 
     registerCommand(command) {
-        super.registerCommand(command);
-    }
-
-    async run({argv, stderr, stdin, stdout}) {
-        const command = this.getCommandByName('main');
-        const parser = new InputParser({command});
-        const {args, options} = parser.parse(argv);
-        const quiet = options.get('quiet');
-
-        await super.run({
-            argv,
-            commandName: 'main',
-            stderr: quiet ? new NullWriteableStream() : stderr,
-            stdin,
-            stdout: quiet ? new NullWriteableStream() : stdout,
+        const helpOption = new ConsoleOption({
+            defaults: false,
+            description: 'Show the help information about this command.',
+            longFlags: ['help'],
+            name: 'help',
+            shortFlags: ['h'],
         });
+        command.registerOption(helpOption);
 
-        return context;
+        const quietOption = new ConsoleOption({
+            defaults: false,
+            description: 'Do not output any message.',
+            longFlags: ['quiet'],
+            name: 'quiet',
+            shortFlags: ['q'],
+        });
+        command.registerOption(quietOption);
+
+        super.registerCommand(command);
     }
 }

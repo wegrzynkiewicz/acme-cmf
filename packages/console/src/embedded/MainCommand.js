@@ -32,6 +32,9 @@ export default class MainCommand extends ConsoleCommand {
     async execute(context) {
         const {application, input, output} = context;
         const commandName = input.args.get('command');
+        if (commandName === this.name) {
+            throw new Error(`Cannot direct run a command named (${this.name}).`);
+        }
         const argv = input.args.get('arguments');
         const result = await application.run({
             argv,

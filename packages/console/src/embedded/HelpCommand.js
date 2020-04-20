@@ -1,7 +1,5 @@
 import ConsoleArgument from '../define/ConsoleArgument';
 import ConsoleCommand from '../define/ConsoleCommand';
-import ConsoleOption from '../define/ConsoleOption';
-import ConsoleOptionParameter from '../define/ConsoleOptionParameter';
 
 export default class HelpCommand extends ConsoleCommand {
 
@@ -17,21 +15,7 @@ export default class HelpCommand extends ConsoleCommand {
             ],
             description: 'Show the help information about selected command.',
             name: 'help',
-            options: [
-                new ConsoleOption({
-                    defaults: 'verbose',
-                    description: 'The command whose help information will displayed.',
-                    longFlags: [],
-                    name: 'command',
-                    parameter: new ConsoleOptionParameter({
-                        defaults: 'debug',
-                        name: 'level',
-                        required: true,
-                    }),
-                    require: false,
-                    shortFlags: ['v', 'a'],
-                }),
-            ],
+            options: [],
         });
     }
 

@@ -1,4 +1,4 @@
-import * as Console from '.';
+import * as Console from '..';
 
 (async function start() {
 
@@ -11,35 +11,23 @@ import * as Console from '.';
     logo += '\n';
     logo += version;
     logo += '\n';
-    logo += '\u2550'.repeat(version.length);
+    logo += '\u2500'.repeat(version.length);
 
-    const application = new Console.Application({
+    const application = new Console.BasicApplication({
         name: './bin/console',
-        payload: {
-            logo,
-            version,
-        },
+        payload: {},
+        provideLogo: () => logo,
+        provideVersion: () => version,
     });
 
-    application.registerMiddleware(new Console.HelpDetectorMiddleware());
-
-    application.registerCommand(new Console.MainCommand({
-        commandName: 'intro',
-    }));
-    application.registerCommand(new Console.IntroCommand({
-        provide: () => logo,
-    }));
-    application.registerCommand(new Console.VersionCommand({
-        provide: () => version,
-    }));
-    application.registerCommand(new Console.HelpCommand());
-    application.registerCommand(new Console.ListCommand());
-
-    await application.run({
+    const exitCode = await application.run({
         argv: process.argv.slice(2),
         commandName: 'main',
         stderr: process.stderr,
         stdin: process.stdin,
         stdout: process.stdout,
     });
+
+    // eslint-disable-next-line no-process-exit
+    process.exit(exitCode);
 }());

@@ -28,6 +28,9 @@ export default class IntroCommand extends ConsoleCommand {
             name: '',
         });
 
+        output.writeLine(`Type \`${application.name} help [command]\` for more information on specific commands.`);
+        output.writeLine();
+
         return 0;
     }
 }
