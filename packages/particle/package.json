@@ -1,0 +1,11 @@
+{
+  "name": "acme-particle",
+  "private": true,
+  "dependencies": {
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1",
+    "sinon": "^9.0.2"
+  }
+}

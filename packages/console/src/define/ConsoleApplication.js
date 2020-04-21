@@ -25,7 +25,7 @@ export default class ConsoleApplication {
         const names = [command.name, ...command.aliases];
         for (const name of names) {
             if (this.aliases.has(name)) {
-                throw new Error(`Command named (${name}) is already exists.`);
+                throw new Error(`Command named (${name}) already exists.`);
             }
             this.aliases.set(name, command);
         }
