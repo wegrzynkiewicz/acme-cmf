@@ -1,5 +1,5 @@
 {
-  "name": "acme-console",
+  "name": "acme-logging",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
@@ -8,9 +8,8 @@
     "test.unit": "./node_modules/mocha/bin/mocha --require esm ./tests/unit/**/*.test.js"
   },
   "dependencies": {
-    "cli-table3": "^0.6.0",
-    "esm": "^3.2.25",
-    "minimist": "^1.2.5"
+    "acme-core": "file:../core",
+    "esm": "^3.2.25"
   },
   "devDependencies": {
     "mocha": "^7.1.1",

@@ -1,5 +1,6 @@
 {
-  "name": "acme-particle",
+  "name": "acme-core",
+  "version": "0.0.0",
   "private": true,
   "main": "index.js",
   "scripts": {

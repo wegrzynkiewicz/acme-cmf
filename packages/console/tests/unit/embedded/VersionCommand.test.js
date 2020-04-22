@@ -5,8 +5,8 @@ describe('VersionCommand', () => {
     it('should return valid response', async () => {
         const version = '0.0.0';
         const versionCommand = new VersionCommand({
-            provide() {
-                return Promise.resolve(version);
+            async provide() {
+                return version;
             },
         });
         const writeLine = sinon.fake();

@@ -2,7 +2,9 @@
   "name": "acme-cmf",
   "private": true,
   "scripts": {
-    "test": "./node_modules/lerna/cli.js run --parallel test"
+    "eslint": "./node_modules/eslint/bin/eslint.js .",
+    "test": "./node_modules/lerna/cli.js run --parallel test",
+    "test.unit": "./node_modules/lerna/cli.js run --parallel test.unit"
   },
   "dependencies": {
     "esm": "^3.2.25"
