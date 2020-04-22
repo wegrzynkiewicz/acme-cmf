@@ -1,4 +1,6 @@
-export default class ServiceLocator {
+import EventEmitter from 'events';
+
+export default class ServiceLocator extends EventEmitter {
 
     /**
      * @param {string} name
@@ -8,12 +10,19 @@ export default class ServiceLocator {
         if (parent && !(parent instanceof ServiceLocator)) {
             throw new Error('Service locator parent must be instance of ServiceLocator class.');
         }
+        super();
         this.name = name;
         this.parent = parent;
         this.promises = new Map();
         this.providers = new Map();
         this.resolvers = new Map();
         this.services = new Map();
+
+        this.setMaxListeners(Infinity);
+        if (this.parent) {
+            this.parent.addListener('service-resolved', this.onServiceResolved.bind(this));
+            this.parent.addListener('provider-registered', this.onProviderRegistered.bind(this));
+        }
     }
 
     /**
@@ -25,10 +34,8 @@ export default class ServiceLocator {
             const resolve = this.resolvers.get(name);
             resolve(service);
         }
-        this.promises.delete(name);
-        this.providers.delete(name);
-        this.resolvers.delete(name);
         this.services.set(name, service);
+        this.emit('service-resolved', {name, service});
     }
 
     /**
@@ -45,16 +52,6 @@ export default class ServiceLocator {
         throw new Error(`Cannot resolve service named (${name}).`);
     }
 
-    getPromise() {
-        if (this.promises.hasPromise(name)) {
-            return this.promises.get(name);
-        }
-        if (this.parent && this.parent.hasPromise(name)) {
-            return this.parent.getPromise(name);
-        }
-        throw new Error(`Promise named (${name}) not exists.`);
-    }
-
     /**
      * @param {string} name
      * @returns {boolean}
@@ -69,16 +66,10 @@ export default class ServiceLocator {
         return false;
     }
 
-    hasPromise(name) {
-        if (this.promises.has(name)) {
-            return true;
-        }
-        if (this.parent && this.parent.hasPromise(name)) {
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * @param {string} name
+     * @returns {boolean}
+     */
     hasProvider(name) {
         if (this.providers.has(name)) {
             return true;
@@ -89,14 +80,37 @@ export default class ServiceLocator {
         return false;
     }
 
-    hasResolver(name) {
+    /**
+     * @param {ServiceProvider} serviceProvider
+     */
+    onProviderRegistered(serviceProvider) {
+        const {name} = serviceProvider;
+        if (this.providers.has(name)) {
+            return;
+        }
         if (this.resolvers.has(name)) {
-            return true;
+            this.parent.runProvider(name).then();
         }
-        if (this.parent && this.parent.hasResolver(name)) {
-            return true;
+        this.emit('provider-registered', serviceProvider);
+    }
+
+    /**
+     * @param {object} event
+     * @param {string} event.name
+     * @param {any} event.service
+     */
+    onServiceResolved(event) {
+        const {name, service} = event;
+        if (this.providers.has(name)) {
+            return;
         }
-        return false;
+        if (this.resolvers.has(name)) {
+            const resolve = this.resolvers.get(name);
+            resolve(service);
+            this.promises.delete(name);
+            this.resolvers.delete(name);
+        }
+        this.emit('service-resolved', event);
     }
 
     /**
@@ -109,25 +123,11 @@ export default class ServiceLocator {
         if (this.has(name)) {
             throw new Error(`Service named (${name}) already exists.`);
         }
-        if (this.hasProvider(name)) {
-            throw new Error(`Service named (${name}) already registered.`);
-        }
         this.providers.set(name, serviceProvider);
-        this.triggerProvider(name).then();
-    }
-
-    registerResolver(name, resolve) {
-        if (this.has(name)) {
-            throw new Error(`Service named (${name}) already exists.`);
+        if (this.resolvers.has(name)) {
+            this.runProvider(name).then();
         }
-        if (this.hasResolver(name)) {
-            throw new Error(`Resolver named (${name}) already exists.`);
-        }
-        this.resolvers.set(name, resolve);
-        if (this.parent) {
-            this.parent.registerResolver(name, resolve);
-        }
-        this.triggerProvider(name).then();
+        this.emit('provider-registered', {name, serviceProvider});
     }
 
     /**
@@ -138,20 +138,20 @@ export default class ServiceLocator {
         if (typeof name !== 'string' || name.length === 0) {
             throw new Error('Service name must be valid string.');
         }
-        if (this.services.has(name)) {
-            throw new Error(`Service named (${name}) already exists.`);
-        }
         this.complete(name, service);
     }
 
-    async triggerProvider(name) {
+    async runProvider(name) {
         if (this.providers.has(name)) {
             const provider = this.providers.get(name);
             const service = await provider.provide(this);
             this.complete(name, service);
+            this.promises.delete(name);
+            this.providers.delete(name);
+            this.resolvers.delete(name);
         }
         if (this.parent) {
-            await this.parent.triggerProvider(name);
+            await this.parent.runProvider(name);
         }
     }
 
@@ -161,18 +161,18 @@ export default class ServiceLocator {
      */
     async wait(name) {
         if (this.hasProvider(name)) {
-            await this.triggerProvider(name);
+            await this.runProvider(name);
         }
         if (this.has(name)) {
             const service = this.get(name);
             return Promise.resolve(service);
         }
-        if (this.hasPromise(name)) {
-            const promise = this.getPromise(name);
+        if (this.promises.has(name)) {
+            const promise = this.promises.get(name);
             return promise;
         }
         const promise = new Promise((resolve) => {
-            this.registerResolver(name, resolve);
+            this.resolvers.set(name, resolve);
         });
         this.promises.set(name, promise);
         return promise;

@@ -163,6 +163,28 @@ describe('ServiceLocator', () => {
         assert.strictEqual(resultService, parentServiceInstance);
     });
 
+    it('should return promise using double wait before register parent provider', async () => {
+        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const childServiceLocator = new ServiceLocator({
+            name: 'child',
+            parent: parentServiceLocator,
+        });
+        const parentServiceInstance = {};
+        const parentServiceProvider = {
+            name: 'exampleServiceName',
+            provide: sinon.fake.resolves(parentServiceInstance),
+        };
+
+        const promise1 = childServiceLocator.wait('exampleServiceName');
+        const promise2 = childServiceLocator.wait('exampleServiceName');
+        parentServiceLocator.registerProvider(parentServiceProvider);
+        const result1Service = await promise1;
+        const result2Service = await promise2;
+
+        assert.strictEqual(result1Service, parentServiceInstance);
+        assert.strictEqual(result2Service, parentServiceInstance);
+    });
+
     it('should return promise using wait before register chain of dependencies', async () => {
         const parentServiceLocator = new ServiceLocator({name: 'parent'});
         const childServiceLocator = new ServiceLocator({
@@ -174,29 +196,105 @@ describe('ServiceLocator', () => {
             name: 'service-alpha',
             provide: sinon.fake.resolves(parentAlphaServiceInstance),
         };
-        const clientBetaServiceInstance = {};
-        const clientBetaServiceProvider = {
+        const parentBetaServiceInstance = {};
+        const parentBetaServiceProvider = {
             name: 'service-beta',
             provide: async (serviceLocator) => {
                 await serviceLocator.wait('service-alpha');
-                return clientBetaServiceInstance;
+                return parentBetaServiceInstance;
             },
         };
-        const parentGammaServiceInstance = {};
-        const parentGammaServiceProvider = {
+        const clientGammaServiceInstance = {};
+        const clientGammaServiceProvider = {
             name: 'service-gamma',
             provide: async (serviceLocator) => {
                 await serviceLocator.wait('service-beta');
-                return parentGammaServiceInstance;
+                return clientGammaServiceInstance;
             },
         };
 
         const promise = childServiceLocator.wait('service-gamma');
-        parentServiceLocator.registerProvider(parentGammaServiceProvider);
-        parentServiceLocator.registerProvider(clientBetaServiceProvider);
+        childServiceLocator.registerProvider(clientGammaServiceProvider);
         parentServiceLocator.registerProvider(parentAlphaServiceProvider);
+        parentServiceLocator.registerProvider(parentBetaServiceProvider);
         const resultService = await promise;
 
-        assert.strictEqual(resultService, parentGammaServiceInstance);
+        assert.strictEqual(resultService, clientGammaServiceInstance);
+        assert.strictEqual(parentServiceLocator.promises.size, 0);
+        assert.strictEqual(parentServiceLocator.resolvers.size, 0);
+        assert.strictEqual(parentServiceLocator.services.size, 2);
+        assert.strictEqual(childServiceLocator.promises.size, 0);
+        assert.strictEqual(childServiceLocator.resolvers.size, 0);
+        assert.strictEqual(childServiceLocator.services.size, 1);
+    });
+
+    it('should return child service promise using wait then child has own provider', async () => {
+        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const childServiceLocator = new ServiceLocator({
+            name: 'child',
+            parent: parentServiceLocator,
+        });
+        const parentServiceInstance = {};
+        const parentServiceProvider = {
+            name: 'exampleServiceName',
+            provide: sinon.fake.resolves(parentServiceInstance),
+        };
+        const childServiceInstance = {};
+        const childServiceProvider = {
+            name: 'exampleServiceName',
+            provide: sinon.fake.resolves(childServiceInstance),
+        };
+
+        parentServiceLocator.registerProvider(parentServiceProvider);
+        childServiceLocator.registerProvider(childServiceProvider);
+        const parentPromise = parentServiceLocator.wait('exampleServiceName');
+        const childPromise = childServiceLocator.wait('exampleServiceName');
+        const parentResultService = await parentPromise;
+        const childResultService = await childPromise;
+
+        assert.strictEqual(parentResultService, parentServiceInstance);
+        assert.strictEqual(childResultService, childServiceInstance);
+        assert.strictEqual(parentServiceLocator.promises.size, 0);
+        assert.strictEqual(parentServiceLocator.resolvers.size, 0);
+        assert.strictEqual(parentServiceLocator.services.size, 1);
+        assert.strictEqual(childServiceLocator.promises.size, 0);
+        assert.strictEqual(childServiceLocator.resolvers.size, 0);
+        assert.strictEqual(childServiceLocator.services.size, 1);
+    });
+
+    it('should return service using wait then ancestor provider exists', async () => {
+        const ancestorServiceLocator = new ServiceLocator({
+            name: 'ancestor',
+        });
+        const parentServiceLocator = new ServiceLocator({
+            name: 'parent',
+            parent: ancestorServiceLocator,
+        });
+        const childServiceLocator = new ServiceLocator({
+            name: 'child',
+            parent: parentServiceLocator,
+        });
+        const ancestorServiceInstance = {};
+        const ancestorServiceProvider = {
+            name: 'exampleServiceName',
+            provide: sinon.fake.resolves(ancestorServiceInstance),
+        };
+
+        ancestorServiceLocator.registerProvider(ancestorServiceProvider);
+        const resultService = await childServiceLocator.wait('exampleServiceName');
+
+        assert.strictEqual(resultService, ancestorServiceInstance);
+        assert.strictEqual(ancestorServiceLocator.providers.size, 0);
+        assert.strictEqual(ancestorServiceLocator.promises.size, 0);
+        assert.strictEqual(ancestorServiceLocator.resolvers.size, 0);
+        assert.strictEqual(ancestorServiceLocator.services.size, 1);
+        assert.strictEqual(parentServiceLocator.providers.size, 0);
+        assert.strictEqual(parentServiceLocator.promises.size, 0);
+        assert.strictEqual(parentServiceLocator.resolvers.size, 0);
+        assert.strictEqual(parentServiceLocator.services.size, 0);
+        assert.strictEqual(childServiceLocator.providers.size, 0);
+        assert.strictEqual(childServiceLocator.promises.size, 0);
+        assert.strictEqual(childServiceLocator.resolvers.size, 0);
+        assert.strictEqual(childServiceLocator.services.size, 0);
     });
 });
