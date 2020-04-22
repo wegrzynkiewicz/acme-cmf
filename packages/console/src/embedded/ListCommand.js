@@ -1,7 +1,7 @@
-import ConsoleCommand from '../define/ConsoleCommand';
-import ConsoleOption from '../define/ConsoleOption';
+import {ConsoleCommand} from '../define/ConsoleCommand';
+import {ConsoleOption} from '../define/ConsoleOption';
 
-export default class ListCommand extends ConsoleCommand {
+export class ListCommand extends ConsoleCommand {
 
     constructor() {
         super({

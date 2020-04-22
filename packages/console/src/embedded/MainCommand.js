@@ -1,7 +1,7 @@
-import ConsoleArgument from '../define/ConsoleArgument';
-import ConsoleCommand from '../define/ConsoleCommand';
+import {ConsoleArgument} from '../define/ConsoleArgument';
+import {ConsoleCommand} from '../define/ConsoleCommand';
 
-export default class MainCommand extends ConsoleCommand {
+export class MainCommand extends ConsoleCommand {
 
     constructor({commandName}) {
         if (typeof commandName !== 'string' || commandName.length === 0) {

@@ -1,6 +1,6 @@
-import ConsoleCommand from '../define/ConsoleCommand';
+import {ConsoleCommand} from '../define/ConsoleCommand';
 
-export default class IntroCommand extends ConsoleCommand {
+export class IntroCommand extends ConsoleCommand {
 
     constructor({provide}) {
         super({

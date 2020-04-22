@@ -11,9 +11,11 @@ parserOptions:
   ecmaVersion: 2018
   sourceType: module
 plugins:
+  - import
   - mocha
 extends:
   - eslint:recommended
+  - plugin:import/recommended
   - plugin:mocha/recommended
 rules:
   accessor-pairs:
@@ -525,8 +527,9 @@ rules:
     - error
   semi-style:
     - error
+  # replaced by import/order
   sort-imports:
-    - error
+    - off
   sort-keys:
     - error
     - asc
@@ -580,47 +583,131 @@ rules:
 
 
   mocha/handle-done-callback:
-  - error
+    - error
   mocha/max-top-level-suites:
-  - error
-  - limit: 1
+    - error
+    - limit: 1
   mocha/no-async-describe:
-  - error
+    - error
   mocha/no-exclusive-tests:
-  - error
+    - error
   mocha/no-global-tests:
-  - error
+    - error
   mocha/no-hooks:
-  - error
+    - error
   mocha/no-hooks-for-single-case:
-  - error
+    - error
   mocha/no-identical-title:
-  - error
+    - error
   mocha/no-mocha-arrows:
-  - off
+    - off
   mocha/no-nested-tests:
-  - error
+    - error
   mocha/no-pending-tests:
-  - error
+    - error
   mocha/no-return-and-callback:
-  - error
+    - error
   mocha/no-return-from-async:
-  - error
+    - error
   mocha/no-setup-in-describe:
-  - error
+    - error
   mocha/no-sibling-hooks:
-  - error
+    - error
   mocha/no-skipped-tests:
-  - error
+    - error
   mocha/no-synchronous-tests:
-  - error
+    - error
   mocha/no-top-level-hooks:
-  - error
+    - error
   mocha/prefer-arrow-callback:
-  - error
-  - allowNamedFunctions: false
-    allowUnboundThis: false
+    - error
+    - allowNamedFunctions: false
+      allowUnboundThis: false
   mocha/valid-suite-description:
-  - off
+    - off
   mocha/valid-test-description:
-  - off
+    - off
+
+
+  import/default:
+    - error
+  import/dynamic-import-chunkname:
+    - error
+  import/export:
+    - error
+  import/exports-last:
+    - error
+  import/extensions:
+    - error
+  import/first:
+    - error
+  import/group-exports:
+    - error
+  import/max-dependencies:
+    - error
+  import/named:
+    - error
+  import/namespace:
+    - error
+  import/newline-after-import:
+    - error
+  import/no-absolute-path:
+    - error
+  import/no-amd:
+    - error
+  import/no-anonymous-default-export:
+    - error
+  import/no-commonjs:
+    - error
+  import/no-cycle:
+    - error
+  import/no-default-export:
+    - error
+  import/no-deprecated:
+    - error
+  import/no-duplicates:
+    - error
+  import/no-dynamic-require:
+    - error
+  import/no-extraneous-dependencies:
+    - error
+  import/no-internal-modules:
+    - off
+  import/no-mutable-exports:
+    - error
+  import/no-named-as-default:
+    - error
+  import/no-named-as-default-member:
+    - error
+  import/no-named-default:
+    - error
+  import/no-named-export:
+    - off
+  import/no-namespace:
+    - error
+  import/no-nodejs-modules:
+    - off
+  import/no-relative-parent-imports:
+    - off
+  import/no-restricted-paths:
+    - error
+  import/no-self-import:
+    - error
+  import/no-unassigned-import:
+    - error
+  import/no-unresolved:
+    - error
+  import/no-unused-modules:
+    - error
+  import/no-useless-path-segments:
+    - error
+  import/no-webpack-loader-syntax:
+    - error
+  import/order:
+    - error
+  import/prefer-default-export:
+    - off
+  import/unambiguous:
+    - error
+
+

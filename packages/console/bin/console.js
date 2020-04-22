@@ -1,4 +1,4 @@
-import * as Console from '..';
+import {ConsoleBasicApplication} from '..';
 
 (async function start() {
 
@@ -13,7 +13,7 @@ import * as Console from '..';
     logo += '\n';
     logo += '\u2500'.repeat(version.length);
 
-    const application = new Console.BasicApplication({
+    const application = new ConsoleBasicApplication({
         name: './bin/console',
         payload: {},
         provideLogo: () => logo,

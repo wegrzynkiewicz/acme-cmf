@@ -1,10 +1,10 @@
-import Input from '../runtime/Input';
-import InputParser from '../runtime/InputParser';
-import Output from '../runtime/Output';
-import RuntimeContext from '../runtime/RuntimeContext';
-import UsagePrinter from '../runtime/UsagePrinter';
+import {Input} from '../runtime/Input';
+import {InputParser} from '../runtime/InputParser';
+import {Output} from '../runtime/Output';
+import {RuntimeContext} from '../runtime/RuntimeContext';
+import {UsagePrinter} from '../runtime/UsagePrinter';
 
-export default class ConsoleApplication {
+export class ConsoleApplication {
 
     constructor({name, payload}) {
         this.aliases = new Map();

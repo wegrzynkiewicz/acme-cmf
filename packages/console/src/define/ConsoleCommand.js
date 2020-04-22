@@ -1,4 +1,4 @@
-export default class ConsoleCommand {
+export class ConsoleCommand {
 
     constructor({aliases, args, description, name, hidden, options}) {
         if (typeof name !== 'string' || name.length === 0) {

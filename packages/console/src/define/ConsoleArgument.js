@@ -1,4 +1,4 @@
-export default class ConsoleArgument {
+export class ConsoleArgument {
 
     constructor({defaults, description, name, rest, required}) {
         if (typeof name !== 'string' || name.length === 0) {

@@ -1,4 +1,4 @@
-export default class Warden {
+export class Warden {
 
     constructor() {
         this.bundles = new Map();

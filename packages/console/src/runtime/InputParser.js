@@ -1,7 +1,7 @@
-import ConsoleCommand from '../define/ConsoleCommand';
 import minimist from 'minimist';
+import {ConsoleCommand} from '../define/ConsoleCommand';
 
-export default class InputParser {
+export class InputParser {
 
     constructor({command}) {
         if (!(command instanceof ConsoleCommand)) {

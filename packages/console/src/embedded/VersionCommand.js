@@ -1,6 +1,6 @@
-import ConsoleCommand from '../define/ConsoleCommand';
+import {ConsoleCommand} from '../define/ConsoleCommand';
 
-export default class VersionCommand extends ConsoleCommand {
+export class VersionCommand extends ConsoleCommand {
 
     constructor({provide}) {
         super({

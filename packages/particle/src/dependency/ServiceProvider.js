@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-export default class ServiceProvider {
+export class ServiceProvider {
 
     /**
      * @param {string} name

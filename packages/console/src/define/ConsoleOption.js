@@ -1,6 +1,6 @@
-import ConsoleOptionParameter from './ConsoleOptionParameter';
+import {ConsoleOptionParameter} from './ConsoleOptionParameter';
 
-export default class ConsoleOption {
+export class ConsoleOption {
 
     constructor({description, longFlags, name, parameter, shortFlags}) {
         if (typeof name !== 'string' || name.length === 0) {

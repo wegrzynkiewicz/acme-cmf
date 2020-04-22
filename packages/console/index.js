@@ -1,21 +1,21 @@
-export {default as BasicApplication} from './src/custom/ConsoleBasicApplication';
+export * from './src/custom/ConsoleBasicApplication';
 
-export {default as Application} from './src/define/ConsoleApplication';
-export {default as Argument} from './src/define/ConsoleArgument';
-export {default as Command} from './src/define/ConsoleCommand';
-export {default as Option} from './src/define/ConsoleOption';
-export {default as OptionParameter} from './src/define/ConsoleOptionParameter';
+export * from './src/define/ConsoleApplication';
+export * from './src/define/ConsoleArgument';
+export * from './src/define/ConsoleCommand';
+export * from './src/define/ConsoleOption';
+export * from './src/define/ConsoleOptionParameter';
 
-export {default as HelpCommand} from './src/embedded/HelpCommand';
-export {default as HelpDetectMiddleware} from './src/embedded/HelpDetectMiddleware';
-export {default as IntroCommand} from './src/embedded/IntroCommand';
-export {default as ListCommand} from './src/embedded/ListCommand';
-export {default as MainCommand} from './src/embedded/MainCommand';
-export {default as VersionCommand} from './src/embedded/VersionCommand';
+export * from './src/embedded/HelpCommand';
+export * from './src/embedded/HelpDetectMiddleware';
+export * from './src/embedded/IntroCommand';
+export * from './src/embedded/ListCommand';
+export * from './src/embedded/MainCommand';
+export * from './src/embedded/VersionCommand';
 
-export {default as Input} from './src/runtime/Input';
-export {default as InputParser} from './src/runtime/InputParser';
-export {default as NullWritableStream} from './src/runtime/NullWritableStream';
-export {default as Output} from './src/runtime/Output';
-export {default as RuntimeContext} from './src/runtime/RuntimeContext';
-export {default as UsagePrinter} from './src/runtime/UsagePrinter';
+export * from './src/runtime/Input';
+export * from './src/runtime/InputParser';
+export * from './src/runtime/NullWritableStream';
+export * from './src/runtime/Output';
+export * from './src/runtime/RuntimeContext';
+export * from './src/runtime/UsagePrinter';

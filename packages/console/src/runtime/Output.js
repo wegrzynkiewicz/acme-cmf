@@ -1,4 +1,4 @@
-export default class Output {
+export class Output {
 
     constructor({stderr, stdout}) {
         this.stderr = stderr;

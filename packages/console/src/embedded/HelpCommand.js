@@ -1,7 +1,7 @@
-import ConsoleArgument from '../define/ConsoleArgument';
-import ConsoleCommand from '../define/ConsoleCommand';
+import {ConsoleArgument} from '../define/ConsoleArgument';
+import {ConsoleCommand} from '../define/ConsoleCommand';
 
-export default class HelpCommand extends ConsoleCommand {
+export class HelpCommand extends ConsoleCommand {
 
     constructor() {
         super({

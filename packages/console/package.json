@@ -2,6 +2,10 @@
   "name": "acme-console",
   "private": true,
   "main": "index.js",
+  "scripts": {
+    "test": "npm run test.unit",
+    "test.unit": "./node_modules/mocha/bin/mocha --require esm ./tests/unit/**/*.test.js"
+  },
   "dependencies": {
     "cli-table3": "^0.6.0",
     "esm": "^3.2.25",

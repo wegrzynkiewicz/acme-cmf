@@ -1,11 +1,15 @@
 {
   "name": "acme-cmf",
   "private": true,
+  "scripts": {
+    "test": "./node_modules/lerna/cli.js run --parallel test"
+  },
   "dependencies": {
     "esm": "^3.2.25"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-mocha": "^6.3.0",
     "lerna": "^3.20.2"
   }

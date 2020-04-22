@@ -1,10 +1,10 @@
-import * as Console from '../../../';
 import sinon from 'sinon';
+import {VersionCommand} from '../../..';
 
 describe('VersionCommand', () => {
     it('should return valid response', async () => {
         const version = '0.0.0';
-        const versionCommand = new Console.VersionCommand({
+        const versionCommand = new VersionCommand({
             provide() {
                 return Promise.resolve(version);
             },

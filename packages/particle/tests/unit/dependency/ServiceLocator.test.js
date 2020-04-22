@@ -1,6 +1,6 @@
-import ServiceLocator from '../../../src/dependency/ServiceLocator';
 import assert from 'assert';
 import sinon from 'sinon';
+import {ServiceLocator} from '../../..';
 
 describe('ServiceLocator', () => {
 

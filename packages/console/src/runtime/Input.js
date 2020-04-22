@@ -1,4 +1,4 @@
-export default class Input {
+export class Input {
 
     constructor({args, options, stdin}) {
         this.args = args;

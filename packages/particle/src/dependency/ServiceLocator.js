@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-export default class ServiceLocator extends EventEmitter {
+export class ServiceLocator extends EventEmitter {
 
     /**
      * @param {string} name
@@ -16,6 +16,7 @@ export default class ServiceLocator extends EventEmitter {
         this.promises = new Map();
         this.providers = new Map();
         this.resolvers = new Map();
+
         this.services = new Map();
 
         this.setMaxListeners(Infinity);
@@ -26,8 +27,10 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @private
      * @param {string} name
      * @param {any} service
+     * @fires ServiceLocator#service-resolved
      */
     complete(name, service) {
         if (this.resolvers.has(name)) {
@@ -35,10 +38,18 @@ export default class ServiceLocator extends EventEmitter {
             resolve(service);
         }
         this.services.set(name, service);
+
+        /**
+         * @event ServiceLocator#service-resolved
+         * @type object
+         * @property {string} name
+         * @property {any} service
+         */
         this.emit('service-resolved', {name, service});
     }
 
     /**
+     * @public
      * @param {string} name
      * @returns {any}
      */
@@ -53,6 +64,7 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @public
      * @param {string} name
      * @returns {boolean}
      */
@@ -67,6 +79,7 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @public
      * @param {string} name
      * @returns {boolean}
      */
@@ -81,7 +94,9 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @private
      * @param {ServiceProvider} serviceProvider
+     * @fires ServiceLocator#provider-registered
      */
     onProviderRegistered(serviceProvider) {
         const {name} = serviceProvider;
@@ -91,13 +106,22 @@ export default class ServiceLocator extends EventEmitter {
         if (this.resolvers.has(name)) {
             this.parent.runProvider(name).then();
         }
+
+        /**
+         * @event ServiceLocator#provider-registered
+         * @type object
+         * @property {string} name
+         * @property {function(serviceLocator:ServiceLocator): Promise<any>} provide
+         */
         this.emit('provider-registered', serviceProvider);
     }
 
     /**
+     * @private
      * @param {object} event
      * @param {string} event.name
      * @param {any} event.service
+     * @fires ServiceLocator#service-resolved
      */
     onServiceResolved(event) {
         const {name, service} = event;
@@ -114,9 +138,11 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @public
      * @param {object} serviceProvider
      * @param {string} serviceProvider.name
      * @param {function(serviceLocator:ServiceLocator): Promise<any>} serviceProvider.provide
+     * @fires ServiceLocator#provider-registered
      */
     registerProvider(serviceProvider) {
         const {name} = serviceProvider;
@@ -131,6 +157,7 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @public
      * @param {string} name
      * @param {any} service
      */
@@ -141,6 +168,11 @@ export default class ServiceLocator extends EventEmitter {
         this.complete(name, service);
     }
 
+    /**
+     * @private
+     * @param {string} name
+     * @returns {Promise<void>}
+     */
     async runProvider(name) {
         if (this.providers.has(name)) {
             const provider = this.providers.get(name);
@@ -156,6 +188,7 @@ export default class ServiceLocator extends EventEmitter {
     }
 
     /**
+     * @public
      * @param {string} name
      * @returns {Promise<any>}
      */

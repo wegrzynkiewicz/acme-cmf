@@ -1,4 +1,4 @@
-export default class RuntimeContext {
+export class RuntimeContext {
 
     constructor({application, command, input, output, usagePrinter}) {
         this.application = application;

@@ -1,15 +1,15 @@
-import ConsoleMiddleware from '../define/ConsoleMiddleware';
-import NullWriteableStream from '../runtime/NullWritableStream';
-import Output from '../runtime/Output';
+import {ConsoleMiddleware} from '../define/ConsoleMiddleware';
+import {NullWritableStream} from '../runtime/NullWritableStream';
+import {Output} from '../runtime/Output';
 
-export default class QuietDetectMiddleware extends ConsoleMiddleware {
+export class QuietDetectMiddleware extends ConsoleMiddleware {
 
     async execute(context, next) {
         const {input} = context;
         if (input.options.get('quiet')) {
             context.output = new Output({
-                stderr: new NullWriteableStream(),
-                stdout: new NullWriteableStream(),
+                stderr: new NullWritableStream(),
+                stdout: new NullWritableStream(),
             });
         }
         const exitCode = await super.execute(context, next);

@@ -1,4 +1,4 @@
-export default class ConsoleOptionParameter {
+export class ConsoleOptionParameter {
 
     constructor({defaults, name, required}) {
         if (typeof name !== 'string' || name.length === 0) {
