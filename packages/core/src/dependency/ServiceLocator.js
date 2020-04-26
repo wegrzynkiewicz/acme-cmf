@@ -86,6 +86,9 @@ export class ServiceLocator extends EventEmitter {
 
     registerProvider(serviceProvider) {
         const {name} = serviceProvider;
+        if (typeof name !== 'string' || name.length === 0) {
+            throw new Error('Service provider name must be valid string.');
+        }
         if (this.has(name)) {
             throw new Error(`Service named (${name}) already exists.`);
         }

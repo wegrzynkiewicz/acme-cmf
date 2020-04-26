@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "npm run test.unit",
+    "test": "npm run --silent test.unit",
     "test.unit": "./node_modules/mocha/bin/mocha --require esm ./tests/unit/**/*.test.js"
   },
   "dependencies": {

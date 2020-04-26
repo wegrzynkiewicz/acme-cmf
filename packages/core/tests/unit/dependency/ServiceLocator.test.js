@@ -5,7 +5,7 @@ import {ServiceLocator} from '../../..';
 describe('ServiceLocator', () => {
 
     it('should return service using get', async () => {
-        const serviceLocator = new ServiceLocator({name: 'global'});
+        const serviceLocator = new ServiceLocator({});
         const exampleServiceInstance = {};
         serviceLocator.set('exampleServiceName', exampleServiceInstance);
 
@@ -16,7 +16,7 @@ describe('ServiceLocator', () => {
     });
 
     it('should return service using wait', async () => {
-        const serviceLocator = new ServiceLocator({name: 'global'});
+        const serviceLocator = new ServiceLocator({});
         const exampleServiceInstance = {};
         serviceLocator.set('exampleServiceName', exampleServiceInstance);
 
@@ -27,9 +27,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return service using get when parent contain instance', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const exampleServiceInstance = {};
@@ -43,9 +42,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return service using wait when parent contain instance', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const exampleServiceInstance = {};
@@ -59,9 +57,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return own service using get when parent contain other instance', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const parentServiceInstance = {};
@@ -79,9 +76,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return own service using wait when parent contain other instance', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const parentServiceInstance = {};
@@ -99,9 +95,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should throw error when get then only child contain instance', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const childServiceInstance = {};
@@ -111,9 +106,7 @@ describe('ServiceLocator', () => {
     });
 
     it('should return service using wait then provider exists', async () => {
-        const serviceLocator = new ServiceLocator({
-            name: 'global',
-        });
+        const serviceLocator = new ServiceLocator({});
         const serviceInstance = {};
         const serviceProvider = {
             name: 'exampleServiceName',
@@ -127,9 +120,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return service using wait then parent provider exists', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const parentServiceInstance = {};
@@ -145,9 +137,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return promise using wait before register parent provider', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const parentServiceInstance = {};
@@ -164,9 +155,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return promise using double wait before register parent provider', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const parentServiceInstance = {};
@@ -186,7 +176,7 @@ describe('ServiceLocator', () => {
     });
 
     it('should return promise using wait before register chain of dependencies', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
             name: 'child',
             parent: parentServiceLocator,
@@ -229,9 +219,8 @@ describe('ServiceLocator', () => {
     });
 
     it('should return child service promise using wait then child has own provider', async () => {
-        const parentServiceLocator = new ServiceLocator({name: 'parent'});
+        const parentServiceLocator = new ServiceLocator({});
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const parentServiceInstance = {};
@@ -263,15 +252,11 @@ describe('ServiceLocator', () => {
     });
 
     it('should return service using wait then ancestor provider exists', async () => {
-        const ancestorServiceLocator = new ServiceLocator({
-            name: 'ancestor',
-        });
+        const ancestorServiceLocator = new ServiceLocator({});
         const parentServiceLocator = new ServiceLocator({
-            name: 'parent',
             parent: ancestorServiceLocator,
         });
         const childServiceLocator = new ServiceLocator({
-            name: 'child',
             parent: parentServiceLocator,
         });
         const ancestorServiceInstance = {};
