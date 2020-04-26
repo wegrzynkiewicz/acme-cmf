@@ -7,6 +7,8 @@ export class LoggerParticle extends Particle {
 
     constructor({stderr, stdout}) {
         super({name});
+        this.stderr = stderr;
+        this.stdout = stdout;
     }
 
     async bootstrap(particleResourceCollector) {

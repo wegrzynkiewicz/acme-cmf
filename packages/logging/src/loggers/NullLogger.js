@@ -1,42 +1,42 @@
 export class NullLogger {
 
-    log(severity, message, parameters) {
+    log(severity, message, parameters = undefined) {
         // Nothing
     }
 
-    emergency(message, parameters) {
+    emergency(message, parameters = undefined) {
         // Nothing
     }
 
-    alert(message, parameters) {
+    alert(message, parameters = undefined) {
         // Nothing
     }
 
-    critical(message, parameters) {
+    critical(message, parameters = undefined) {
         // Nothing
     }
 
-    error(message, parameters) {
+    error(message, parameters = undefined) {
         // Nothing
     }
 
-    warning(message, parameters) {
+    warning(message, parameters = undefined) {
         // Nothing
     }
 
-    notice(message, parameters) {
+    notice(message, parameters = undefined) {
         // Nothing
     }
 
-    info(message, parameters) {
+    info(message, parameters = undefined) {
         // Nothing
     }
 
-    debug(message, parameters) {
+    debug(message, parameters = undefined) {
         // Nothing
     }
 
-    silly(message, parameters) {
+    silly(message, parameters = undefined) {
         // Nothing
     }
 }

@@ -5,6 +5,7 @@ describe('EnvironmentProvider', () => {
 
     it('should provide Environment', async () => {
         const environmentProvider = new EnvironmentProvider({
+            name: 'environment',
             variables: {
                 ONE_TEST: 'ONE_VALUE',
                 TWO_TEST: 'TWO_VALUE',

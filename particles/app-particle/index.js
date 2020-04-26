@@ -27,4 +27,5 @@ process.on('unhandledRejection', (error) => {
     await warden.init();
 
     const loggerFactory = await serviceLocator.wait('loggerFactory');
+    const logger = loggerFactory.produce({channel: 'sql'});
 }());
