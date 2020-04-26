@@ -3,10 +3,8 @@ import {Environment} from './Environment';
 
 export class EnvironmentProvider extends ServiceProvider {
 
-    constructor({variables}) {
-        super({
-            name: 'environment',
-        });
+    constructor({name, variables}) {
+        super({name});
         this.variables = variables;
     }
 

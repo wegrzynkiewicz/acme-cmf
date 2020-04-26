@@ -6,7 +6,7 @@ export class StreamHandler {
         this.stream = stream;
     }
 
-    handle(log) {
+    async handle(log) {
         if (this.filter.isAcceptable(log)) {
             const string = this.formatter.format(log);
             this.stream.write(string);

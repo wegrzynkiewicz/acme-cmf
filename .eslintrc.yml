@@ -76,6 +76,7 @@ rules:
     - error
   dot-location:
     - error
+    - property
   dot-notation:
     - error
   eol-last:

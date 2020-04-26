@@ -30,7 +30,7 @@ export class LogBusProvider extends ServiceProvider {
                 formatter,
                 stream: this.stdout,
             });
-            logBus.addEventListener('log', handler);
+            logBus.registerHandler(handler);
         }
 
         if (loggingEnabled && stderrEnabled) {
@@ -45,7 +45,7 @@ export class LogBusProvider extends ServiceProvider {
                 formatter,
                 stream: this.stderr,
             });
-            logBus.addEventListener('log', handler);
+            logBus.registerHandler(handler);
         }
 
         return logBus;

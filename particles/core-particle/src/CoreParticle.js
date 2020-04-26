@@ -11,6 +11,7 @@ export class CoreParticle extends Particle {
 
     async bootstrap(particleResourceCollector) {
         const environmentProvider = new EnvironmentProvider({
+            name: 'environment',
             variables: {...this.env},
         });
         particleResourceCollector.registerServiceProvider(environmentProvider);
