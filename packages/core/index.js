@@ -1,9 +1,8 @@
 export * from './src/dependency/ServiceLocator';
 export * from './src/dependency/ServiceProvider';
 
-export * from './src/primary/Particle';
-export * from './src/primary/ParticleManager';
-export * from './src/primary/Warden';
+export * from './src/particles/Particle';
+export * from './src/particles/ParticleManager';
+export * from './src/particles/ParticleResourceCollector';
 
-export * from './src/services/Environment';
-export * from './src/services/EnvironmentProvider';
+export * from './src/primary/Warden';

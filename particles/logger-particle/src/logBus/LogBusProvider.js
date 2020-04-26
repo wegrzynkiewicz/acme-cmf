@@ -1,13 +1,11 @@
 import {ServiceProvider} from 'acme-core';
-import {StreamHandler} from '../handlers/StreamHandler';
-import {PlainFormatter} from '../formaters/PlainFormatter';
-import {Filter} from '../filters/Filter';
+import {Filter, PlainFormatter, StreamHandler} from 'acme-logging';
 import {LogBus} from './LogBus';
 
 export class LogBusProvider extends ServiceProvider {
 
-    constructor({stderr, stdout}) {
-        super(name);
+    constructor({name, stderr, stdout}) {
+        super({name});
         this.stdout = stdout;
         this.stderr = stderr;
     }

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import {LoggerFactory, LoggerFactoryProvider} from '../../..';
 
 describe('LoggerFactoryProvider', () => {
-    it('should return service using get', async () => {
+    it('should provide LoggerFactory', async () => {
         const environment = {
             get: sinon.stub(),
         };

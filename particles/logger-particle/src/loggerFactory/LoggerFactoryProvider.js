@@ -1,6 +1,5 @@
 import {ServiceProvider} from 'acme-core';
-import {NullLogger} from '../loggers/NullLogger';
-import {Logger} from '../loggers/Logger';
+import {Logger, NullLogger} from 'acme-logging';
 import {LoggerFactory} from './LoggerFactory';
 
 export class LoggerFactoryProvider extends ServiceProvider {

@@ -1,5 +1,5 @@
 {
-  "name": "acme-cms-particle",
+  "name": "acme-core-particle",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "acme-core": "file:../../packages/core",
-    "acme-logging": "file:../../packages/logging",
     "esm": "^3.2.25"
   },
   "devDependencies": {

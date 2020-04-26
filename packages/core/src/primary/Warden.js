@@ -5,7 +5,13 @@ export class Warden {
         this.serviceLocator = serviceLocator;
     }
 
-    async bootstrap() {
+    async init() {
+        const particleResourceCollectors = await this.particleManager.initParticles();
+        for (const collector of particleResourceCollectors.values()) {
+            for (const serviceProvider of collector.serviceProviders.values()) {
+                this.serviceLocator.registerProvider(serviceProvider);
+            }
+        }
 
     }
 }
