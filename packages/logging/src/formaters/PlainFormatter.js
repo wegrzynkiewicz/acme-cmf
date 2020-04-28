@@ -1,14 +1,6 @@
-const map = [
-    'EMERGENCY',
-    'ALERT',
-    'CRITICAL',
-    'ERROR',
-    'WARNING',
-    'NOTICE',
-    'INFO',
-    'DEBUG',
-    'SILLY',
-];
+import severities from '../severities';
+
+const map = [...severities].map((severity) => severity.toUpperCase());
 
 export class PlainFormatter {
 
