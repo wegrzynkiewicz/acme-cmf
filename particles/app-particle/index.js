@@ -6,7 +6,7 @@ process.on('unhandledRejection', (error) => {
 });
 
 (async function bootstrap() {
-    const serviceLocator = new ServiceLocator({});
+    const serviceLocator = new ServiceLocator({timeout: 400});
     const particleManagerProvider = new ParticleManagerProvider({process});
     const particleManager = await serviceLocator.provide(particleManagerProvider);
     await particleManager.initParticles();

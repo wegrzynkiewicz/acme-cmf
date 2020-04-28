@@ -2,7 +2,7 @@ import EventEmitter from 'events';
 
 export class ServiceLocator extends EventEmitter {
 
-    constructor({parent = null}) {
+    constructor({timeout = Infinity, parent = null}) {
         if (parent && !(parent instanceof ServiceLocator)) {
             throw new Error('Service locator parent must be instance of ServiceLocator class.');
         }
@@ -12,6 +12,7 @@ export class ServiceLocator extends EventEmitter {
         this.providers = new Map();
         this.resolvers = new Map();
         this.services = new Map();
+        this.timeout = timeout;
 
         this.setMaxListeners(Infinity);
         if (this.parent) {
@@ -139,8 +140,14 @@ export class ServiceLocator extends EventEmitter {
             const promise = this.promises.get(name);
             return promise;
         }
-        const promise = new Promise((resolve) => {
+        const promise = new Promise((resolve, reject) => {
             this.resolvers.set(name, resolve);
+            if (isFinite(this.timeout)) {
+                setTimeout(() => {
+                    const error = new Error(`Cannot resolve (${name}).`);
+                    reject(error);
+                }, 400);
+            }
         });
         this.promises.set(name, promise);
         return promise;

@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "acme-core-particle": "file:../core-particle",
+    "acme-http-flow-particle": "file:../http-flow-particle",
     "acme-logging-particle": "file:../logging-particle",
     "esm": "^3.2.25"
   }
