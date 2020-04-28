@@ -1,4 +1,4 @@
-import {ServiceProvider} from 'acme-core';
+import {ServiceProvider} from 'acme-core-particle';
 import {Filter, PlainFormatter, StreamHandler} from 'acme-logging';
 import {LogBus} from './LogBus';
 

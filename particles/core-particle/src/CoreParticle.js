@@ -1,7 +1,7 @@
-import {Particle} from 'acme-core';
 import {name} from '../package';
 import {EnvironmentProvider} from './environment/EnvironmentProvider';
 import {DaemonManagerProvider} from './daemon/DaemonManagerProvider';
+import {Particle} from './particles/Particle';
 
 export class CoreParticle extends Particle {
 

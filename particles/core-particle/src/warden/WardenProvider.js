@@ -1,4 +1,4 @@
-import {ServiceProvider} from 'acme-core';
+import {ServiceProvider} from '../dependency/ServiceProvider';
 import {Warden} from './Warden';
 
 export class WardenProvider extends ServiceProvider {

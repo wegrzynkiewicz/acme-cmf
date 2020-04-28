@@ -1,4 +1,4 @@
-import {Particle} from 'acme-core';
+import {Particle} from 'acme-core-particle';
 import {name} from '../package';
 import {LogBusProvider} from './logBus/LogBusProvider';
 import {LoggerFactoryProvider} from './loggerFactory/LoggerFactoryProvider';

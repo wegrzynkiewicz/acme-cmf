@@ -1,7 +1,6 @@
 /* eslint-disable no-process-env */
 
-import {ParticleManager, ServiceProvider} from 'acme-core';
-import {CoreParticle} from 'acme-core-particle';
+import {CoreParticle, ParticleManager, ServiceProvider} from 'acme-core-particle';
 import {LoggerParticle} from 'acme-logging-particle';
 import {AppParticle} from './AppParticle';
 

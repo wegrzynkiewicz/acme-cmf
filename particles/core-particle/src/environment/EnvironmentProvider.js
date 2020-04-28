@@ -1,4 +1,4 @@
-import {ServiceProvider} from 'acme-core';
+import {ServiceProvider} from '../dependency/ServiceProvider';
 import {Environment} from './Environment';
 
 export class EnvironmentProvider extends ServiceProvider {

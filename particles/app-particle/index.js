@@ -1,7 +1,6 @@
 /* eslint-disable no-process-env */
 
-import {ServiceLocator} from 'acme-core';
-import {WardenProvider} from 'acme-core-particle';
+import {ServiceLocator, WardenProvider} from 'acme-core-particle';
 import {ParticleManagerProvider} from './src/core/ParticleManagerProvider';
 
 process.on('unhandledRejection', (error) => {

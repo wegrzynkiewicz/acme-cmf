@@ -1,5 +1,5 @@
-import {Particle} from 'acme-core';
 import {name} from '../../package';
+import {Particle} from 'acme-core-particle';
 
 export class AppParticle extends Particle {
 
@@ -8,6 +8,6 @@ export class AppParticle extends Particle {
     }
 
     async bootstrap(serviceLocator) {
-        const serviceLocator
+
     }
 }

@@ -1,4 +1,4 @@
-import {ServiceProvider} from 'acme-core';
+import {ServiceProvider} from 'acme-core-particle';
 import {Logger, NullLogger} from 'acme-logging';
 import {LoggerFactory} from './LoggerFactory';
 

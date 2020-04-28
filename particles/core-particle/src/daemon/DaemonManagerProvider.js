@@ -1,4 +1,5 @@
-import {DaemonManager, ServiceProvider} from 'acme-core';
+import {ServiceProvider} from '../dependency/ServiceProvider';
+import {DaemonManager} from './DaemonManager';
 
 export class DaemonManagerProvider extends ServiceProvider {
 

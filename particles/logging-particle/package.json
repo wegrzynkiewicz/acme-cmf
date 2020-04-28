@@ -8,7 +8,7 @@
     "test.unit": "./node_modules/mocha/bin/mocha --require esm ./tests/unit/**/*.test.js"
   },
   "dependencies": {
-    "acme-core": "file:../../packages/core",
+    "acme-core-particle": "file:../core-particle",
     "acme-logging": "file:../../packages/logging",
     "esm": "^3.2.25"
   },
