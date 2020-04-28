@@ -11,17 +11,17 @@ export class LoggerParticle extends Particle {
         this.stdout = stdout;
     }
 
-    async bootstrap(particleResourceCollector) {
+    async bootstrap(serviceLocator) {
         const logBusProvider = new LogBusProvider({
             name: 'logBus',
             stderr: this.stderr,
             stdout: this.stdout,
         });
-        particleResourceCollector.registerServiceProvider(logBusProvider);
+        serviceLocator.registerProvider(logBusProvider);
 
         const loggerFactoryProvider = new LoggerFactoryProvider({
             name: 'loggerFactory',
         });
-        particleResourceCollector.registerServiceProvider(loggerFactoryProvider);
+        serviceLocator.registerProvider(loggerFactoryProvider);
     }
 }

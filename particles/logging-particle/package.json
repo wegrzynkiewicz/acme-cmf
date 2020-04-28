@@ -1,5 +1,5 @@
 {
-  "name": "acme-logger-particle",
+  "name": "acme-logging-particle",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",

@@ -10,7 +10,7 @@
   "dependencies": {
     "acme-core": "file:../../packages/core",
     "acme-core-particle": "file:../core-particle",
-    "acme-logger-particle": "file:../logger-particle",
+    "acme-logging-particle": "file:../logging-particle",
     "esm": "^3.2.25"
   }
 }

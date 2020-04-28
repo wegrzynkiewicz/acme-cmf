@@ -6,12 +6,6 @@ export class Warden {
     }
 
     async init() {
-        const particleResourceCollectors = await this.particleManager.initParticles();
-        for (const collector of particleResourceCollectors.values()) {
-            for (const serviceProvider of collector.serviceProviders.values()) {
-                this.serviceLocator.registerProvider(serviceProvider);
-            }
-        }
-
+        await this.particleManager.initParticles();
     }
 }

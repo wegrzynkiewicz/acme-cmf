@@ -1,10 +1,10 @@
 import {Particle} from './Particle';
-import {ParticleResourceCollector} from './ParticleResourceCollector';
 
 export class ParticleManager {
 
-    constructor() {
+    constructor({serviceLocator}) {
         this.particles = new Map();
+        this.serviceLocator = serviceLocator;
     }
 
     async initParticles() {
@@ -13,20 +13,11 @@ export class ParticleManager {
             const promise = this.initParticle(particle);
             promises.push(promise);
         }
-        const particleResourceCollectors = await Promise.all(promises);
-        const particleResourceCollectorMap = new Map();
-        for (const collector of particleResourceCollectors) {
-            particleResourceCollectorMap.set(collector.particleName, collector);
-        }
-        return particleResourceCollectorMap;
+        await Promise.all(promises);
     }
 
     async initParticle(particle) {
-        const particleResourceCollector = new ParticleResourceCollector({
-            particleName: particle.name,
-        });
-        await particle.bootstrap(particleResourceCollector);
-        return particleResourceCollector;
+        await particle.bootstrap(this.serviceLocator);
     }
 
     registerParticle(particle) {

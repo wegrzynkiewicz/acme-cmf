@@ -1,7 +1,7 @@
 /* eslint-disable no-process-env */
 
 import {ParticleManager, ServiceLocator, Warden} from 'acme-core';
-import {LoggerParticle} from 'acme-logger-particle';
+import {LoggerParticle} from 'acme-logging-particle';
 import {CoreParticle} from 'acme-core-particle';
 
 process.on('unhandledRejection', (error) => {
@@ -9,7 +9,8 @@ process.on('unhandledRejection', (error) => {
 });
 
 (async function bootstrap() {
-    const particleManager = new ParticleManager();
+    const serviceLocator = new ServiceLocator({});
+    const particleManager = new ParticleManager({serviceLocator});
     particleManager.registerParticle(new CoreParticle({
         env: process.env,
     }));
@@ -18,7 +19,6 @@ process.on('unhandledRejection', (error) => {
         stdout: process.stdout,
     }));
 
-    const serviceLocator = new ServiceLocator({});
     const warden = new Warden({
         particleManager,
         serviceLocator,

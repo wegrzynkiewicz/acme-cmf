@@ -9,11 +9,11 @@ export class CoreParticle extends Particle {
         this.env = env;
     }
 
-    async bootstrap(particleResourceCollector) {
+    async bootstrap(serviceLocator) {
         const environmentProvider = new EnvironmentProvider({
             name: 'environment',
             variables: {...this.env},
         });
-        particleResourceCollector.registerServiceProvider(environmentProvider);
+        serviceLocator.registerProvider(environmentProvider);
     }
 }
