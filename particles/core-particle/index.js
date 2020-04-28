@@ -11,8 +11,5 @@ export * from './src/dependency/ServiceProvider';
 export * from './src/environment/Environment';
 export * from './src/environment/EnvironmentProvider';
 
-export * from './src/initializer/Initializer';
-export * from './src/initializer/InitializerProvider';
-
 export * from './src/particles/Particle';
 export * from './src/particles/ParticleManager';

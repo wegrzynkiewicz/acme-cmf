@@ -3,18 +3,11 @@ import {createServer} from 'http';
 
 export class HTTPServer extends EventEmitter {
 
-    constructor({hostname, port, requestProcessor}) {
+    constructor({hostname, port}) {
         super();
         this.hostname = hostname;
         this.port = port;
-        this.requestProcessor = requestProcessor;
         this.server = createServer();
-        this.server.addListener('request', this.onRequest.bind(this));
-    }
-
-    onRequest(request, response) {
-        const {server} = this;
-        this.requestProcessor.processRequest({request, response, server});
     }
 
     async listen() {
