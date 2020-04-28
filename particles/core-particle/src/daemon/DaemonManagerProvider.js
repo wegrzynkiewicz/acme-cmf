@@ -9,6 +9,13 @@ export class DaemonManagerProvider extends ServiceProvider {
 
     async provide(serviceLocator) {
         const daemonManager = new DaemonManager({serviceLocator});
+
+        this.serviceLocator.wait('initializer').then((initializer) => {
+            initializer.registerCallback(async () => {
+                await daemonManager.initDaemons();
+            });
+        });
+
         return daemonManager;
     }
 }

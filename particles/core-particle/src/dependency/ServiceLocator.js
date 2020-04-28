@@ -18,6 +18,7 @@ export class ServiceLocator extends EventEmitter {
             this.parent.addListener('service-resolved', this.onServiceResolved.bind(this));
             this.parent.addListener('provider-registered', this.onProviderRegistered.bind(this));
         }
+        this.set('serviceLocator', this);
     }
 
     complete(name, service) {
@@ -82,6 +83,12 @@ export class ServiceLocator extends EventEmitter {
             this.resolvers.delete(name);
         }
         this.emit('service-resolved', event);
+    }
+
+    async provide(serviceProvider) {
+        this.registerProvider(serviceProvider);
+        const service = await this.wait(serviceProvider.name);
+        return service;
     }
 
     registerProvider(serviceProvider) {

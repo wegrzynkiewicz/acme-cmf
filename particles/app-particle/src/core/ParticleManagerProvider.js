@@ -1,28 +1,26 @@
-/* eslint-disable no-process-env */
-
 import {CoreParticle, ParticleManager, ServiceProvider} from 'acme-core-particle';
 import {LoggerParticle} from 'acme-logging-particle';
 import {AppParticle} from './AppParticle';
 
 export class ParticleManagerProvider extends ServiceProvider {
 
-    constructor() {
+    constructor({process}) {
         super({
             name: 'particleManager',
         });
+        this.process = process;
     }
 
     async provide(serviceLocator) {
-        const process = await serviceLocator.wait('process');
         const particleManager = new ParticleManager({serviceLocator});
 
         particleManager.registerParticle(new CoreParticle({
-            env: process.env,
+            env: this.process.env,
         }));
 
         particleManager.registerParticle(new LoggerParticle({
-            stderr: process.stderr,
-            stdout: process.stdout,
+            stderr: this.process.stderr,
+            stdout: this.process.stdout,
         }));
 
         particleManager.registerParticle(new AppParticle());

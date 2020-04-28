@@ -1,6 +1,6 @@
 import assert from 'assert';
 import sinon from 'sinon';
-import {ServiceLocator} from '../../..';
+import {ServiceLocator} from '../../../src/dependency/ServiceLocator';
 
 describe('ServiceLocator', () => {
 
@@ -212,10 +212,10 @@ describe('ServiceLocator', () => {
         assert.strictEqual(resultService, clientGammaServiceInstance);
         assert.strictEqual(parentServiceLocator.promises.size, 0);
         assert.strictEqual(parentServiceLocator.resolvers.size, 0);
-        assert.strictEqual(parentServiceLocator.services.size, 2);
+        assert.strictEqual(parentServiceLocator.services.size, 3);
         assert.strictEqual(childServiceLocator.promises.size, 0);
         assert.strictEqual(childServiceLocator.resolvers.size, 0);
-        assert.strictEqual(childServiceLocator.services.size, 1);
+        assert.strictEqual(childServiceLocator.services.size, 2);
     });
 
     it('should return child service promise using wait then child has own provider', async () => {
@@ -245,10 +245,10 @@ describe('ServiceLocator', () => {
         assert.strictEqual(childResultService, childServiceInstance);
         assert.strictEqual(parentServiceLocator.promises.size, 0);
         assert.strictEqual(parentServiceLocator.resolvers.size, 0);
-        assert.strictEqual(parentServiceLocator.services.size, 1);
+        assert.strictEqual(parentServiceLocator.services.size, 2);
         assert.strictEqual(childServiceLocator.promises.size, 0);
         assert.strictEqual(childServiceLocator.resolvers.size, 0);
-        assert.strictEqual(childServiceLocator.services.size, 1);
+        assert.strictEqual(childServiceLocator.services.size, 2);
     });
 
     it('should return service using wait then ancestor provider exists', async () => {
@@ -272,14 +272,14 @@ describe('ServiceLocator', () => {
         assert.strictEqual(ancestorServiceLocator.providers.size, 0);
         assert.strictEqual(ancestorServiceLocator.promises.size, 0);
         assert.strictEqual(ancestorServiceLocator.resolvers.size, 0);
-        assert.strictEqual(ancestorServiceLocator.services.size, 1);
+        assert.strictEqual(ancestorServiceLocator.services.size, 2);
         assert.strictEqual(parentServiceLocator.providers.size, 0);
         assert.strictEqual(parentServiceLocator.promises.size, 0);
         assert.strictEqual(parentServiceLocator.resolvers.size, 0);
-        assert.strictEqual(parentServiceLocator.services.size, 0);
+        assert.strictEqual(parentServiceLocator.services.size, 1);
         assert.strictEqual(childServiceLocator.providers.size, 0);
         assert.strictEqual(childServiceLocator.promises.size, 0);
         assert.strictEqual(childServiceLocator.resolvers.size, 0);
-        assert.strictEqual(childServiceLocator.services.size, 0);
+        assert.strictEqual(childServiceLocator.services.size, 1);
     });
 });
