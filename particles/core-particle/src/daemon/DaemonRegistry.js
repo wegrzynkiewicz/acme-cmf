@@ -1,6 +1,6 @@
 import {Daemon} from './Daemon';
 
-export class DaemonManager {
+export class DaemonRegistry {
 
     constructor({serviceLocator}) {
         this.daemons = new Map();

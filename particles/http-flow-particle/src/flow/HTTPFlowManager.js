@@ -1,9 +1,15 @@
-import {HTTPServer} from './HTTPServer';
+import {HTTPServer} from '../server/HTTPServer';
 
-export class HTTPServerManager {
+export class HTTPFlowManager {
 
     constructor({serviceLocator}) {
+        this.requestProcessors = new Map();
         this.servers = new Map();
+        this.serviceLocator = serviceLocator;
+    }
+
+    createRequestProcessor() {
+        this.requestProcessors.add();
     }
 
     createHTTPServer({hostname, name, port}) {

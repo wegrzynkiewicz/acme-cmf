@@ -1,1 +1,1 @@
-export {HTTPParticle} from './src/HTTPParticle';
+export {HTTPFlowParticle} from './src/HTTPFlowParticle';

@@ -1,15 +1,14 @@
-import {ServiceLocator} from 'acme-core-particle';
-import {ParticleManagerProvider} from './src/core/ParticleManagerProvider';
+import {Application} from 'acme-core-particle';
+import {AppParticle} from './src/core/AppParticle';
 
 process.on('unhandledRejection', (error) => {
     throw error;
 });
 
 (async function bootstrap() {
-    const serviceLocator = new ServiceLocator({timeout: 400});
-    const particleManagerProvider = new ParticleManagerProvider({process});
-    const particleManager = await serviceLocator.provide(particleManagerProvider);
-    await particleManager.initParticles();
-    const initializer = await serviceLocator.wait('initializer');
-    await initializer.run();
+    const particle = new AppParticle();
+    const application = await Application.create({particle, process});
+    await application.prepare();
+    await application.execute();
+    await application.finalize();
 }());

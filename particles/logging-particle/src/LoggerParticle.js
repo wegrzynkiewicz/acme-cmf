@@ -11,7 +11,7 @@ export class LoggerParticle extends Particle {
         this.stdout = stdout;
     }
 
-    async bootstrap(serviceLocator) {
+    async prepare(serviceLocator) {
         const logBusProvider = new LogBusProvider({
             name: 'logBus',
             stderr: this.stderr,
@@ -23,5 +23,13 @@ export class LoggerParticle extends Particle {
             name: 'loggerFactory',
         });
         serviceLocator.registerProvider(loggerFactoryProvider);
+    }
+
+    async execute() {
+        // Nothing
+    }
+
+    async finalize() {
+        // Nothing
     }
 }

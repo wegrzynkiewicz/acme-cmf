@@ -1,14 +1,14 @@
 import {ServiceProvider} from '../dependency/ServiceProvider';
-import {DaemonManager} from './DaemonManager';
+import {DaemonRegistry} from './DaemonRegistry';
 
-export class DaemonManagerProvider extends ServiceProvider {
+export class DaemonRegistryProvider extends ServiceProvider {
 
     constructor({name}) {
         super({name});
     }
 
     async provide(serviceLocator) {
-        const daemonManager = new DaemonManager({serviceLocator});
+        const daemonManager = new DaemonRegistry({serviceLocator});
 
         this.serviceLocator.wait('initializer').then((initializer) => {
             initializer.registerCallback(async () => {

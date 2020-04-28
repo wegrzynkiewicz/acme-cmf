@@ -1,9 +1,10 @@
 import {name} from '../../package';
-import {DaemonManagerProvider} from '../daemon/DaemonManagerProvider';
+import {DaemonRegistryProvider} from '../daemon/DaemonRegistryProvider';
 import {EnvironmentProvider} from '../environment/EnvironmentProvider';
 import {Particle} from '../particles/Particle';
-import {ParticleManagerProvider} from '../particles/ParticleManagerProvider';
+import {ParticleInitiatorProvider} from '../particles/ParticleInitiatorProvider';
 import {InitializerProvider} from '../initializer/InitializerProvider';
+import {ParticleRegistryProvider} from '../particles/ParticleRegistryProvider';
 
 export class CoreParticle extends Particle {
 
@@ -12,20 +13,27 @@ export class CoreParticle extends Particle {
         this.env = env;
     }
 
-    async bootstrap(serviceLocator) {
+    async prepare(serviceLocator) {
 
         if (!serviceLocator.has('initializer')) {
             const initializerProvider = new InitializerProvider({
                 name: 'initializer',
             });
-            serviceLocator.provide(initializerProvider);
+            serviceLocator.registerProvider(initializerProvider);
         }
 
-        if (!serviceLocator.has('particleManager')) {
-            const particleManagerProvider = new ParticleManagerProvider({
-                name: 'particleManager',
+        if (!serviceLocator.has('particleInitializer')) {
+            const particleInitializerProvider = new ParticleInitiatorProvider({
+                name: 'particleInitializer',
             });
-            serviceLocator.provide(particleManagerProvider);
+            serviceLocator.registerProvider(particleInitializerProvider);
+        }
+
+        if (!serviceLocator.has('particleRegistry')) {
+            const particleRegistryProvider = new ParticleRegistryProvider({
+                name: 'particleRegistry',
+            });
+            serviceLocator.registerProvider(particleRegistryProvider);
         }
 
         if (!serviceLocator.has('environment')) {
@@ -37,10 +45,18 @@ export class CoreParticle extends Particle {
         }
 
         if (!serviceLocator.has('daemonProvider')) {
-            const daemonManagerProvider = new DaemonManagerProvider({
+            const daemonManagerProvider = new DaemonRegistryProvider({
                 name: 'daemonProvider',
             });
             serviceLocator.registerProvider(daemonManagerProvider);
         }
+    }
+
+    async execute() {
+        // Nothing
+    }
+
+    async finalize() {
+        // Nothing
     }
 }

@@ -1,14 +1,14 @@
 import {ServiceProvider} from 'acme-core-particle';
-import {HTTPServerManager} from './HTTPServerManager';
+import {HTTPFlowManager} from './HTTPFlowManager';
 
-export class HTTPServerManagerProvider extends ServiceProvider {
+export class HTTPFlowManagerProvider extends ServiceProvider {
 
     constructor({name}) {
         super({name});
     }
 
     async provide(serviceLocator) {
-        const httpServerManager = new HTTPServerManager({
+        const httpServerManager = new HTTPFlowManager({
             serviceLocator,
         });
         return httpServerManager;

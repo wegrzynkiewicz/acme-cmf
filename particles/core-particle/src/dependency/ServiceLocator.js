@@ -2,7 +2,7 @@ import EventEmitter from 'events';
 
 export class ServiceLocator extends EventEmitter {
 
-    constructor({timeout = Infinity, parent = null}) {
+    constructor({parent = null, timeout = Infinity}) {
         if (parent && !(parent instanceof ServiceLocator)) {
             throw new Error('Service locator parent must be instance of ServiceLocator class.');
         }
@@ -29,6 +29,14 @@ export class ServiceLocator extends EventEmitter {
         }
         this.services.set(name, service);
         this.emit('service-resolved', {name, service});
+    }
+
+    createChild() {
+        const childServiceLocator = new ServiceLocator({
+            parent: this,
+            timeout: this.timeout,
+        });
+        return childServiceLocator;
     }
 
     get(name) {
@@ -67,7 +75,7 @@ export class ServiceLocator extends EventEmitter {
             return;
         }
         if (this.resolvers.has(name)) {
-            this.parent.runProvider(name).then();
+            this.parent.triggerProviderByName(name).then();
         }
         this.emit('provider-registered', serviceProvider);
     }
@@ -86,12 +94,6 @@ export class ServiceLocator extends EventEmitter {
         this.emit('service-resolved', event);
     }
 
-    async provide(serviceProvider) {
-        this.registerProvider(serviceProvider);
-        const service = await this.wait(serviceProvider.name);
-        return service;
-    }
-
     registerProvider(serviceProvider) {
         const {name} = serviceProvider;
         if (typeof name !== 'string' || name.length === 0) {
@@ -102,9 +104,15 @@ export class ServiceLocator extends EventEmitter {
         }
         this.providers.set(name, serviceProvider);
         if (this.resolvers.has(name)) {
-            this.runProvider(name).then();
+            this.triggerProviderByName(name).then();
         }
         this.emit('provider-registered', {name, serviceProvider});
+    }
+
+    async runProvider(serviceProvider) {
+        this.registerProvider(serviceProvider);
+        const service = await this.wait(serviceProvider.name);
+        return service;
     }
 
     set(name, service) {
@@ -114,7 +122,7 @@ export class ServiceLocator extends EventEmitter {
         this.complete(name, service);
     }
 
-    async runProvider(name) {
+    async triggerProviderByName(name) {
         if (this.providers.has(name)) {
             const provider = this.providers.get(name);
             const service = await provider.provide(this);
@@ -124,13 +132,13 @@ export class ServiceLocator extends EventEmitter {
             this.resolvers.delete(name);
         }
         if (this.parent) {
-            await this.parent.runProvider(name);
+            await this.parent.triggerProviderByName(name);
         }
     }
 
     async wait(name) {
         if (this.hasProvider(name)) {
-            await this.runProvider(name);
+            await this.triggerProviderByName(name);
         }
         if (this.has(name)) {
             const service = this.get(name);

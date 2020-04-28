@@ -3,21 +3,35 @@ import {Particle} from './Particle';
 export class ParticleManager {
 
     constructor({serviceLocator}) {
+        this.executedParticles = new WeakSet();
+        this.finalizedParticles = new WeakSet();
         this.particles = new Map();
+        this.preparedParticles = new WeakSet();
         this.serviceLocator = serviceLocator;
     }
 
-    async initParticles() {
+    async make(set, callback) {
         const promises = [];
         for (const particle of this.particles.values()) {
-            const promise = this.initParticle(particle);
-            promises.push(promise);
+            if (!set.has(particle)) {
+                set.add(particle);
+                const promise = callback(particle);
+                promises.push(promise);
+            }
         }
         await Promise.all(promises);
     }
 
-    async initParticle(particle) {
-        await particle.bootstrap(this.serviceLocator);
+    async prepareParticles() {
+        await this.make(this.preparedParticles, (particle) => particle.prepare(this.serviceLocator));
+    }
+
+    async executeParticles() {
+        await this.make(this.executedParticles, (particle) => particle.execute(this.serviceLocator));
+    }
+
+    async finalizeParticles() {
+        await this.make(this.finalizedParticles, (particle) => particle.finalize(this.serviceLocator));
     }
 
     registerParticle(particle) {
