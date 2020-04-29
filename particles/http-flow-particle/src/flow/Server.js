@@ -1,13 +1,28 @@
-import {EventEmitter} from 'events';
 import {createServer} from 'http';
+import {Processor} from './Processor';
 
-export class HTTPServer extends EventEmitter {
+const events = [
+    'checkContinue',
+    'checkExpectation',
+    'clientError',
+    'close',
+    'connect',
+    'connection',
+    'request',
+    'upgrade',
+];
 
-    constructor({hostname, port}) {
-        super();
+export class Server extends Processor {
+
+    constructor({name, hostname, port}) {
+        super({name});
         this.hostname = hostname;
         this.port = port;
         this.server = createServer();
+
+        for (const eventName of events) {
+            this.server.addListener(eventName.toString(), (...args) => this.emit(eventName, ...args));
+        }
     }
 
     async listen() {

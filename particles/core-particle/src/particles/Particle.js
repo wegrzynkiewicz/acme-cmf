@@ -4,15 +4,15 @@ export class Particle {
         this.name = name;
     }
 
-    async prepare() {
+    async prepare(serviceLocator) {
         throw new Error(`Particle named (${this.name}) have not implemented method (prepare).`);
     }
 
-    async execute() {
+    async execute(serviceLocator) {
         throw new Error(`Particle named (${this.name}) have not implemented method (execute).`);
     }
 
-    async finalize() {
+    async finalize(serviceLocator) {
         throw new Error(`Particle named (${this.name}) have not implemented method (finalize).`);
     }
 }

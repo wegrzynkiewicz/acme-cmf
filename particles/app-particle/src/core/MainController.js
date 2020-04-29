@@ -1,6 +1,11 @@
-export class MainController {
+import {Controller} from 'acme-http-flow-particle';
+
+export class MainController extends Controller {
 
     async process(context) {
-        const {request, response, serviceLocator} = context;
+        const response = context.get('response');
+
+        response.writeHead(200);
+        response.end('Hello World!');
     }
 }

@@ -8,7 +8,6 @@ process.on('unhandledRejection', (error) => {
 (async function bootstrap() {
     const particle = new AppParticle();
     const application = await Application.create({particle, process});
-    await application.prepare();
     await application.execute();
     await application.finalize();
 }());

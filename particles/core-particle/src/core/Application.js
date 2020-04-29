@@ -8,11 +8,6 @@ export class Application {
         this.serviceLocator = serviceLocator;
     }
 
-    async prepare() {
-        const particleManager = await this.serviceLocator.wait('particleManager');
-        await particleManager.prepareParticles();
-    }
-
     async execute() {
         const particleManager = await this.serviceLocator.wait('particleManager');
         await particleManager.executeParticles();
@@ -29,8 +24,10 @@ export class Application {
         const particleManager = await serviceLocator.runProvider(new ParticleManagerProvider({}));
         const application = new Application({serviceLocator});
         serviceLocator.set('process', process);
-        particleManager.registerParticle(particle);
-        particleManager.registerParticle(new CoreParticle({env}));
+        await Promise.all([
+            particleManager.registerParticle(particle),
+            particleManager.registerParticle(new CoreParticle({env})),
+        ]);
         return application;
     }
 }

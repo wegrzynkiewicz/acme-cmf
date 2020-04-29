@@ -1,7 +1,8 @@
 import {Particle} from 'acme-core-particle';
 import {LoggerParticle} from 'acme-logging-particle';
-import {HTTPFlowParticle} from 'acme-http-flow-particle';
+import {HTTPFlowParticle, Network, Route, Router, Server, StrictFirstSegment} from 'acme-http-flow-particle';
 import {name} from '../../package';
+import {MainController} from './MainController';
 
 export class AppParticle extends Particle {
 
@@ -13,14 +14,14 @@ export class AppParticle extends Particle {
         const process = await serviceLocator.wait('process');
         const particleManager = await serviceLocator.wait('particleManager');
 
-        particleManager.registerParticle(new LoggerParticle({
-            stderr: process.stderr,
-            stdout: process.stdout,
-        }));
+        await Promise.all([
+            particleManager.registerParticle(new LoggerParticle({
+                stderr: process.stderr,
+                stdout: process.stdout,
+            })),
 
-        particleManager.registerParticle(new HTTPFlowParticle());
-
-        await particleManager.prepareParticles(serviceLocator);
+            particleManager.registerParticle(new HTTPFlowParticle()),
+        ]);
     }
 
     async execute(serviceLocator) {
@@ -28,16 +29,40 @@ export class AppParticle extends Particle {
         const logger = loggerFactory.produce({channel: 'sql'});
         logger.info('Started');
 
-        const httpServerManager = await serviceLocator.wait('httpServerManager');
-        const server = httpServerManager.createHTTPServer({
+        const httpNetworkManager = await serviceLocator.wait('httpNetworkManager');
+
+        const server = new Server({
             hostname: '0.0.0.0',
-            name: 'app',
+            name: 'app-server',
             port: 8080,
         });
 
-        server.addListener('request', (request, response) => {
-            response.end('hello world!');
+        const controller = new MainController({
+            name: 'app-main-controller',
         });
+
+        const router = new Router({
+            name: 'app-main-router',
+        });
+
+        const route = new Route({
+            conditions: [
+                new StrictFirstSegment('admin'),
+            ],
+            name: 'app-only-once-route',
+            processor: controller,
+        });
+
+        router.registerRoute(route);
+
+        const network = new Network({
+            name: 'app-network',
+            processor: router,
+            server,
+            serviceLocator,
+        });
+
+        httpNetworkManager.registerNetwork(network);
 
         await server.listen();
     }

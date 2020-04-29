@@ -1,6 +1,6 @@
 import {Particle} from 'acme-core-particle';
 import {name} from '../package';
-import {HTTPFlowManagerProvider} from './flow/HTTPFlowManagerProvider';
+import {HTTPNetworkManagerProvider} from './network/HTTPNetworkManagerProvider';
 
 export class HTTPFlowParticle extends Particle {
 
@@ -10,19 +10,13 @@ export class HTTPFlowParticle extends Particle {
 
     async prepare(serviceLocator) {
 
-        if (!serviceLocator.has('httpFlowManager')) {
-            const httpFlowManagerProvider = new HTTPFlowManagerProvider({
-                name: 'httpFlowManager',
+        if (!serviceLocator.has('httpNetworkManager')) {
+            const httpNetworkManagerProvider = new HTTPNetworkManagerProvider({
+                name: 'httpNetworkManager',
             });
-            serviceLocator.registerProvider(httpFlowManagerProvider);
+            serviceLocator.registerProvider(httpNetworkManagerProvider);
         }
 
-        if (!serviceLocator.has('httpServerManager')) {
-            const httpServerManagerProvider = new HTTPFlowManagerProvider({
-                name: 'httpServerManager',
-            });
-            serviceLocator.registerProvider(httpServerManagerProvider);
-        }
     }
 
     async execute() {
