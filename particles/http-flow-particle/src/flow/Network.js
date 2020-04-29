@@ -22,7 +22,6 @@ export class Network extends Processor {
         childServiceLocator.set('response', response);
         childServiceLocator.set('routingStateContext', routingStateContext);
 
-        response.addListener('finish')
         this.contexts.add(childServiceLocator);
         this.processor.process(childServiceLocator);
     }

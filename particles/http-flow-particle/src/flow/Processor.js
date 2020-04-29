@@ -8,6 +8,6 @@ export class Processor extends EventEmitter {
     }
 
     async process(context) {
-        throw new Error('FlowProcessor must implementing process method.');
+        throw new Error('Processor must implementing process method.');
     }
 }

@@ -12,8 +12,8 @@ export class LoggerFactoryProvider extends ServiceProvider {
         const tags = new Set(tagList);
         const constructor = enabled === '1' ? Logger : NullLogger;
         const logBus = await serviceLocator.wait('logBus');
-        const logger = new LoggerFactory({constructor, logBus, tags});
+        const loggerFactory = new LoggerFactory({constructor, logBus, tags});
 
-        return logger;
+        return loggerFactory;
     }
 }
