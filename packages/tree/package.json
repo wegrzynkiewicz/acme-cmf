@@ -1,5 +1,5 @@
 {
-  "name": "acme-logging-particle",
+  "name": "acme-tree",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
@@ -8,7 +8,6 @@
     "test.unit": "./node_modules/mocha/bin/mocha --require esm './tests/unit/**/*.test.js'"
   },
   "dependencies": {
-    "acme-core-particle": "file:../core-particle",
     "esm": "^3.2.25"
   },
   "devDependencies": {
