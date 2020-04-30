@@ -1,5 +1,5 @@
 {
-  "name": "acme-panel-particle",
+  "name": "acme-view-components-particle",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",
@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "acme-core-particle": "file:../core-particle",
+    "acme-tree": "file:../../packages/tree",
     "esm": "^3.2.25"
   },
   "devDependencies": {
