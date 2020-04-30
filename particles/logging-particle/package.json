@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "acme-core-particle": "file:../core-particle",
+    "acme-logging": "file:../../packages/logging",
     "esm": "^3.2.25"
   },
   "devDependencies": {

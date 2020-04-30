@@ -1,5 +1,5 @@
+import {RoutingStateContext} from '../routing/RoutingStateContext';
 import {Processor} from './Processor';
-import {RoutingStateContext} from '../..';
 
 export class Network extends Processor {
 

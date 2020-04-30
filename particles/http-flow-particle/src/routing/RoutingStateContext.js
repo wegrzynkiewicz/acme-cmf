@@ -1,4 +1,4 @@
-const removeSlashesRegExp = new RegExp("^\\/+|\\/+$", "giu")
+const removeSlashesRegExp = new RegExp('^\\/+|\\/+$', 'giu');
 
 export class RoutingStateContext {
 
