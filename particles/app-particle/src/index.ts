@@ -1,5 +1,5 @@
 import {Application} from 'acme-core-particle';
-import {AppParticle} from './src/core/AppParticle';
+import {AppParticle} from './core/AppParticle';
 
 process.on('unhandledRejection', (error) => {
     throw error;
