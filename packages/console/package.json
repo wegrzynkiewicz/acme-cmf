@@ -1,20 +1,9 @@
 {
-  "name": "acme-console",
+  "name": "@acme/console",
   "version": "0.0.0",
   "private": true,
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "npm run --silent test.unit",
-    "test.unit": "./node_modules/mocha/bin/mocha --require esm './tests/unit/**/*.test.js'"
-  },
   "dependencies": {
     "cli-table3": "^0.6.0",
-    "esm": "^3.2.25",
     "minimist": "^1.2.5"
-  },
-  "devDependencies": {
-    "@types/node": "^14.0.13",
-    "mocha": "^7.1.1",
-    "sinon": "^9.0.2"
   }
 }

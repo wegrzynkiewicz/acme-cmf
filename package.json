@@ -1,18 +1,12 @@
 {
-  "name": "acme-cmf",
   "private": true,
-  "scripts": {
-    "eslint": "./node_modules/eslint/bin/eslint.js .",
-    "test": "./node_modules/lerna/cli.js run --parallel test",
-    "test.unit": "./node_modules/lerna/cli.js run --parallel test.unit"
-  },
-  "dependencies": {
-    "esm": "^3.2.25"
-  },
+  "workspaces": [
+    "./packages/*"
+  ],
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-mocha": "^6.3.0",
-    "lerna": "^3.20.2"
+    "esm": "^3.2.25"
   }
 }

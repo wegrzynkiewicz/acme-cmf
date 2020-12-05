@@ -2,7 +2,7 @@ import {ConsoleBasicApplication} from '..';
 
 (async function start() {
 
-    const version = '@acme-cmf/acme-console version 1.0.1 revision c2c7b22 copyright 2020';
+    const version = '@acme/acme-console version 1.0.1 revision c2c7b22 copyright 2020';
     let logo = '';
     logo += '    __   __  __  __  ___     __  __  _  _  ___   __  __    ___\n';
     logo += '   (  ) / _)(  \\/  )(  _)   / _)/  \\( \\( )/ __) /  \\(  )  (  _)\n';
