@@ -27,27 +27,28 @@ rules:
     - error
     - consistent
   callback-return:
-    - 'off'
+    - off
   class-methods-use-this:
-    - 'off'
+    - off
   comma-dangle:
     - error
     - always-multiline
   consistent-this:
-    - 'off'
+    - off
   dot-location:
     - error
     - property
   func-style:
     - error
     - declaration
+    - allowArrowFunctions: true
   function-call-argument-newline:
-    - 'off'
+    - off
   function-paren-newline:
     - error
     - consistent
   id-length:
-    - 'off'
+    - off
   import/dynamic-import-chunkname:
     - error
   import/exports-last:
@@ -57,7 +58,7 @@ rules:
   import/first:
     - error
   import/group-exports:
-    - error
+    - off
   import/max-dependencies:
     - error
   import/newline-after-import:
@@ -81,9 +82,9 @@ rules:
   import/no-dynamic-require:
     - error
   import/no-extraneous-dependencies:
-    - error
+    - off
   import/no-internal-modules:
-    - 'off'
+    - off
   import/no-mutable-exports:
     - error
   import/no-named-as-default:
@@ -93,13 +94,13 @@ rules:
   import/no-named-default:
     - error
   import/no-named-export:
-    - 'off'
+    - off
   import/no-namespace:
     - error
   import/no-nodejs-modules:
-    - 'off'
+    - off
   import/no-relative-parent-imports:
-    - 'off'
+    - off
   import/no-restricted-paths:
     - error
   import/no-self-import:
@@ -115,7 +116,7 @@ rules:
   import/order:
     - error
   import/prefer-default-export:
-    - 'off'
+    - off
   import/unambiguous:
     - error
   indent:
@@ -154,7 +155,7 @@ rules:
   mocha/no-hooks-for-single-case:
     - error
   mocha/no-mocha-arrows:
-    - 'off'
+    - off
   mocha/no-pending-tests:
     - error
   mocha/no-return-from-async:
@@ -170,22 +171,22 @@ rules:
     - allowNamedFunctions: false
       allowUnboundThis: false
   multiline-ternary:
-    - 'off'
+    - off
   no-bitwise:
-    - 'off'
+    - off
   no-constant-condition:
     - error
     - checkLoops: false
   no-magic-numbers:
-    - 'off'
+    - off
   no-mixed-operators:
-    - 'off'
+    - off
   no-plusplus:
-    - 'off'
+    - off
   no-ternary:
-    - 'off'
+    - off
   no-undefined:
-    - 'off'
+    - off
   no-unused-vars:
     - error
     - args: none
@@ -197,11 +198,11 @@ rules:
     - error
     - never
   padded-blocks:
-    - 'off'
+    - off
   prefer-destructuring:
-    - 'off'
+    - off
   prefer-regex-literals:
-    - 'off'
+    - off
   quote-props:
     - error
     - as-needed
@@ -209,12 +210,12 @@ rules:
     - error
     - single
   require-await:
-    - 'off'
+    - off
   semi:
     - error
     - always
   sort-imports:
-    - 'off'
+    - off
   sort-keys:
     - error
     - asc

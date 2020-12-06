@@ -1,5 +1,5 @@
 import assert from 'assert';
-import {TreeNode} from '../../src/TreeNode';
+import {TreeNode} from './TreeNode';
 
 describe('TreeNode', () => {
 

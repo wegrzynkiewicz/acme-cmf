@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-const onTimeout = (name, reject) => {
+function onTimeout(name, reject) {
     const error = new Error(`Cannot resolve (${name}).`);
     reject(error);
 }
@@ -23,7 +23,7 @@ export class ServiceRegistry extends EventEmitter {
             const resolve = this.resolvers.get(serviceName);
             resolve(serviceInstance);
         }
-        this.emit('service-registered', {serviceName, serviceInstance});
+        this.emit('service-registered', {serviceInstance, serviceName});
 
         this.resolvers.delete(serviceName);
         this.promises.delete(serviceName);

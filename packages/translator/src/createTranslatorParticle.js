@@ -4,10 +4,12 @@ const translator = {
     },
 };
 
-export const createTranslatorParticle = () => ({
-    bootstrap({stageManager}) {
-        stageManager.registerStageListener('service-creation', ({serviceRegistry}) => {
-            serviceRegistry.registerService('translator', translator);
-        });
-    },
-});
+export function createTranslatorParticle() {
+    return {
+        bootstrap({stageManager}) {
+            stageManager.registerStageListener('service-creation', ({serviceRegistry}) => {
+                serviceRegistry.registerService('translator', translator);
+            });
+        },
+    };
+}

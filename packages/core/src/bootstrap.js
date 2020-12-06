@@ -1,11 +1,11 @@
 import {ServiceRegistry} from './ServiceRegistry';
-import {ParticleManager} from "./ParticleManager";
-import {EventManager} from "./EventManager";
-import {Environment} from "./Environment";
-import {StageManager} from "./StageManager";
+import {ParticleManager} from './ParticleManager';
+import {EventManager} from './EventManager';
+import {StageManager} from './StageManager';
 
 function createStageManager() {
     const stageManager = new StageManager();
+    stageManager.createStage('system-start');
     stageManager.createStage('environment-setup');
     stageManager.createStage('service-creation');
     stageManager.createStage('command-execution');
@@ -13,12 +13,11 @@ function createStageManager() {
     return stageManager;
 }
 
-export function bootstrap({environmentVariables, particles}) {
+export function bootstrap({particles}) {
     const serviceLocator = Object.create(null);
     const serviceRegistry = new ServiceRegistry({serviceLocator});
     const stageManager = createStageManager();
 
-    serviceRegistry.registerService('environment', new Environment({variables: environmentVariables}));
     serviceRegistry.registerService('eventManager', new EventManager());
     serviceRegistry.registerService('get', (serviceName) => serviceLocator[serviceName]);
     serviceRegistry.registerService('particleManager', new ParticleManager());

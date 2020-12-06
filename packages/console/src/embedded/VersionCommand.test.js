@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import {VersionCommand} from '../../..';
+import {VersionCommand} from './VersionCommand';
 
 describe('VersionCommand', () => {
     it('should return valid response', async () => {
