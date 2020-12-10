@@ -1,1 +1,1 @@
-export * from './src/createTranslatorParticle';
+export * from './src/TranslatorParticle';

@@ -1,1 +1,1 @@
-export * from './src/createConfigParticle';
+export * from './src/ConfigParticle';

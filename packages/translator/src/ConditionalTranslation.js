@@ -13,16 +13,16 @@ export class ConditionalTranslation {
         locales.push({callback, text});
     }
 
-    getText({locale, params}) {
+    getText({locale, parameters}) {
         const conditions = this.locales[locale];
         for (const {callback, text} of conditions) {
-            if (callback(params)) {
-                return bindParameters(text, params);
+            if (callback(parameters)) {
+                return bindParameters(text, parameters);
             }
         }
         throw new Error(
             `Cannot get text from conditional translation named (${this.key})` +
-            ` by locale (${locale}) and params (${JSON.stringify(params)}).`,
+            ` by locale (${locale}) and parameters (${JSON.stringify(parameters)}).`,
         );
     }
 }

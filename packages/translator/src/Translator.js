@@ -5,12 +5,12 @@ export class Translator {
         this.translations = translations;
     }
 
-    translate({key, params}) {
+    translate({key, parameters}) {
         const {locale, translations} = this;
         const translation = translations.get(key);
         if (translation === undefined) {
             return key;
         }
-        return translation.getText(locale, params);
+        return translation.getText(locale, parameters);
     }
 }

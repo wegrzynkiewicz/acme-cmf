@@ -1,1 +1,1 @@
-export * from './src/createLogParticle';
+export * from './src/LogParticle';

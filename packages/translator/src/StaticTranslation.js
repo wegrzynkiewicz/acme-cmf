@@ -11,8 +11,8 @@ export class StaticTranslation {
         this.locales[locale] = text;
     }
 
-    getText({locale, params}) {
+    getText({locale, parameters}) {
         const text = this.locales[locale] || '';
-        return bindParameters(text, params);
+        return bindParameters(text, parameters);
     }
 }

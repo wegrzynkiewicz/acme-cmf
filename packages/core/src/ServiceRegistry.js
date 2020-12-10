@@ -1,32 +1,32 @@
-import EventEmitter from 'events';
+import {createDebugger} from '@acme/debug';
+
+const debug = createDebugger('service:registry');
 
 function onTimeout(name, reject) {
     const error = new Error(`Cannot resolve (${name}).`);
     reject(error);
 }
 
-export class ServiceRegistry extends EventEmitter {
+export class ServiceRegistry {
 
     constructor({serviceLocator}) {
-        super();
-        this.setMaxListeners(Infinity);
         this.promises = new Map();
         this.resolvers = new Map();
         this.serviceLocator = serviceLocator;
         this.timeout = 100;
     }
 
-    registerService(serviceName, serviceInstance) {
-        this.serviceLocator[serviceName] = serviceInstance;
+    register({service, key}) {
+        this.serviceLocator[key] = service;
+        debug('Registered service (%s)', key);
 
-        if (this.resolvers.has(serviceName)) {
-            const resolve = this.resolvers.get(serviceName);
-            resolve(serviceInstance);
+        if (this.resolvers.has(key)) {
+            const resolve = this.resolvers.get(key);
+            resolve(service);
         }
-        this.emit('service-registered', {serviceInstance, serviceName});
 
-        this.resolvers.delete(serviceName);
-        this.promises.delete(serviceName);
+        this.resolvers.delete(key);
+        this.promises.delete(key);
     }
 
     async waitForService(serviceName) {

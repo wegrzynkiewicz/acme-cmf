@@ -1,7 +1,7 @@
 import {bootstrap} from '@acme/core';
-import {createTranslatorParticle} from '@acme/translator';
-import {createLogParticle} from '@acme/log';
-import {createConfigParticle} from '@acme/config';
+import {TranslatorParticle} from '@acme/translator';
+import {LogParticle} from '@acme/log';
+import {ConfigParticle} from '@acme/config';
 
 (async () => {
     process.on('unhandledRejection', (error) => {
@@ -10,11 +10,11 @@ import {createConfigParticle} from '@acme/config';
     const {env, stderr, stdout} = process;
     const {run} = bootstrap({
         particles: [
-            createConfigParticle({
+            new ConfigParticle({
                 environmentVariables: env,
             }),
-            createTranslatorParticle(),
-            createLogParticle({stderr, stdout}),
+            new TranslatorParticle(),
+            new LogParticle({stderr, stdout}),
         ],
     });
     await run();
