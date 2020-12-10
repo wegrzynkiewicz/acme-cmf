@@ -2,6 +2,10 @@ import {createDebugger} from '@acme/debug';
 
 const debug = createDebugger('particle:exec');
 
+function upperFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export class ParticleManager {
 
     constructor({particles, serviceLocator}) {
@@ -9,11 +13,22 @@ export class ParticleManager {
         this.serviceLocator = serviceLocator;
     }
 
-    async run(field) {
+    async run(methodName) {
+        const capitalizedMethodName = upperFirstLetter(methodName);
+        await this.execCallback(`onPre${capitalizedMethodName}`);
+        await this.execCallback(`on${capitalizedMethodName}`);
+        await this.execCallback(`onPost${capitalizedMethodName}`);
+    }
+
+    async execCallback(methodName) {
         const promises = this.particles.map(async (particle) => {
-            if (typeof particle[field] === 'function') {
-                await particle[field](this.serviceLocator);
-                debug('Executed particle (%s) method (%s)', Object.getPrototypeOf(particle).constructor.name, field);
+            if (typeof particle[methodName] === 'function') {
+                await particle[methodName](this.serviceLocator);
+                debug(
+                    'Executed (%s) on (%s)',
+                    methodName,
+                    Object.getPrototypeOf(particle).constructor.name,
+                );
             }
         });
         return await Promise.all(promises);

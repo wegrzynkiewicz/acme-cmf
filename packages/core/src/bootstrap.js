@@ -8,9 +8,10 @@ export function bootstrap({particles}) {
 
     const get = (serviceName) => serviceLocator[serviceName];
     const run = async () => {
-        await particleManager.run('setupParticle');
-        await particleManager.run('setupConfig');
-        await particleManager.run('setupServices');
+        await particleManager.run('initParticle');
+        await particleManager.run('initConfig');
+        await particleManager.run('initServices');
+        await particleManager.run('initConsoleCommands');
     };
 
     serviceRegistry.register({

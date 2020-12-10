@@ -7,7 +7,7 @@ export class ConfigParticle {
         this.environmentVariables = environmentVariables;
     }
 
-    setupParticle({serviceRegistry}) {
+    onPreInitConfig({serviceRegistry}) {
         serviceRegistry.register({
             comment: 'Collect all configuration variables.',
             key: 'configRegistry',
@@ -15,7 +15,7 @@ export class ConfigParticle {
         });
     }
 
-    setupServices({configRegistry, serviceRegistry}) {
+    onPreInitServices({configRegistry, serviceRegistry}) {
 
         const {environmentVariables} = this;
         const configResolver = new ConfigResolver({environmentVariables});

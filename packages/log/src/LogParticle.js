@@ -1,7 +1,7 @@
 import {provideLogBus} from './logBus/provideLogBus';
 import {provideLoggerFactory} from './loggerFactory/provideLoggerFactory';
 
-function setupConfigForStream({configRegistry, name, key}) {
+function initConfigForStream({configRegistry, name, key}) {
 
     configRegistry.register({
         comment: `Enabling the logging to standard ${name} steam.`,
@@ -24,7 +24,7 @@ export class LogParticle {
         this.stdout = stdout;
     }
 
-    setupConfig({configRegistry}) {
+    onInitConfig({configRegistry}) {
         configRegistry.register({
             comment: 'Enabling the logging mechanism.',
             defaults: true,
@@ -32,8 +32,8 @@ export class LogParticle {
             type: 'boolean',
         });
 
-        setupConfigForStream({configRegistry, key: 'stdout', name: 'output'});
-        setupConfigForStream({configRegistry, key: 'stderr', name: 'error'});
+        initConfigForStream({configRegistry, key: 'stdout', name: 'output'});
+        initConfigForStream({configRegistry, key: 'stderr', name: 'error'});
 
         configRegistry.register({
             comment: 'Add additional tags to all loggers.',
@@ -43,7 +43,7 @@ export class LogParticle {
         });
     }
 
-    setupServices({config, serviceRegistry}) {
+    onInitServices({config, serviceRegistry}) {
         const {stderr, stdout} = this;
 
         const logBus = provideLogBus({config, stderr, stdout});
