@@ -22,9 +22,9 @@ export class HelpCommand extends ConsoleCommand {
         });
     }
 
-    async execute(context) {
-        const commandName = context.input.args.get('command');
-        const command = context.application.getCommandByName(commandName);
-        await context.usagePrinter.writeHelp(command);
+    async execute({console, usagePrinter}, {args}) {
+        const commandName = args.get('command');
+        const command = console.getCommandByName(commandName);
+        await usagePrinter.writeHelp(command);
     }
 }

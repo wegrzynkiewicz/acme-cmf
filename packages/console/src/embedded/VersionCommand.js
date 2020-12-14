@@ -6,7 +6,7 @@ export class VersionCommand extends ConsoleCommand {
     constructor({copyright, intro, revision, version}) {
         super({
             aliases: ['show-version'],
-            description: 'Show the current version of console app.',
+            description: 'Show the current version of console application.',
             name: 'version',
             options: [
                 new HelpOption(),
@@ -19,9 +19,9 @@ export class VersionCommand extends ConsoleCommand {
         this.version = version;
     }
 
-    async execute(context) {
+    async execute({output}) {
         const {version, copyright, intro, revision} = this;
-        const output = `${intro} version ${version} revision ${revision} copyright ${copyright}\n`;
-        context.output.writeLine(output);
+        const string = `${intro} version ${version} revision ${revision} copyright ${copyright}`;
+        output.writeLine(string);
     }
 }

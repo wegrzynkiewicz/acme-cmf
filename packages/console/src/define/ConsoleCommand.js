@@ -37,7 +37,7 @@ export class ConsoleCommand {
     }
 
     register(command) {
-        debug('Registered console command (%s) to parent command (%s).', command.name, this.name);
+        debug('Registered console command (%s) to parent command (%s)', command.name, this.name);
         this.commands.set(command.name, command);
     }
 
@@ -47,7 +47,7 @@ export class ConsoleCommand {
                 return command;
             }
             if (command.aliases.has(commandName)) {
-                return command.aliases.get(commandName);
+                return command;
             }
         }
         throw new Error(`Command named (${commandName}) not exists.`);

@@ -19,18 +19,4 @@ export class HelpOption extends ConsoleOption {
         }
         return next();
     }
-
-    resolveArguments(context) {
-        const {command} = context;
-        if (command.name === 'main') {
-            return {
-                argv: [],
-                commandName: 'intro',
-            };
-        }
-        return {
-            argv: [command.name],
-            commandName: 'help',
-        };
-    }
 }

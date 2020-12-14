@@ -1,7 +1,6 @@
 import {IntroCommand} from './embedded/IntroCommand';
 import {VersionCommand} from './embedded/VersionCommand';
 import {HelpCommand} from './embedded/HelpCommand';
-import {ListCommand} from './embedded/ListCommand';
 import {UsagePrinter} from './runtime/UsagePrinter';
 import {Output} from './runtime/Output';
 import {ConsoleApplication} from './define/ConsoleApplication';
@@ -54,7 +53,6 @@ export class ConsoleParticle {
         console.register(new IntroCommand({logo}));
         console.register(new VersionCommand({copyright, intro, revision, version}));
         console.register(new HelpCommand());
-        console.register(new ListCommand());
     }
 
     async onExecute({console}) {
