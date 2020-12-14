@@ -1,43 +1,42 @@
 export class ConsoleArgument {
 
     constructor({defaults, description, name, rest, required}) {
-        if (typeof name !== 'string' || name.length === 0) {
-            throw new Error('Invalid value name.');
-        }
         this.defaults = defaults;
-        this.description = description === undefined ? '' : description;
+        this.description = description;
         this.name = name;
-        this.required = required === undefined ? false : required;
-        this.rest = rest === undefined ? false : rest;
+        this.required = required;
+        this.rest = rest;
     }
 
     digValueFromArray(args) {
+        const {defaults, required, rest, name} = this;
         if (args.length === 0) {
-            if (this.required) {
-                throw new Error(`Not passed required argument named (${this.name}).`);
+            if (required) {
+                throw new Error(`Not passed required argument named (${name}).`);
             }
-            if (this.rest && this.defaults === null) {
+            if (rest && defaults === null) {
                 return [];
             }
-            return this.defaults;
+            return defaults;
         }
-        if (this.rest) {
+        if (rest) {
             return args.splice(0);
         }
         return args.shift();
     }
 
     assert(value) {
-        if (this.rest) {
+        const {required, rest, name} = this;
+        if (rest) {
             if (!Array.isArray(value)) {
-                throw new Error(`Rest argument named (${this.name}) is not array.`);
+                throw new Error(`Rest argument named (${name}) is not array.`);
             }
-            if (this.required && value.length === 0) {
-                throw new Error(`Required rest argument named (${this.name}) is empty array.`);
+            if (required && value.length === 0) {
+                throw new Error(`Required rest argument named (${name}) is empty array.`);
             }
         }
-        if (value === '' && this.required) {
-            throw new Error(`Required argument named (${this.name}) is empty.`);
+        if (value === '' && required) {
+            throw new Error(`Required argument named (${name}) is empty.`);
         }
     }
 }

@@ -1,6 +1,4 @@
-import {ConsoleMiddleware} from '../define/ConsoleMiddleware';
-
-export class HelpDetectMiddleware extends ConsoleMiddleware {
+export class HelpDetectMiddleware {
 
     async execute(context, next) {
         const {application, input, output} = context;

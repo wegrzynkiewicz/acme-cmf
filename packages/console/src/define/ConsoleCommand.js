@@ -1,35 +1,23 @@
 export class ConsoleCommand {
 
-    constructor({aliases, args, description, name, hidden, options}) {
-        if (typeof name !== 'string' || name.length === 0) {
-            throw new Error('Invalid command name.');
-        }
-        this.aliases = new Set(aliases === undefined ? [] : aliases);
+    constructor({aliases = [], args = [], description = '', name, hidden = false, options = []}) {
+        this.aliases = new Set(aliases);
         this.args = new Map();
-        this.description = description === undefined ? '' : description;
-        this.hidden = hidden === undefined ? false : hidden;
+        this.description = description;
+        this.hidden = hidden;
         this.name = name;
         this.options = new Map();
 
-        for (const argument of args || []) {
-            this.registerArgument(argument);
+        for (const argument of args) {
+            this.args.set(argument.name, argument);
         }
 
-        for (const option of options || []) {
-            this.registerOption(option);
+        for (const option of options) {
+            this.options.set(option.name, option);
         }
-    }
-
-    registerArgument(argument) {
-        this.args.set(argument.name, argument);
-    }
-
-    registerOption(option) {
-        this.options.set(option.name, option);
     }
 
     async execute() {
-        const error = new Error('Console command must implement execute method.');
-        await Promise.reject(error);
+        throw new Error('Console command must implement execute method.');
     }
 }

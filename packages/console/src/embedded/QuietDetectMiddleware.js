@@ -1,8 +1,7 @@
-import {ConsoleMiddleware} from '../define/ConsoleMiddleware';
 import {NullWritableStream} from '../runtime/NullWritableStream';
 import {Output} from '../runtime/Output';
 
-export class QuietDetectMiddleware extends ConsoleMiddleware {
+export class QuietDetectMiddleware {
 
     async execute(context, next) {
         const {input} = context;

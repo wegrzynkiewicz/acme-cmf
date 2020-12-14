@@ -1,12 +1,9 @@
 export class ConsoleOptionParameter {
 
-    constructor({defaults, name, required}) {
-        if (typeof name !== 'string' || name.length === 0) {
-            throw new Error('Invalid value name.');
-        }
+    constructor({defaults, name, required = false}) {
         this.defaults = defaults;
         this.name = name;
-        this.required = required === undefined ? false : required;
+        this.required = required;
     }
 
     assert(value) {

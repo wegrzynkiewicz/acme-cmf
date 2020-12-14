@@ -11,7 +11,6 @@ export class ConsoleApplication {
         this.commands = new Map();
         this.middlewares = new Set();
         this.name = name;
-        this.payload = payload;
     }
 
     getCommandByName(commandName) {
