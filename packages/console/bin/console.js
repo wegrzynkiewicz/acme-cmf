@@ -3,15 +3,6 @@ import {ConsoleBasicApplication} from '..';
 (async function start() {
 
     const version = '@acme/acme-console version 1.0.1 revision c2c7b22 copyright 2020';
-    let logo = '';
-    logo += '    __   __  __  __  ___     __  __  _  _  ___   __  __    ___\n';
-    logo += '   (  ) / _)(  \\/  )(  _)   / _)/  \\( \\( )/ __) /  \\(  )  (  _)\n';
-    logo += '   /__\\( (_  )    (  ) _)  ( (_( () ))  ( \\__ \\( () ))(__  ) _)\n';
-    logo += '  (_)(_)\\__)(_/\\/\\_)(___)   \\__)\\__/(_)\\_)(___/ \\__/(____)(___)\n';
-    logo += '\n';
-    logo += version;
-    logo += '\n';
-    logo += '\u2500'.repeat(version.length);
 
     const application = new ConsoleBasicApplication({
         name: './bin/console',

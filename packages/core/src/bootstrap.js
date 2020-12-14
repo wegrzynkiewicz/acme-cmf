@@ -12,6 +12,8 @@ export function bootstrap({particles}) {
         await particleManager.run('initConfig');
         await particleManager.run('initServices');
         await particleManager.run('initConsoleCommands');
+        await particleManager.run('execute');
+        await particleManager.run('finalize');
     };
 
     serviceRegistry.register({

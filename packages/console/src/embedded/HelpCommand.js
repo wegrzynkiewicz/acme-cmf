@@ -1,5 +1,6 @@
 import {ConsoleArgument} from '../define/ConsoleArgument';
 import {ConsoleCommand} from '../define/ConsoleCommand';
+import {HelpOption} from './HelpOption';
 
 export class HelpCommand extends ConsoleCommand {
 
@@ -15,7 +16,9 @@ export class HelpCommand extends ConsoleCommand {
             ],
             description: 'Show the help information about selected command.',
             name: 'help',
-            options: [],
+            options: [
+                new HelpOption(),
+            ],
         });
     }
 

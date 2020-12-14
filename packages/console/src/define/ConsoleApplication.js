@@ -1,83 +1,75 @@
-import {Input} from '../runtime/Input';
 import {InputParser} from '../runtime/InputParser';
-import {Output} from '../runtime/Output';
-import {RuntimeContext} from '../runtime/RuntimeContext';
-import {UsagePrinter} from '../runtime/UsagePrinter';
+import {HelpOption} from '../embedded/HelpOption';
+import {ConsoleArgument} from './ConsoleArgument';
+import {ConsoleCommand} from './ConsoleCommand';
 
-export class ConsoleApplication {
+export class ConsoleApplication extends ConsoleCommand {
 
-    constructor({name, payload}) {
-        this.aliases = new Map();
-        this.commands = new Map();
-        this.middlewares = new Set();
-        this.name = name;
+    constructor({commandName, serviceLocator}) {
+        super({
+            args: [
+                new ConsoleArgument({
+                    defaults: commandName,
+                    description: 'The command to execute.',
+                    name: 'command',
+                    require: false,
+                }),
+                new ConsoleArgument({
+                    defaults: [],
+                    description: 'The arguments to pass to command.',
+                    name: 'arguments',
+                    require: false,
+                    rest: true,
+                }),
+            ],
+            description: 'The main build in command which execute correct command.',
+            hidden: true,
+            name: 'main',
+            options: [
+                new HelpOption(),
+            ],
+        });
+        this.serviceLocator = serviceLocator;
     }
 
-    getCommandByName(commandName) {
-        if (!this.aliases.has(commandName)) {
-            throw new Error(`Command named (${commandName}) not exists.`);
-        }
-        return this.aliases.get(commandName);
-    }
-
-    registerCommand(command) {
-        const names = [command.name, ...command.aliases];
-        for (const name of names) {
-            if (this.aliases.has(name)) {
-                throw new Error(`Command named (${name}) already exists.`);
-            }
-            this.aliases.set(name, command);
-        }
-        this.commands.set(command.name, command);
-    }
-
-    registerMiddleware(middleware) {
-        this.middlewares.add(middleware);
-    }
-
-    async run({argv, commandName, stderr, stdin, stdout}) {
+    async executeCommandByName({argv, commandName}) {
         const command = this.getCommandByName(commandName);
+        const exitCode = await this.executeCommand({argv, command});
+        return exitCode;
+    }
+
+    async executeCommand({argv, command}) {
+        const {serviceLocator} = this;
         const parser = new InputParser({command});
         const {args, options} = parser.parse(argv);
 
-        const application = this;
-        const input = new Input({args, options, stdin});
-        const output = new Output({stderr, stdout});
-        const usagePrinter = new UsagePrinter({application, output});
-        const context = new RuntimeContext({
-            application,
-            command,
-            input,
-            output,
-            usagePrinter,
-        });
+        const middlewares = [...command.options.values(), command];
 
-        const middlewares = [...this.middlewares.values(), this];
-
-        function createNext() {
-            return async function next(contextFromMiddleware) {
+        function createNext(context) {
+            return async function next(contextFromMiddleware = {}) {
                 if (middlewares.length > 0) {
                     const middleware = middlewares.shift();
-                    const exitCode = await middleware.execute(contextFromMiddleware, createNext());
-                    return exitCode;
+                    const next = createNext(context);
+                    const nextContext = {...context, ...contextFromMiddleware, next};
+                    const result = await middleware.execute(serviceLocator, nextContext);
+                    return result;
                 }
                 return null;
             };
         }
 
-        const next = createNext();
-        const exitCode = await next(context);
-
+        const next = createNext({args, argv, command, options});
+        const exitCode = await next();
         return exitCode;
     }
 
-    async execute(context, next) {
-        try {
-            const exitCode = await context.command.execute(context, next);
-            return exitCode;
-        } catch (error) {
-            context.output.error(error);
-            return 1;
+    async execute({console}, {args}) {
+        const commandName = args.get('command');
+        if (commandName === this.name) {
+            throw new Error(`Cannot direct run a command named (${this.name}).`);
         }
+        const argv = args.get('arguments');
+        const result = await console.executeCommandByName({argv, commandName});
+        return result;
     }
 }

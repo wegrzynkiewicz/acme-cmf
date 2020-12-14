@@ -4,8 +4,8 @@ import Table from 'cli-table3';
 
 export class UsagePrinter {
 
-    constructor({application, output}) {
-        this.application = application;
+    constructor({executableName, output}) {
+        this.executableName = executableName;
         this.output = output;
     }
 
@@ -59,7 +59,7 @@ export class UsagePrinter {
         const {args, name, options} = command;
 
         this.output.write('Usage:');
-        this.output.write(` ${this.application.name}`);
+        this.output.write(` ${this.executableName}`);
         if (name !== '') {
             this.output.write(` ${name}`);
         }

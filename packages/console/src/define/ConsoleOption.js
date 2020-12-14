@@ -12,6 +12,10 @@ export class ConsoleOption {
         }
     }
 
+    async execute(context, {next}) {
+        return await next();
+    }
+
     assert(value) {
         if (this.parameter) {
             this.parameter.assert(value);

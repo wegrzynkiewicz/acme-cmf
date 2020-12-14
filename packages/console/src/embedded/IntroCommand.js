@@ -1,34 +1,32 @@
 import {ConsoleCommand} from '../define/ConsoleCommand';
+import {HelpOption} from './HelpOption';
 
 export class IntroCommand extends ConsoleCommand {
 
-    constructor({provide}) {
+    constructor({logo}) {
         super({
             aliases: ['show-intro'],
             description: 'Show the intro of console application.',
             hidden: true,
             name: 'intro',
+            options: [
+                new HelpOption(),
+            ],
         });
-        this.provide = provide;
+        this.logo = logo;
     }
 
-    async execute(context) {
-        const {application, output, usagePrinter} = context;
-        const command = application.getCommandByName('main');
-
-        if (typeof this.provide === 'function') {
-            const logo = await this.provide();
-            output.writeLine(logo);
-        }
+    async execute({console, output, usagePrinter}, {command}) {
+        output.writeLine(this.logo);
 
         usagePrinter.writeHelp({
-            ...command,
-            commands: application.commands,
+            ...console,
             description: '',
             name: '',
         });
 
-        output.writeLine(`Type \`${application.name} help [command]\` for more information on specific commands.`);
+        const name = usagePrinter.executableName;
+        output.writeLine(`Type \`${name} help [command]\` for more information on specific commands.`);
         output.writeLine();
 
         return 0;

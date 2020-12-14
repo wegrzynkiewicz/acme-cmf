@@ -1,5 +1,6 @@
 import {ConsoleCommand} from '../define/ConsoleCommand';
 import {ConsoleOption} from '../define/ConsoleOption';
+import {HelpOption} from './HelpOption';
 
 export class ListCommand extends ConsoleCommand {
 
@@ -17,6 +18,7 @@ export class ListCommand extends ConsoleCommand {
                     require: false,
                     shortFlags: ['j'],
                 }),
+                new HelpOption(),
             ],
         });
     }

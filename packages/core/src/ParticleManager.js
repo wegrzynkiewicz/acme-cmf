@@ -21,6 +21,7 @@ export class ParticleManager {
     }
 
     async execCallback(methodName) {
+        debug('Executing (%s)', methodName);
         const promises = this.particles.map(async (particle) => {
             if (typeof particle[methodName] === 'function') {
                 await particle[methodName](this.serviceLocator);
