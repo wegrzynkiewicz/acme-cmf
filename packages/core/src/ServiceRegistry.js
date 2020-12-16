@@ -32,7 +32,7 @@ export class ServiceRegistry {
     async waitForService(serviceName) {
         const {[serviceName]: service} = this.serviceLocator;
         if (service !== undefined) {
-            return service;
+            return await service;
         }
 
         if (this.promises.has(serviceName) === false) {

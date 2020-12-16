@@ -17,6 +17,6 @@ export class HelpOption extends ConsoleOption {
             usagePrinter.writeHelp(command);
             return 0;
         }
-        return next();
+        return await next();
     }
 }
