@@ -20,7 +20,7 @@ export class TreeNode {
     }
 
     find(callback) {
-        if (callback(this)) {
+        if (callback(null, this)) {
             return this;
         }
         for (const child of this.children.values()) {

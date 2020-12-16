@@ -23,7 +23,7 @@ export const codes = {
 };
 
 export function convertSeverityCodeToLabel(code) {
-    return labels[code];
+    return labels[parseInt(code)];
 }
 
 export function convertSeverityLabelToCode(label) {

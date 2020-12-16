@@ -1,7 +1,7 @@
 module.exports = {
     rules: {
         'node/callback-return': [
-            'error',
+            'off',
         ],
         'node/exports-style': [
             'error',

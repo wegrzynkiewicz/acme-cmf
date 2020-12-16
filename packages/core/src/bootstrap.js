@@ -7,6 +7,7 @@ export function bootstrap({particles}) {
     const particleManager = new ParticleManager({particles, serviceLocator});
 
     const get = (serviceName) => serviceLocator[serviceName];
+
     const run = async () => {
         await particleManager.run('initParticle');
         await particleManager.run('initConfig');

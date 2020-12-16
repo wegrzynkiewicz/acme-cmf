@@ -28,7 +28,7 @@ module.exports = {
             'error',
         ],
         'security/detect-object-injection': [
-            'error',
+            'off',
         ],
         'security/detect-possible-timing-attacks': [
             'error',

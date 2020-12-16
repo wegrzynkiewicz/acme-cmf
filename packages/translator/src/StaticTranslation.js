@@ -4,15 +4,15 @@ export class StaticTranslation {
 
     constructor({key}) {
         this.key = key;
-        this.locales = Object.create(null);
+        this.locales = new Map();
     }
 
     addText({locale, text}) {
-        this.locales[locale] = text;
+        this.locales.set(locale, text);
     }
 
     getText({locale, parameters}) {
-        const text = this.locales[locale] || '';
+        const text = this.locales.get(locale) || '';
         return bindParameters(text, parameters);
     }
 }
