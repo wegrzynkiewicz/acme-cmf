@@ -2,4 +2,8 @@ help:
 	@echo 'Help task disabled.'
 
 eslint:
-	./node_modules/eslint/bin/eslint.js .
+	npx eslint .
+
+test-unit:
+	npx mocha -r esm "./packages/**/*.unit.test.js"
+
