@@ -8,13 +8,12 @@ class ConfigRegistry {
         this.entries = new Map();
     }
 
-    register(entry) {
-        const {key, type} = entry;
+    register({comment, defaults, key, type}) {
         if (this.entries.has(key) === true) {
             throw new Error(`Configuration entry named (${key}) already exists.`);
         }
         debug('Registered config key (%s) with type (%s)', key, type);
-        this.entries.set(key, entry);
+        this.entries.set(key, {comment, defaults, key, type});
     }
 }
 

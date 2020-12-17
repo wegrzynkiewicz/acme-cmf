@@ -5,6 +5,7 @@
   "dependencies": {
     "@acme/config": "^0.0.0",
     "@acme/core": "^0.0.0",
+    "@acme/http-server": "^0.0.0",
     "@acme/log": "^0.0.0",
     "@acme/translator": "^0.0.0"
   }
