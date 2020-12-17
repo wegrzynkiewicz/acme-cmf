@@ -6,7 +6,7 @@ export function provideLoggerFactory({config, logBus}) {
     const enabled = config.get('log.enabled');
     const additionalTags = config.get('log.tags');
     const tags = new Set(additionalTags);
-    const constructor = enabled === '1' ? Logger : NullLogger;
+    const constructor = enabled === true ? Logger : NullLogger;
     const create = (...args) => new constructor(...args);
     const loggerFactory = new LoggerFactory({create, logBus, tags});
 

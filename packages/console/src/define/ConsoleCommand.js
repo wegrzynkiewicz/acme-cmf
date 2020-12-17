@@ -28,7 +28,7 @@ export class ConsoleCommand {
         }
 
         for (const command of commands) {
-            this.register(command);
+            this.registerCommand(command);
         }
 
         for (const option of options) {
@@ -36,7 +36,7 @@ export class ConsoleCommand {
         }
     }
 
-    register(command) {
+    registerCommand(command) {
         debug('Registered console command (%s) to parent command (%s)', command.name, this.name);
         this.commands.set(command.name, command);
     }

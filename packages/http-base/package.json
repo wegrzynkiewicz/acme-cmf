@@ -1,5 +1,5 @@
 {
-  "name": "@acme/http-server",
+  "name": "@acme/http-base",
   "version": "0.0.0",
   "private": true
 }

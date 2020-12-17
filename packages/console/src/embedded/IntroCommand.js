@@ -10,17 +10,17 @@ export class IntroCommand extends ConsoleCommand {
             hidden: true,
             name: 'intro',
             options: [
-                new HelpOption(),
+                HelpOption.instance,
             ],
         });
         this.logo = logo;
     }
 
-    async execute({console, output, usagePrinter}, {command}) {
+    async execute({commander, output, usagePrinter}, {command}) {
         output.writeLine(this.logo);
 
         usagePrinter.writeHelp({
-            ...console,
+            ...commander,
             description: '',
             name: '',
         });

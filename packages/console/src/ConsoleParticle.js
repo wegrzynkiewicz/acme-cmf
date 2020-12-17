@@ -1,9 +1,12 @@
+import {createDebugger} from '@acme/debug';
 import {IntroCommand} from './embedded/IntroCommand';
 import {VersionCommand} from './embedded/VersionCommand';
 import {HelpCommand} from './embedded/HelpCommand';
 import {UsagePrinter} from './runtime/UsagePrinter';
 import {Output} from './runtime/Output';
 import {ConsoleApplication} from './define/ConsoleApplication';
+
+const debug = createDebugger('console:exit');
 
 export class ConsoleParticle {
 
@@ -15,17 +18,18 @@ export class ConsoleParticle {
     }
 
     onPreInitServices({serviceLocator, serviceRegistry}) {
+        const commander = new ConsoleApplication({
+            commandName: 'intro',
+            serviceLocator,
+        });
         serviceRegistry.register({
             comment: 'Store all information about console commands.',
-            key: 'console',
-            service: new ConsoleApplication({
-                commandName: 'intro',
-                serviceLocator,
-            }),
+            key: 'commander',
+            service: commander,
         });
     }
 
-    onInitServices({serviceLocator, serviceRegistry}) {
+    onInitServices({serviceRegistry}) {
         const {argv, stderr, stdout} = this;
         const executableName = argv[2];
         const output = new Output({stderr, stdout});
@@ -43,22 +47,24 @@ export class ConsoleParticle {
         });
     }
 
-    onPreInitConsoleCommands({console}) {
+    onPreInitCommands({commander}) {
         const copyright = '2020';
         const intro = '@acme/console';
         const revision = '0000000';
         const version = '0.0.0';
         const logo = `${intro} version ${version} revision ${revision} copyright ${copyright}\n`;
 
-        console.register(new IntroCommand({logo}));
-        console.register(new VersionCommand({copyright, intro, revision, version}));
-        console.register(new HelpCommand());
+        commander.registerCommand(new IntroCommand({logo}));
+        commander.registerCommand(new VersionCommand({copyright, intro, revision, version}));
+        commander.registerCommand(new HelpCommand());
     }
 
-    async onExecute({console}) {
-        await console.executeCommand({
+    async onExecute({commander, setExitCode}) {
+        const exitCode = await commander.executeCommand({
             argv: this.argv.slice(3),
-            command: console,
+            command: commander,
         });
+        debug('Console command exit code (%o)', exitCode);
+        setExitCode(exitCode);
     }
 }

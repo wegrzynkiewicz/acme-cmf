@@ -1,7 +1,10 @@
+import {createDebugger} from '@acme/debug';
 import {InputParser} from '../runtime/InputParser';
 import {HelpOption} from '../embedded/HelpOption';
 import {ConsoleArgument} from './ConsoleArgument';
 import {ConsoleCommand} from './ConsoleCommand';
+
+const debug = createDebugger('console:exec');
 
 export class ConsoleApplication extends ConsoleCommand {
 
@@ -26,19 +29,14 @@ export class ConsoleApplication extends ConsoleCommand {
             hidden: true,
             name: 'main',
             options: [
-                new HelpOption(),
+                HelpOption.instance,
             ],
         });
         this.serviceLocator = serviceLocator;
     }
 
-    async executeCommandByName({argv, commandName}) {
-        const command = this.getCommandByName(commandName);
-        const exitCode = await this.executeCommand({argv, command});
-        return exitCode;
-    }
-
     async executeCommand({argv, command}) {
+        debug('Executing command (%s) with (%o)', command.name, argv);
         const {serviceLocator} = this;
         const parser = new InputParser({command});
         const {args, options} = parser.parse(argv);
@@ -63,13 +61,14 @@ export class ConsoleApplication extends ConsoleCommand {
         return exitCode;
     }
 
-    async execute({console}, {args}) {
+    async execute({commander}, {args}) {
         const commandName = args.get('command');
         if (commandName === this.name) {
             throw new Error(`Cannot direct run a command named (${this.name}).`);
         }
         const argv = args.get('arguments');
-        const result = await console.executeCommandByName({argv, commandName});
-        return result;
+        const command = this.getCommandByName(commandName);
+        const exitCode = await this.executeCommand({argv, command});
+        return exitCode;
     }
 }

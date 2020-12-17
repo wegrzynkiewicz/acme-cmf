@@ -1,0 +1,8 @@
+{
+  "name": "@acme/http-network",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@acme/http-base": "^0.0.0"
+  }
+}

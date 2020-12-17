@@ -1,6 +1,6 @@
 import {ConsoleOption} from '../define/ConsoleOption';
 
-export class HelpOption extends ConsoleOption {
+class HelpOption extends ConsoleOption {
 
     constructor() {
         super({
@@ -20,3 +20,7 @@ export class HelpOption extends ConsoleOption {
         return await next();
     }
 }
+
+HelpOption.instance = new HelpOption();
+
+export {HelpOption};

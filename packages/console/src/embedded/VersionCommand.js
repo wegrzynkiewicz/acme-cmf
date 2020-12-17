@@ -9,7 +9,7 @@ export class VersionCommand extends ConsoleCommand {
             description: 'Show the current version of console application.',
             name: 'version',
             options: [
-                new HelpOption(),
+                HelpOption.instance,
             ],
         });
 

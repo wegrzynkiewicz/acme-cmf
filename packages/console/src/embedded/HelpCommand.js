@@ -17,14 +17,14 @@ export class HelpCommand extends ConsoleCommand {
             description: 'Show the help information about selected command.',
             name: 'help',
             options: [
-                new HelpOption(),
+                HelpOption.instance,
             ],
         });
     }
 
-    async execute({console, usagePrinter}, {args}) {
+    async execute({commander, usagePrinter}, {args}) {
         const commandName = args.get('command');
-        const command = console.getCommandByName(commandName);
-        await usagePrinter.writeHelp(command);
+        const command = commander.getCommandByName(commandName);
+        usagePrinter.writeHelp(command);
     }
 }

@@ -21,15 +21,10 @@ export class ParticleManager {
     }
 
     async execCallback(methodName) {
-        debug('Executing (%s)', methodName);
         const promises = this.particles.map(async (particle) => {
             if (typeof particle[methodName] === 'function') {
+                debug('Executing (%s.%s)', Object.getPrototypeOf(particle).constructor.name, methodName);
                 await particle[methodName](this.serviceLocator);
-                debug(
-                    'Executed (%s) on (%s)',
-                    methodName,
-                    Object.getPrototypeOf(particle).constructor.name,
-                );
             }
         });
         return await Promise.all(promises);
