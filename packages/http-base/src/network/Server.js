@@ -1,7 +1,9 @@
 import {Server as BaseServer} from 'http';
 import {createDebugger} from '@acme/debug';
+import {IncomingRequest} from './IncomingRequest';
+import {ServerResponse} from './ServerResponse';
 
-const debug = createDebugger('http-server');
+const debug = createDebugger('http-base');
 
 const events = [
     'checkContinue',
@@ -17,7 +19,10 @@ const events = [
 export class Server extends BaseServer {
 
     constructor({name, hostname, port}) {
-        super();
+        super({
+            IncomingMessage: IncomingRequest,
+            ServerResponse: ServerResponse,
+        });
         this.hostname = hostname;
         this.name = name;
         this.port = port;
@@ -28,6 +33,14 @@ export class Server extends BaseServer {
                 debug('Incoming HTTP server (%s) event (%s)', this.name, eventName);
             });
         }
+
+        this.addListener('connection', (socket) => this.onConnection(socket));
+    }
+
+    async onConnection(socket) {
+        socket.addListener('close', () => {
+            debug('Connection close');
+        });
     }
 
     async listenRequests() {

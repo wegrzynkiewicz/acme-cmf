@@ -1,6 +1,6 @@
 import {createDebugger} from '@acme/debug';
 
-const debug = createDebugger('http-network');
+const debug = createDebugger('http-base');
 
 export class Network {
 

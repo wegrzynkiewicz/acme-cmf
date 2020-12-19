@@ -12,7 +12,7 @@ export class ServerStartCommand extends ConsoleCommand {
         });
     }
 
-    async execute({stageManager, usagePrinter}, {argv, args}) {
+    async execute({stageManager}) {
         await stageManager.run('initRouting');
         await stageManager.run('listening');
         return 0;

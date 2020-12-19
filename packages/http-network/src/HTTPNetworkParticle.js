@@ -9,13 +9,13 @@ export class HTTPNetworkParticle {
     onInitConfig({configRegistry}) {
         const {name} = this;
         configRegistry.register({
-            comments: 'Hostname on which the web server will listen.',
+            comments: `Hostname on which the server named (${name}) will listen.`,
             defaults: '0.0.0.0',
             key: `http.${name}.server.hostname`,
             type: 'ip',
         });
         configRegistry.register({
-            comments: 'Port on which the web server will listen.',
+            comments: `Port on which the server named (${name}) will listen.`,
             defaults: 8000,
             key: `http.${name}.server.port`,
             type: 'port',

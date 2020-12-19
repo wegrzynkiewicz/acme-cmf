@@ -4,7 +4,7 @@ export class SeverityFilter {
         this.minSeverity = minSeverity;
     }
 
-    filter({severity}) {
+    filtrate({severity}) {
         if (severity > this.minSeverity) {
             return false;
         }

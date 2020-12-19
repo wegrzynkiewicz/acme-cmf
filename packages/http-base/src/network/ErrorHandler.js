@@ -1,6 +1,6 @@
 import {createDebugger} from '@acme/debug';
 
-const debug = createDebugger('http-server');
+const debug = createDebugger('http-base');
 
 export class ErrorHandler {
 

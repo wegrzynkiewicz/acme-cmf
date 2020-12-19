@@ -1,5 +1,8 @@
 {
   "name": "@acme/http-base",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "uniqid": "^5.2.0"
+  }
 }
