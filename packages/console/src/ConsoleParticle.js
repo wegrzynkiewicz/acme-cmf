@@ -22,7 +22,7 @@ export class ConsoleParticle {
             commandName: 'intro',
             serviceLocator,
         });
-        serviceRegistry.register({
+        serviceRegistry.registerService({
             comment: 'Store all information about console commands.',
             key: 'commander',
             service: commander,
@@ -34,13 +34,13 @@ export class ConsoleParticle {
         const executableName = argv[2];
         const output = new Output({stderr, stdout});
 
-        serviceRegistry.register({
+        serviceRegistry.registerService({
             comment: 'Helpful tool format console output.',
             key: 'output',
             service: output,
         });
 
-        serviceRegistry.register({
+        serviceRegistry.registerService({
             comment: 'Print console command help page.',
             key: 'usagePrinter',
             service: new UsagePrinter({executableName, output}),

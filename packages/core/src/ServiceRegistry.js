@@ -16,7 +16,7 @@ export class ServiceRegistry {
         this.timeout = 100;
     }
 
-    register({service, key}) {
+    registerService({service, key}) {
         this.serviceLocator[key] = service;
         debug('Registered service (%s)', key);
 

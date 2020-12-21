@@ -35,37 +35,37 @@ export function bootstrap({particles}) {
         return exitCode;
     };
 
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Collect and manage access to service.',
         key: 'serviceRegistry',
         service: serviceRegistry,
     });
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Stores application service instances.',
         key: 'serviceLocator',
         service: serviceLocator,
     });
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Manage application stages.',
         key: 'stageManager',
         service: stageManager,
     });
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Function which return service by name.',
         key: 'get',
         service: get,
     });
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Manage application particle instances.',
         key: 'particleManager',
         service: particleManager,
     });
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Function which allow run stages pipeline.',
         key: 'run',
         service: run,
     });
-    serviceRegistry.register({
+    serviceRegistry.registerService({
         comment: 'Function which can set and save exit code.',
         key: 'setExitCode',
         service: setExitCode,

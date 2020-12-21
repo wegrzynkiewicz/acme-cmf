@@ -47,21 +47,21 @@ export class LogParticle {
         const {stderr, stdout} = this;
 
         const logBus = provideLogBus({config, stderr, stdout});
-        serviceRegistry.register({
+        serviceRegistry.registerService({
             comment: 'Processes logs received from multiple channels/loggers',
             key: 'logBus',
             service: logBus,
         });
 
         const loggerFactory = provideLoggerFactory({config, logBus});
-        serviceRegistry.register({
+        serviceRegistry.registerService({
             comment: 'Factory which produces a logger instance.',
             key: 'loggerFactory',
             service: loggerFactory,
         });
 
         const logger = loggerFactory.produce({channel: 'ROOT'});
-        serviceRegistry.register({
+        serviceRegistry.registerService({
             comment: 'Records the root logs.',
             key: 'logger',
             service: logger,
