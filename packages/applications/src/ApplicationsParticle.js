@@ -1,4 +1,5 @@
 import {applicationSchema} from './applicationSchema';
+import {ApplicationProcessorRegistry} from './ApplicationProcessorRegistry';
 
 export class ApplicationsParticle {
 

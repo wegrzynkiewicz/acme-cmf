@@ -5,7 +5,7 @@ export const applicationSchema = {
         _id: predefinedProperties.ObjectId,
         hid: predefinedProperties.HumanId,
         processor: {
-            type: string,
+            type: 'string',
         },
     },
     required: ['_id'],
