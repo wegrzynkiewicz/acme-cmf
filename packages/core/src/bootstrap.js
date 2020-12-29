@@ -8,6 +8,7 @@ const stages = [
     'initConfig',
     'initServices',
     'initCommands',
+    'initSchemas',
     'initRouting',
     'execute',
     'listening',
@@ -28,6 +29,7 @@ export function bootstrap({particles}) {
         await stageManager.run('initConfig');
         await stageManager.run('initServices');
         await stageManager.run('initCommands');
+        await stageManager.run('initSchemas');
         await stageManager.run('execute');
         return exit.getExitCode();
     };
