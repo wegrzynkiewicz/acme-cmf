@@ -59,12 +59,12 @@ export class ConsoleParticle {
         commander.registerCommand(new HelpCommand());
     }
 
-    async onExecute({commander, setExitCode}) {
+    async onExecute({commander, exit}) {
         const exitCode = await commander.executeCommand({
             argv: this.argv.slice(3),
             command: commander,
         });
         debug('Console command exit code (%o)', exitCode);
-        setExitCode(exitCode);
+        exit.setExitCode(exitCode);
     }
 }

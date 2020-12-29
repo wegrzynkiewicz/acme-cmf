@@ -1,3 +1,4 @@
+import {Exit} from './Exit';
 import {ServiceRegistry} from './ServiceRegistry';
 import {ParticleManager} from './ParticleManager';
 import {StageManager} from './StageManager';
@@ -13,16 +14,12 @@ const stages = [
     'finalize',
 ];
 
-let exitCode = 0;
-const setExitCode = (code) => {
-    exitCode = code;
-};
-
 export function bootstrap({particles}) {
     const serviceLocator = Object.create(null);
     const serviceRegistry = new ServiceRegistry({serviceLocator});
     const particleManager = new ParticleManager({particles, serviceLocator});
     const stageManager = new StageManager({particleManager, stages});
+    const exit = new Exit();
 
     const get = (serviceName) => serviceLocator[serviceName];
 
@@ -32,7 +29,7 @@ export function bootstrap({particles}) {
         await stageManager.run('initServices');
         await stageManager.run('initCommands');
         await stageManager.run('execute');
-        return exitCode;
+        return exit.getExitCode();
     };
 
     serviceRegistry.registerService({
@@ -67,8 +64,8 @@ export function bootstrap({particles}) {
     });
     serviceRegistry.registerService({
         comment: 'Function which can set and save exit code.',
-        key: 'setExitCode',
-        service: setExitCode,
+        key: 'exit',
+        service: exit,
     });
 
     return serviceLocator;
