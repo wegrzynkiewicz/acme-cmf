@@ -1,5 +1,4 @@
 import {createDebugger} from '@acme/debug';
-import {schemaKeySymbol} from './schemaKeySymbol';
 
 const debug = createDebugger('schema:registry');
 
@@ -9,7 +8,7 @@ export class SchemaRegistry {
         this.schemas = new Map();
     }
 
-    registerSchema(schema) {
+    registerSchema({key, schema}) {
         const {[schemaKeySymbol]: key} = schema;
         if (typeof key !== 'string' || key.length === 0) {
             throw new Error('Schema key must be valid string.');
