@@ -1,5 +1,10 @@
 export class ShopProcessor {
-    async process(serviceLocator, context) {
 
+    constructor({name}) {
+        this.name = name;
+    }
+
+    async process(serviceLocator, {response}) {
+        response.end('Shop content');
     }
 }

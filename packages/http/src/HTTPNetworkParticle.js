@@ -31,7 +31,7 @@ export class HTTPNetworkParticle {
         const proxy = new Proxy({
             name: `${name}.proxy`,
         });
-        httpManager.register(proxy);
+        httpManager.registerProcessor(proxy);
 
         const logger = loggerFactory.produce({channel: 'HTTP-ERROR'});
         const errorHandler = new ErrorHandler({
@@ -45,21 +45,21 @@ export class HTTPNetworkParticle {
             processor: errorHandler,
             serviceLocator,
         });
-        httpManager.register(network);
+        httpManager.registerProcessor(network);
 
         const server = new Server({
             hostname: config.get(`http.${name}.server.hostname`),
             name: `${name}.server`,
             port: config.get(`http.${name}.server.port`),
         });
-        httpManager.register(server);
+        httpManager.registerProcessor(server);
 
         network.registerServer({server});
     }
 
     async onListening({httpManager}) {
         const {name} = this;
-        const server = httpManager.get(`${name}.server`);
+        const server = httpManager.getProcessor(`${name}.server`);
         await server.listenRequests();
     }
 }

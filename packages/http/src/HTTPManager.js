@@ -4,11 +4,11 @@ export class HTTPManager {
         this.entries = new Map();
     }
 
-    register(entry) {
+    registerProcessor(entry) {
         this.entries.set(entry.name, entry);
     }
 
-    get(entryName) {
+    getProcessor(entryName) {
         if (this.entries.has(entryName) === false) {
             throw new Error(`HTTP entry named (${entryName}) does not exits.`);
         }

@@ -1,8 +1,8 @@
 export class AppResolverProcessor {
 
-    constructor({name, appProcessorRegistry, appRepository}) {
-        this.appProcessorRegistry = appProcessorRegistry;
+    constructor({appRepository, httpManager, name}) {
         this.appRepository = appRepository;
+        this.httpManager = httpManager;
         this.name = name;
     }
 
@@ -12,10 +12,10 @@ export class AppResolverProcessor {
 
         serviceRegistry.registerService({
             key: 'app',
-            service: app, // TODO:
+            service: app,
         });
 
-        const processor = this.appProcessorRegistry.getAppProcessor(app.processor);
+        const processor = this.httpManager.getProcessor(app.processor);
 
         return await processor.process(serviceLocator, context);
     }

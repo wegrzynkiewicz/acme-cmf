@@ -12,9 +12,9 @@ export class ServerStartCommand extends ConsoleCommand {
         });
     }
 
-    async execute({stageManager}) {
-        await stageManager.run('initRouting');
-        await stageManager.run('listening');
+    async execute({particleManager}) {
+        await particleManager.run('initRouting');
+        await particleManager.run('listening');
         return 0;
     }
 }

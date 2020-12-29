@@ -1,10 +1,9 @@
 import {createServiceLocator} from '@acme/service';
 import {Exit} from './Exit';
 import {ParticleManager} from './ParticleManager';
-import {StageManager} from './StageManager';
 
 const stages = [
-    'initParticle',
+    'initParticles',
     'initConfig',
     'initServices',
     'initCommands',
@@ -17,25 +16,22 @@ const stages = [
 
 export function bootstrap({particles}) {
     const {serviceLocator, serviceRegistry} = createServiceLocator();
-    const particleManager = new ParticleManager({particles, serviceLocator});
-    const stageManager = new StageManager({particleManager, stages});
+    const particleManager = new ParticleManager({serviceLocator, stages});
     const exit = new Exit();
 
     const run = async () => {
-        await stageManager.run('initParticle');
-        await stageManager.run('initConfig');
-        await stageManager.run('initServices');
-        await stageManager.run('initCommands');
-        await stageManager.run('initSchemas');
-        await stageManager.run('execute');
+        for (const particle of particles) {
+            await particleManager.registerParticle(particle);
+        }
+        await particleManager.run('initParticles');
+        await particleManager.run('initConfig');
+        await particleManager.run('initServices');
+        await particleManager.run('initCommands');
+        await particleManager.run('initSchemas');
+        await particleManager.run('execute');
         return exit.getExitCode();
     };
 
-    serviceRegistry.registerService({
-        comment: 'Manage application stages.',
-        key: 'stageManager',
-        service: stageManager,
-    });
     serviceRegistry.registerService({
         comment: 'Manage application particle instances.',
         key: 'particleManager',
