@@ -1,4 +1,5 @@
 import {createDebugger} from '@acme/debug';
+import {createServiceLocator} from '@acme/service';
 
 const debug = createDebugger('http-base');
 
@@ -12,10 +13,24 @@ export class Network {
     }
 
     registerServer({server}) {
-        server.on('request', async (request, response) => {
-            await this.processor.process(this.serviceLocator, {request, response});
-        });
+        server.on('request', this.processRequest.bind(this));
         this.servers.add(server);
         debug('HTTP server (%s) registered', server.name);
+    }
+
+    async processRequest(request, response) {
+        const {serviceRegistry, serviceLocator} = createServiceLocator();
+
+        serviceRegistry.registerService({
+            key: 'request',
+            service: request,
+        });
+
+        serviceRegistry.registerService({
+            key: 'response',
+            service: response,
+        });
+
+        await this.processor.process(this.serviceLocator, serviceLocator);
     }
 }

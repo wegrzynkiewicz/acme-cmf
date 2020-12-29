@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@acme/service": "^0.0.0",
     "uniqid": "^5.2.0"
   }
 }

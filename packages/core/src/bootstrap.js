@@ -1,5 +1,5 @@
+import {createServiceLocator} from '@acme/service';
 import {Exit} from './Exit';
-import {ServiceRegistry} from './ServiceRegistry';
 import {ParticleManager} from './ParticleManager';
 import {StageManager} from './StageManager';
 
@@ -16,13 +16,10 @@ const stages = [
 ];
 
 export function bootstrap({particles}) {
-    const serviceLocator = Object.create(null);
-    const serviceRegistry = new ServiceRegistry({serviceLocator});
+    const {serviceLocator, serviceRegistry} = createServiceLocator();
     const particleManager = new ParticleManager({particles, serviceLocator});
     const stageManager = new StageManager({particleManager, stages});
     const exit = new Exit();
-
-    const get = (serviceName) => serviceLocator[serviceName];
 
     const run = async () => {
         await stageManager.run('initParticle');
@@ -35,24 +32,9 @@ export function bootstrap({particles}) {
     };
 
     serviceRegistry.registerService({
-        comment: 'Collect and manage access to service.',
-        key: 'serviceRegistry',
-        service: serviceRegistry,
-    });
-    serviceRegistry.registerService({
-        comment: 'Stores application service instances.',
-        key: 'serviceLocator',
-        service: serviceLocator,
-    });
-    serviceRegistry.registerService({
         comment: 'Manage application stages.',
         key: 'stageManager',
         service: stageManager,
-    });
-    serviceRegistry.registerService({
-        comment: 'Function which return service by name.',
-        key: 'get',
-        service: get,
     });
     serviceRegistry.registerService({
         comment: 'Manage application particle instances.',

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@acme/debug": "^0.0.0"
+    "@acme/debug": "^0.0.0",
+    "@acme/service": "^0.0.0"
   }
 }
