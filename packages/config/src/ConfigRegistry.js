@@ -13,7 +13,7 @@ class ConfigRegistry {
             throw new Error(`Configuration entry named (${key}) already exists.`);
         }
         debug('Registered config key (%s) with type (%s)', key, type);
-        this.entries.set(key, {comment, defaults, key, type});
+        this.entries.set(key, {defaults, key, type});
     }
 }
 

@@ -3,7 +3,12 @@ version: '3.8'
 services:
 
   app:
-    command: ./console server start
+    command: npx nodemon --require esm ./packages/start/index.js ./console server start
+    environment:
+      ACME_DB_MAIN_HOSTNAME: mongo-primary
+      ACME_DB_MAIN_PORT: 27017
+      ACME_DB_MAIN_USERNAME: root
+      ACME_DB_MAIN_PASSWORD: acme
     expose:
       - 8000
     image: node:15.5.0-alpine3.12

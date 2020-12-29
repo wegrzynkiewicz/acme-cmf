@@ -1,7 +1,7 @@
 const regex = new RegExp('\\.', 'g');
 
 function transformKey(key) {
-    const prefix = 'APP_';
+    const prefix = 'ACME_';
     return prefix + (key.toString().replace(regex, '_').toUpperCase());
 }
 

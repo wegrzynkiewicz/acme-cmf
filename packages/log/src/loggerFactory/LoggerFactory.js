@@ -6,7 +6,7 @@ export class LoggerFactory {
         this.tags = tags;
     }
 
-    produce({channel}) {
+    produceLogger({channel}) {
         const {create, logBus, tags} = this;
         return create({channel, logBus, tags});
     }

@@ -33,7 +33,7 @@ export class HTTPNetworkParticle {
         });
         httpManager.registerProcessor(proxy);
 
-        const logger = loggerFactory.produce({channel: 'HTTP-ERROR'});
+        const logger = loggerFactory.produceLogger({channel: 'HTTP-ERROR'});
         const errorHandler = new ErrorHandler({
             logger: logger,
             name: `${name}.error-handler`,

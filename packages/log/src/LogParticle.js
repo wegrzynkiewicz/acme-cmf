@@ -43,7 +43,7 @@ export class LogParticle {
         });
     }
 
-    onInitServices({config, serviceRegistry}) {
+    onPreInitServices({config, serviceRegistry}) {
         const {stderr, stdout} = this;
 
         const logBus = provideLogBus({config, stderr, stdout});
@@ -60,7 +60,7 @@ export class LogParticle {
             service: loggerFactory,
         });
 
-        const logger = loggerFactory.produce({channel: 'ROOT'});
+        const logger = loggerFactory.produceLogger({channel: 'ROOT'});
         serviceRegistry.registerService({
             comment: 'Records the root logs.',
             key: 'logger',
