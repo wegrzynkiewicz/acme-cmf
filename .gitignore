@@ -3,6 +3,7 @@
 *.cache
 node_modules
 dist
+docker-compose.override.yml
 
 # local env files
 .env

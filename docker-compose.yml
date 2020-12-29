@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+
+  app:
+    command: ./console server start
+    expose:
+      - 8000
+    image: node:15.5.0-alpine3.12
+    restart: always
+    volumes:
+      - ./:/app
+    working_dir: /app
+
+  mongo-primary:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: acme
+    expose:
+      - 27017
+    image: mongo:4.4.2-bionic
+    restart: always
+
+
