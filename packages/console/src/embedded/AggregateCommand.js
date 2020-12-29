@@ -1,4 +1,6 @@
-import {ConsoleArgument, ConsoleCommand, HelpOption} from '../..';
+import {ConsoleArgument} from '../define/ConsoleArgument';
+import {ConsoleCommand} from '../define/ConsoleCommand';
+import {HelpOption} from './HelpOption';
 
 export class AggregateCommand extends ConsoleCommand {
 

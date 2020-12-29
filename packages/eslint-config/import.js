@@ -16,7 +16,7 @@ module.exports = {
             'off',
         ],
         'import/max-dependencies': [
-            'error',
+            'off',
         ],
         'import/newline-after-import': [
             'error',

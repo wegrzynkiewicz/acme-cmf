@@ -1,4 +1,7 @@
-import {ErrorHandler, Network, Router, Server} from '@acme/http-base';
+import {ErrorHandler} from './network/ErrorHandler';
+import {Network} from './network/Network';
+import {Server} from './network/Server';
+import {Proxy} from './network/Proxy';
 
 export class HTTPNetworkParticle {
 
@@ -25,16 +28,16 @@ export class HTTPNetworkParticle {
     onPreInitRouting({config, httpManager, loggerFactory, serviceLocator}) {
         const {name} = this;
 
-        const router = new Router({
-            name: `${name}.router`,
+        const proxy = new Proxy({
+            name: `${name}.proxy`,
         });
-        httpManager.register(router);
+        httpManager.register(proxy);
 
         const logger = loggerFactory.produce({channel: 'HTTP-ERROR'});
         const errorHandler = new ErrorHandler({
             logger: logger,
-            name: `${name}.router`,
-            processor: router,
+            name: `${name}.error-handler`,
+            processor: proxy,
         });
 
         const network = new Network({

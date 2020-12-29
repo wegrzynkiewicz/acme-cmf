@@ -3,11 +3,11 @@ import {TranslatorParticle} from '@acme/translator';
 import {LogParticle} from '@acme/log';
 import {ConfigParticle} from '@acme/config';
 import {ConsoleParticle} from '@acme/console';
-import {HTTPBaseParticle} from '@acme/http-base';
-import {HTTPNetworkParticle} from '@acme/http-network';
+import {HTTPBaseParticle, HTTPNetworkParticle} from '@acme/http';
 import {DaemonParticle} from '@acme/daemon';
 import {ApplicationsParticle} from '@acme/applications';
 import {SchemaParticle} from '@acme/schema';
+import {ShopApplicationParticle} from '@acme/shop-application';
 
 (async () => {
     const {argv, env, stderr, stdin, stdout} = process;
@@ -23,8 +23,10 @@ import {SchemaParticle} from '@acme/schema';
             new ConsoleParticle({argv, stderr, stdin, stdout}),
             new DaemonParticle(),
             new HTTPBaseParticle(),
-            new HTTPNetworkParticle({name: 'web'}),
             new SchemaParticle(),
+
+            new HTTPNetworkParticle({name: 'shop'}),
+            new ShopApplicationParticle(),
         ],
     });
     process.exitCode = await run();

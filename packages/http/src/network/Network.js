@@ -11,9 +11,6 @@ export class Network {
         this.servers = new Set();
     }
 
-    /**
-     * @param {Server} server
-     */
     registerServer({server}) {
         server.on('request', async (request, response) => {
             await this.processor.process(this.serviceLocator, {request, response});
