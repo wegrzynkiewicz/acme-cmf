@@ -1,8 +1,0 @@
-{
-  "name": "@acme/applications",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {
-    "@acme/schema": "^0.0.0"
-  }
-}

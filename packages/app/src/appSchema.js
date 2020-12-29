@@ -1,6 +1,6 @@
 import {predefinedProperties, schemaKeySymbol} from '@acme/schema';
 
-export const applicationSchema = {
+export const appSchema = {
     properties: {
         _id: predefinedProperties.ObjectId,
         hid: predefinedProperties.HumanId,
@@ -9,6 +9,6 @@ export const applicationSchema = {
         },
     },
     required: ['_id'],
-    [schemaKeySymbol]: 'application',
+    [schemaKeySymbol]: 'app',
     type: 'object',
 };

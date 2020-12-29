@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 DIR="$(cd "$(dirname "$0")" && pwd -P)"
-node --require esm "${DIR}/packages/app/index.js" ${0} ${@}
+node --require esm "${DIR}/packages/start/index.js" ${0} ${@}

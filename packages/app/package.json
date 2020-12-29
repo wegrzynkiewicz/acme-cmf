@@ -3,13 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@acme/config": "^0.0.0",
-    "@acme/console": "^0.0.0",
-    "@acme/daemon": "^0.0.0",
-    "@acme/core": "^0.0.0",
-    "@acme/http-base": "^0.0.0",
-    "@acme/http-network": "^0.0.0",
-    "@acme/log": "^0.0.0",
-    "@acme/translator": "^0.0.0"
+    "@acme/schema": "^0.0.0"
   }
 }

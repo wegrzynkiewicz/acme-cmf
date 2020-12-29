@@ -1,12 +1,13 @@
 import {ShopProcessor} from './ShopProcessor';
 
-export class ShopApplicationParticle {
+export class ShopAppParticle {
 
-    onInitServices({applicationProcessorRegistry}) {
-        applicationProcessorRegistry.registerApplicationProcessor({
+    onInitServices({appProcessorRegistry}) {
+        appProcessorRegistry.registerAppProcessor({
             key: 'shop',
             service: new ShopProcessor(),
         });
+        AppResolverProcessor
     }
 
     onInitRouting({httpManager}) {
