@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   app:
-    command: npx nodemon --require esm ./packages/start/index.js ./console server start
+    command: node --require esm ./packages/start/index.js ./console server start
     environment:
       ACME_DB_MAIN_HOSTNAME: mongo-primary
       ACME_DB_MAIN_PORT: 27017

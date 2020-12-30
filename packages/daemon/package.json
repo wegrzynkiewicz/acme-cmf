@@ -2,6 +2,8 @@
   "name": "@acme/daemon",
   "version": "0.0.0",
   "private": true,
+  "main": "index.js",
+  "module": "index.js",
   "dependencies": {
     "@acme/console": "^0.0.0"
   }

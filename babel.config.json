@@ -1,0 +1,17 @@
+{
+  "ignore": [
+    "dist",
+    "node_modules"
+  ],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        },
+        "modules": "cjs"
+      }
+    ]
+  ]
+}

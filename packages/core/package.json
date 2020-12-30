@@ -2,7 +2,9 @@
   "name": "@acme/core",
   "version": "0.0.0",
   "private": true,
-  "devDependencies": {
+  "main": "index.js",
+  "module": "index.js",
+  "dependencies": {
     "@acme/debug": "^0.0.0",
     "@acme/service": "^0.0.0"
   }

@@ -1,5 +1,7 @@
 {
   "name": "@acme/shop-app",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "main": "index.js",
+  "module": "index.js"
 }
