@@ -1,19 +1,27 @@
-import EventEmitter from 'events';
-
 /**
  * Create a function that will call the callback the indicated number of tries
  * in intervals until the correct result is obtained
  */
-export class Repeater extends EventEmitter {
+export class Repeater {
 
-    /**
-     * @param callback {Function}
-     * @param context {Object}
-     * @param tries {Number}
-     * @param interval {Number} Milliseconds
-     */
-    constructor({callback, context, interval, tries}) {
-        super();
+    private readonly callback: Function;
+    private readonly context: Object;
+    private readonly interval: number;
+    private tries: number;
+
+    constructor(
+        {
+            callback,
+            context,
+            interval,
+            tries,
+        }: {
+            callback: Function,
+            context: Object,
+            interval: number,
+            tries: number,
+        }
+    ) {
         this.callback = callback;
         this.context = context;
         this.interval = interval;
@@ -26,12 +34,7 @@ export class Repeater extends EventEmitter {
                 return await this.callback.apply(this.context, args);
             } catch (error) {
                 this.tries--;
-                this.emit('repeated', {
-                    error,
-                    tries: this.tries,
-                });
                 if (this.tries === 0) {
-                    this.emit('error', error);
                     throw error;
                 }
                 await this.sleep(this.interval);
@@ -39,7 +42,7 @@ export class Repeater extends EventEmitter {
         }
     }
 
-    async sleep(milliseconds) {
+    async sleep(milliseconds): Promise<void> {
         return new Promise(resolve => {
             setTimeout(resolve, milliseconds);
         });
