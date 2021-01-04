@@ -4,6 +4,7 @@
 node_modules
 dist
 docker-compose.override.yml
+packages/*/package-lock.json
 
 # local env files
 .env

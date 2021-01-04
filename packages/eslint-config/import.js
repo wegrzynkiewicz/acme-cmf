@@ -70,7 +70,7 @@ module.exports = {
             'off',
         ],
         'import/no-namespace': [
-            'error',
+            'off',
         ],
         'import/no-nodejs-modules': [
             'off',
