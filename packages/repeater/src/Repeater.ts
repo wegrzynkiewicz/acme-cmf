@@ -4,23 +4,23 @@
  */
 export class Repeater {
 
-    private readonly callback: Function;
-    private readonly context: Object;
+    private readonly callback: () => void;
+    private readonly context: unknown;
     private readonly interval: number;
     private tries: number;
 
-    constructor(
+    public constructor(
         {
             callback,
             context,
             interval,
             tries,
         }: {
-            callback: Function,
-            context: Object,
-            interval: number,
-            tries: number,
-        }
+            readonly callback: () => void,
+            readonly context: unknown,
+            readonly interval: number,
+            readonly tries: number,
+        },
     ) {
         this.callback = callback;
         this.context = context;
@@ -28,11 +28,12 @@ export class Repeater {
         this.tries = tries;
     }
 
-    async execute(...args) {
+    public async execute(...args: readonly unknown[]): Promise<void> {
         while (true) {
             try {
-                return await this.callback.apply(this.context, args);
-            } catch (error) {
+                await this.callback.apply(this.context, args);
+                return;
+            } catch (error: unknown) {
                 this.tries--;
                 if (this.tries === 0) {
                     throw error;
@@ -42,7 +43,7 @@ export class Repeater {
         }
     }
 
-    async sleep(milliseconds): Promise<void> {
+    private async sleep(milliseconds: number): Promise<void> {
         return new Promise(resolve => {
             setTimeout(resolve, milliseconds);
         });
