@@ -6,6 +6,7 @@
   "module": "index.js",
   "dependencies": {
     "@acme/repeater": "^0.0.0",
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.3",
+    "saslprep": "^1.0.3"
   }
 }

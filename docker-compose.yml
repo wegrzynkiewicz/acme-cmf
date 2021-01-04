@@ -1,29 +1,37 @@
-version: '3.8'
+version: '3.3'
+
+networks:
+  acmecmf:
+    driver: bridge
 
 services:
 
   app:
     command: node --require esm ./packages/start/index.js ./console server start
     environment:
-      ACME_DB_MAIN_HOSTNAME: mongo-primary
-      ACME_DB_MAIN_PORT: 27017
-      ACME_DB_MAIN_USERNAME: root
-      ACME_DB_MAIN_PASSWORD: acme
+      ACME_DBM_MAIN_DSN: mongodb://main:main@mongodb-main/main?authSource=main
     expose:
       - 8000
     image: node:15.5.0-alpine3.12
+    networks:
+      - acmecmf
     restart: always
     volumes:
       - ./:/app
     working_dir: /app
 
-  mongo-primary:
+  mongodb-main:
     environment:
+      MONGO_INITDB_DATABASE: main
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: acme
+      MONGO_INITDB_ROOT_PASSWORD: root
+    networks:
+      - acmecmf
     expose:
       - 27017
     image: mongo:4.4.2-bionic
     restart: always
+    volumes:
+      - ./docker/mongodb-main/setup-database.js:/docker-entrypoint-initdb.d/001-setup-database.js
 
 
