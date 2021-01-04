@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "lib": [
+      "ESNext"
+    ],
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "ESNext"
+  }
+}
