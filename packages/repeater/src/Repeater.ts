@@ -10,12 +10,7 @@ export class Repeater {
     private tries: number;
 
     public constructor(
-        {
-            callback,
-            context,
-            interval,
-            tries,
-        }: {
+        {callback, context, interval, tries}: {
             readonly callback: () => void,
             readonly context: unknown,
             readonly interval: number,

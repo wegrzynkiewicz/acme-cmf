@@ -1,9 +1,14 @@
+import type {ConsoleApplication} from '../define/ConsoleApplication';
 import {ConsoleCommand} from '../define/ConsoleCommand';
+import type {UsagePrinter} from '../runtime/UsagePrinter';
+import type {Output} from '../runtime/Output';
 import {HelpOption} from './HelpOption';
 
 export class IntroCommand extends ConsoleCommand {
 
-    constructor({logo}) {
+    private readonly logo: string;
+
+    public constructor({logo}: { logo: string }) {
         super({
             aliases: ['show-intro'],
             description: 'Show the intro of console application.',
@@ -16,14 +21,19 @@ export class IntroCommand extends ConsoleCommand {
         this.logo = logo;
     }
 
-    async execute({commander, output, usagePrinter}, {command}) {
+    public async execute(
+        {commander, output, usagePrinter}: {
+            readonly commander: ConsoleApplication,
+            readonly output: Output,
+            readonly usagePrinter: UsagePrinter,
+        },
+        {args}: {
+            readonly args: Map<string, string>,
+        },
+    ): Promise<number> {
         output.writeLine(this.logo);
 
-        usagePrinter.writeHelp({
-            ...commander,
-            description: '',
-            name: '',
-        });
+        usagePrinter.writeHelp(commander);
 
         const name = usagePrinter.executableName;
         output.writeLine(`Type \`${name} help [command]\` for more information on specific commands.`);

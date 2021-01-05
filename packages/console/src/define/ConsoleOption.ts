@@ -29,7 +29,7 @@ export class ConsoleOption implements Executable {
         }
     }
 
-    public assert(value: string): void {
+    public assert(value: unknown): void {
         if (this.parameter) {
             this.parameter.assert(value);
         }

@@ -37,7 +37,7 @@ export class ConsoleArgument {
         }
     }
 
-    private digValueFromArray(args: string[]): unknown {
+    public digValueFromArray(args: string[]): unknown {
         const {defaults, required, rest, name} = this;
         if (args.length === 0) {
             if (required) {

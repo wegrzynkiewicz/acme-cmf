@@ -129,6 +129,10 @@ module.exports = {
                 args: 'none',
             },
         ],
+        'object-curly-spacing': [
+            'error',
+            'never',
+        ],
         'object-property-newline': [
             'error',
             {

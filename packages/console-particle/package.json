@@ -1,0 +1,15 @@
+{
+  "name": "@acme/console-particle",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@acme/console": "^0.0.0",
+    "@acme/service": "^0.0.0"
+  }
+}

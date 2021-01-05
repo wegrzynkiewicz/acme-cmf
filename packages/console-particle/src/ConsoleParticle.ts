@@ -1,30 +1,26 @@
-import {createDebugger} from '@acme/debug';
-import {IntroCommand} from './embedded/IntroCommand';
-import {VersionCommand} from './embedded/VersionCommand';
-import {HelpCommand} from './embedded/HelpCommand';
-import {UsagePrinter} from './runtime/UsagePrinter';
-import {Output} from './runtime/Output';
-import {ConsoleApplication} from './define/ConsoleApplication';
-import {ServiceRegistry} from 'packages/service/src/ServiceRegistry';
-
-const debug = createDebugger('console:exit');
+import type {Writable} from 'stream';
+import {ConsoleApplication, HelpCommand, IntroCommand, Output, UsagePrinter, VersionCommand} from '@acme/console';
+import type {ServiceRegistry} from '@acme/service';
 
 export class ConsoleParticle {
 
     private readonly argv: string;
-    private readonly stderr: string;
-    private readonly stdin: string;
-    private readonly stdout: string;
+    private readonly stderr: Writable;
+    private readonly stdin: Writable;
+    private readonly stdout: Writable;
+    private readonly setExitCode: (exitCode: number) => void;
 
     public constructor(
-        {argv, stderr, stdin, stdout}: {
-            readonly argv: string,
-            readonly stderr: string,
-            readonly stdin: string,
-            readonly stdout: string,
+        {argv, setExitCode, stderr, stdin, stdout}: {
+            argv: string,
+            setExitCode: (exitCode: number) => void,
+            stderr: Writable,
+            stdin: Writable,
+            stdout: Writable,
         },
     ) {
         this.argv = argv;
+        this.setExitCode = setExitCode;
         this.stdin = stdin;
         this.stderr = stderr;
         this.stdout = stdout;
@@ -32,8 +28,8 @@ export class ConsoleParticle {
 
     public async onPreInitServices(
         {serviceLocator, serviceRegistry}: {
-            readonly serviceLocator: Record<string, unknown>,
-            readonly serviceRegistry: ServiceRegistry,
+            serviceLocator: Record<string, unknown>,
+            serviceRegistry: ServiceRegistry,
         },
     ): Promise<void> {
         const commander = new ConsoleApplication({
@@ -43,25 +39,25 @@ export class ConsoleParticle {
         serviceRegistry.registerService('commander', commander);
     }
 
-    onInitServices({serviceRegistry}) {
+    public async onInitServices(
+        {serviceRegistry}: {
+            serviceRegistry: ServiceRegistry,
+        },
+    ): Promise<void> {
         const {argv, stderr, stdout} = this;
         const executableName = argv[2];
         const output = new Output({stderr, stdout});
 
-        serviceRegistry.registerService({
-            comment: 'Helpful tool format console output.',
-            key: 'output',
-            service: output,
-        });
-
-        serviceRegistry.registerService({
-            comment: 'Print console command help page.',
-            key: 'usagePrinter',
-            service: new UsagePrinter({executableName, output}),
-        });
+        const usagePrinter = new UsagePrinter({executableName, output});
+        serviceRegistry.registerService('output', output);
+        serviceRegistry.registerService('usagePrinter', usagePrinter);
     }
 
-    onPreInitCommands({commander}) {
+    public async onPreInitCommands(
+        {commander}: {
+            commander: ConsoleApplication,
+        },
+    ): Promise<void> {
         const copyright = '2020';
         const intro = '@acme/console';
         const revision = '0000000';
@@ -73,12 +69,15 @@ export class ConsoleParticle {
         commander.registerCommand(new HelpCommand());
     }
 
-    async onExecute({commander, exit}) {
+    public async onExecute(
+        {commander}: {
+            commander: ConsoleApplication,
+        },
+    ): Promise<void> {
         const exitCode = await commander.executeCommand({
             argv: this.argv.slice(3),
             command: commander,
         });
-        debug('Console command exit code (%o)', exitCode);
-        exit.setExitCode(exitCode);
+        this.setExitCode(exitCode);
     }
 }

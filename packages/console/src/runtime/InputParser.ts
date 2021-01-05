@@ -1,27 +1,34 @@
-import minimist from 'minimist';
-import {ConsoleCommand} from '../define/ConsoleCommand';
+import * as minimist from 'minimist';
+import type {ConsoleCommand} from '../define/ConsoleCommand';
 
-function getBooleanOptions(command) {
-    const options = [];
+function onUnknownArgument(argument: string): boolean {
+    if (argument.startsWith('-')) {
+        throw new Error(`Unexpected option named (${argument}).`);
+    }
+    return false;
+}
+
+function getBooleanOptions(command: ConsoleCommand): string[] {
+    const options: string[] = [];
     for (const option of command.options.values()) {
         if (!option.parameter) {
-            options.push(option);
+            options.push(option.name);
         }
     }
     return options;
 }
 
-function getStringOptions(command) {
-    const options = [];
+function getStringOptions(command: ConsoleCommand): string[] {
+    const options: string[] = [];
     for (const option of command.options.values()) {
         if (option.parameter) {
-            options.push(option);
+            options.push(option.name);
         }
     }
     return options;
 }
 
-function getDefaultOptions(command) {
+function getDefaultOptions(command: ConsoleCommand): Record<string, unknown> {
     const defaults = {};
     for (const option of command.options.values()) {
         const {name, parameter} = option;
@@ -32,8 +39,8 @@ function getDefaultOptions(command) {
     return defaults;
 }
 
-function getAliasOptions(command) {
-    const aliases = {};
+function getAliasOptions(command: ConsoleCommand): Record<string, string> {
+    const aliases: Record<string, string> = {};
     for (const option of command.options.values()) {
         const {name, longFlags, shortFlags} = option;
         for (const longFlag of longFlags) {
@@ -46,38 +53,33 @@ function getAliasOptions(command) {
     return aliases;
 }
 
-function onUnknownArgument(argument) {
-    if (argument.indexOf('-') === 0) {
-        throw new Error(`Unexpected option named (${argument}).`);
-    }
-}
-
 export class InputParser {
 
-    constructor({command}) {
-        if (!(command instanceof ConsoleCommand)) {
-            throw new Error('Invalid startup command in console application.');
-        }
+    private readonly command: ConsoleCommand;
+
+    public constructor(
+        {command}: { command: ConsoleCommand },
+    ) {
         this.command = command;
     }
 
-    parse(argv) {
+    public parse(argv: string): { args: Map<string, unknown>, options: Map<string, unknown> } {
         const {command} = this;
-        const settings = {
+        const settings: minimist.Opts = {
             '--': false,
             alias: getAliasOptions(command),
             boolean: getBooleanOptions(command),
             default: getDefaultOptions(command),
             stopEarly: true,
-            strings: getStringOptions(command),
+            string: getStringOptions(command),
             unknown: onUnknownArgument,
         };
 
-        const argumentWords = [...argv];
+        const argumentWords: string[] = [...argv];
         const parsed = minimist(argumentWords, settings);
         const {_: parsedArguments, ...parsedOptions} = parsed;
 
-        const args = new Map();
+        const args = new Map<string, unknown>();
 
         for (const argument of command.args.values()) {
             const argumentValue = argument.digValueFromArray(parsedArguments);
@@ -89,9 +91,9 @@ export class InputParser {
             throw new Error(`Passed more arguments then expected count (${command.args.size}).`);
         }
 
-        const options = new Map();
+        const options = new Map<string, unknown>();
         for (const option of command.options.values()) {
-            const optionValue = parsedOptions[option.name];
+            const optionValue = parsedOptions[option.name] as unknown;
             option.assert(optionValue);
             options.set(option.name, optionValue);
         }

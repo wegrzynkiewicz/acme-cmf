@@ -2,9 +2,10 @@ import {ConsoleOption} from '../define/ConsoleOption';
 
 export class QuietOption extends ConsoleOption {
 
-    constructor() {
+    public static readonly instance = new QuietOption();
+
+    public constructor() {
         super({
-            defaults: false,
             description: 'Do not output any message.',
             longFlags: ['quiet'],
             name: 'quiet',

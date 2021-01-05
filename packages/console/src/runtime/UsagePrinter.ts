@@ -9,7 +9,7 @@ import type {Output} from './Output';
 
 export class UsagePrinter {
 
-    private readonly executableName: string;
+    public readonly executableName: string;
     private readonly output: Output;
 
     public constructor(

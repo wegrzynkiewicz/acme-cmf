@@ -16,7 +16,7 @@ export class ConsoleOptionParameter {
         this.required = required ?? false;
     }
 
-    public assert(value: string): void {
+    public assert(value: unknown): void {
         if (value === '' && this.required) {
             throw new Error(`Required option parameter named (${this.name}) is empty.`);
         }

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "declarationDir": "./dist/types",
+    "outDir": "./dist/esm"
+  },
+  "extends": "../../tsconfig.esm.json",
+  "include": [
+    "./index.ts",
+    "./src/**/*.ts",
+  ]
+}

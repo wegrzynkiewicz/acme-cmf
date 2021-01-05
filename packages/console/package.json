@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "@acme/debug": "^0.0.0",
+    "@types/minimist": "^1.2.1",
     "cli-table3": "^0.6.0",
     "minimist": "^1.2.5"
   }

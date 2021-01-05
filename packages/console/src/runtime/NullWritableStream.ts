@@ -1,16 +1,25 @@
-import stream from 'stream';
+import {Writable} from 'stream';
 
-export class NullWritableStream extends stream.Writable {
+export class NullWritableStream extends Writable {
 
-    _write(chunk, encoding, callback) {
+    public _write(
+        chunk: unknown,
+        encoding: BufferEncoding,
+        callback: (error?: (Error | null)) => void,
+    ): void {
         callback(null);
     }
 
-    _writev(chunks, callback) {
+    public _writev(
+        chunks: { chunk: unknown, encoding: BufferEncoding }[],
+        callback: (error?: (Error | null)) => void,
+    ): void {
         callback(null);
     }
 
-    _final(callback) {
+    public _final(
+        callback: (error?: (Error | null)) => void,
+    ): void {
         callback(null);
     }
 }
