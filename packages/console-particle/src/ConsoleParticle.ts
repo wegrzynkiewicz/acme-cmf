@@ -5,28 +5,42 @@ import {HelpCommand} from './embedded/HelpCommand';
 import {UsagePrinter} from './runtime/UsagePrinter';
 import {Output} from './runtime/Output';
 import {ConsoleApplication} from './define/ConsoleApplication';
+import {ServiceRegistry} from 'packages/service/src/ServiceRegistry';
 
 const debug = createDebugger('console:exit');
 
 export class ConsoleParticle {
 
-    constructor({argv, stderr, stdin, stdout}) {
+    private readonly argv: string;
+    private readonly stderr: string;
+    private readonly stdin: string;
+    private readonly stdout: string;
+
+    public constructor(
+        {argv, stderr, stdin, stdout}: {
+            readonly argv: string,
+            readonly stderr: string,
+            readonly stdin: string,
+            readonly stdout: string,
+        },
+    ) {
         this.argv = argv;
         this.stdin = stdin;
         this.stderr = stderr;
         this.stdout = stdout;
     }
 
-    onPreInitServices({serviceLocator, serviceRegistry}) {
+    public async onPreInitServices(
+        {serviceLocator, serviceRegistry}: {
+            readonly serviceLocator: Record<string, unknown>,
+            readonly serviceRegistry: ServiceRegistry,
+        },
+    ): Promise<void> {
         const commander = new ConsoleApplication({
             commandName: 'intro',
             serviceLocator,
         });
-        serviceRegistry.registerService({
-            comment: 'Store all information about console commands.',
-            key: 'commander',
-            service: commander,
-        });
+        serviceRegistry.registerService('commander', commander);
     }
 
     onInitServices({serviceRegistry}) {
