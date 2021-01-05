@@ -1,16 +1,29 @@
 /* eslint-disable quote-props */
 
-import Table from 'cli-table3';
+import * as CliTable3 from 'cli-table3';
+import type {ConsoleArgument} from '../define/ConsoleArgument';
+import type {ConsoleCommand} from '../define/ConsoleCommand';
+import type {ConsoleOption} from '../define/ConsoleOption';
+import type {ConsoleOptionParameter} from '../define/ConsoleOptionParameter';
+import type {Output} from './Output';
 
 export class UsagePrinter {
 
-    constructor({executableName, output}) {
+    private readonly executableName: string;
+    private readonly output: Output;
+
+    public constructor(
+        {executableName, output}: {
+            readonly executableName: string,
+            readonly output: Output,
+        },
+    ) {
         this.executableName = executableName;
         this.output = output;
     }
 
-    createTable() {
-        const table = new Table({
+    public createTable(): CliTable3.Table {
+        const table = new CliTable3({
             chars: {
                 'bottom': '',
                 'bottom-left': '',
@@ -36,7 +49,7 @@ export class UsagePrinter {
         return table;
     }
 
-    writeHelp(command) {
+    public writeHelp(command: ConsoleCommand): void {
         this.writeCommandUsage(command);
         this.writeCommandDescription(command);
         this.writeCommandAliases(command);
@@ -48,14 +61,14 @@ export class UsagePrinter {
         this.writeTable(table);
     }
 
-    writeTable(table) {
-        if (table.length > 0) {
+    public writeTable(table: CliTable3.Table): void {
+        if (table.length && table.length > 0) {
             this.output.write(table.toString());
             this.output.writeLine();
         }
     }
 
-    writeCommandUsage(command) {
+    public writeCommandUsage(command: ConsoleCommand): void {
         const {args, name, options} = command;
 
         this.output.write('Usage:');
@@ -76,7 +89,7 @@ export class UsagePrinter {
         this.output.writeLine();
     }
 
-    writeCommandDescription(command) {
+    public writeCommandDescription(command: ConsoleCommand): void {
         const {description} = command;
         if (description) {
             this.output.writeLine(description);
@@ -84,7 +97,7 @@ export class UsagePrinter {
         }
     }
 
-    writeCommandAliases(command) {
+    public writeCommandAliases(command: ConsoleCommand): void {
         const {aliases} = command;
         if (aliases.size > 0) {
             this.output.writeLine('Aliases:');
@@ -94,8 +107,8 @@ export class UsagePrinter {
         }
     }
 
-    getCommandArguments(command) {
-        const list = [];
+    public getCommandArguments(command: ConsoleCommand): string[][] {
+        const list: string[][] = [];
         for (const argument of command.args.values()) {
             const argumentData = [
                 `  ${this.getCommandArgumentLabel(argument)}`,
@@ -106,29 +119,29 @@ export class UsagePrinter {
         return list;
     }
 
-    getCommandArgumentLabel(argument) {
+    public getCommandArgumentLabel(argument: ConsoleArgument): string {
         const {defaults, name, rest, required} = argument;
         let label = name;
         if (rest) {
             label += '...';
         }
-        if (defaults && !rest) {
+        if (typeof defaults === 'string' && !rest) {
             label += `="${defaults.toString()}"`;
         }
         label = required ? `<${label}>` : `[${label}]`;
         return label;
     }
 
-    putCommandArgumentsToTable(command, table) {
-        if (command.args && command.args.size > 0) {
+    public putCommandArgumentsToTable(command: ConsoleCommand, table: CliTable3.Table): void {
+        if (command.args.size > 0) {
             table.push(['Arguments:', '']);
             table.push(...this.getCommandArguments(command));
             table.push([]);
         }
     }
 
-    getCommandOptions(command) {
-        const list = [];
+    public getCommandOptions(command: ConsoleCommand): string[][] {
+        const list: string[][] = [];
         for (const option of command.options.values()) {
             const optionData = [
                 `  ${this.getCommandOptionLabel(option)}`,
@@ -139,10 +152,10 @@ export class UsagePrinter {
         return list;
     }
 
-    getCommandOptionLabel(option) {
+    public getCommandOptionLabel(option: ConsoleOption): string {
         const {longFlags, parameter, shortFlags} = option;
 
-        const flags = [];
+        const flags: string[] = [];
         if (shortFlags.length > 0) {
             for (const shortFlag of shortFlags) {
                 flags.push(`-${shortFlag}`);
@@ -163,38 +176,38 @@ export class UsagePrinter {
         return label;
     }
 
-    getCommandOptionParameterLabel(parameter) {
+    public getCommandOptionParameterLabel(parameter: ConsoleOptionParameter): string {
         const {defaults, name, required} = parameter;
         let label = name;
-        if (defaults) {
+        if (typeof defaults === 'string') {
             label += `="${defaults}"`;
         }
         label = required ? `<${label}>` : `[${label}]`;
         return label;
     }
 
-    putCommandOptionsToTable(command, table) {
-        if (command.options && command.options.size > 0) {
+    public putCommandOptionsToTable(command: ConsoleCommand, table: CliTable3.Table): void {
+        if (command.options.size > 0) {
             table.push(['Options:', '']);
             table.push(...this.getCommandOptions(command));
             table.push([]);
         }
     }
 
-    getAvailableCommands(command) {
-        const list = [];
+    public getAvailableCommands(command: ConsoleCommand): string[][] {
+        const list: string[][] = [];
         for (const child of command.commands.values()) {
             if (!child.hidden) {
-                list.push(this.getAvailableCommand(child));
+                list.push(this.getAvailableCommandDescription(child));
             }
         }
         return list;
     }
 
-    getAvailableCommand(command) {
+    public getAvailableCommandDescription(command: ConsoleCommand): [string, string] {
         const {name, description, options, args} = command;
         let label = `  ${name}`;
-        if (options.length > 0) {
+        if (options.size > 0) {
             label += ' [options]';
         }
         if (args.size > 0) {
@@ -209,8 +222,8 @@ export class UsagePrinter {
         ];
     }
 
-    putCommandCommandsToTable(command, table) {
-        if (command.commands && command.commands.size > 0) {
+    public putCommandCommandsToTable(command: ConsoleCommand, table: CliTable3.Table): void {
+        if (command.commands.size > 0) {
             table.push(['Available commands:', '']);
             table.push(...this.getAvailableCommands(command));
             table.push([]);

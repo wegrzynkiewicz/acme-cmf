@@ -5,19 +5,15 @@ export class ConsoleOptionParameter {
     public readonly required: boolean;
 
     public constructor(
-        {
-            defaults,
-            name,
-            required = false,
-        }: {
+        {defaults, name, required}: {
             readonly defaults: unknown,
             readonly name: string,
-            readonly required: boolean,
+            readonly required?: boolean,
         },
     ) {
         this.defaults = defaults;
         this.name = name;
-        this.required = required;
+        this.required = required ?? false;
     }
 
     public assert(value: string): void {

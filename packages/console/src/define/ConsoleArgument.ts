@@ -7,13 +7,7 @@ export class ConsoleArgument {
     public readonly rest: boolean;
 
     public constructor(
-        {
-            defaults,
-            description,
-            name,
-            rest,
-            required,
-        }: {
+        {defaults, description, name, rest, required}: {
             readonly defaults?: unknown,
             readonly description?: string,
             readonly name: string,

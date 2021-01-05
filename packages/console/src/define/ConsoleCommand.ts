@@ -16,15 +16,7 @@ export class ConsoleCommand implements Executable {
     public readonly options: Map<string, ConsoleOption> = new Map<string, ConsoleOption>();
 
     public constructor(
-        {
-            aliases,
-            args,
-            commands,
-            description,
-            name,
-            hidden,
-            options,
-        }: {
+        {aliases, args, commands, description, name, hidden, options}: {
             readonly aliases?: string[],
             readonly args?: ConsoleArgument[],
             readonly commands?: ConsoleCommand[],

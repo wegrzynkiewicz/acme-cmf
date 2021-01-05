@@ -12,10 +12,7 @@ export class ConsoleApplication extends ConsoleCommand {
     private readonly serviceLocator: Record<string, unknown>;
 
     public constructor(
-        {
-            commandName,
-            serviceLocator,
-        }: {
+        {commandName, serviceLocator}: {
             readonly commandName: string,
             readonly serviceLocator: Record<string, unknown>,
         },
@@ -47,10 +44,7 @@ export class ConsoleApplication extends ConsoleCommand {
     }
 
     public async executeCommand(
-        {
-            argv,
-            command,
-        }: {
+        {argv, command}: {
             readonly argv: string,
             readonly command: ConsoleCommand,
         },

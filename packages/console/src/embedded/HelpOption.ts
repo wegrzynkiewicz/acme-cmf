@@ -1,5 +1,6 @@
 import {ConsoleOption} from '../define/ConsoleOption';
 import type {ConsoleCommand} from '../define/ConsoleCommand';
+import type {UsagePrinter} from '../runtime/UsagePrinter';
 
 export class HelpOption extends ConsoleOption {
 
@@ -15,7 +16,9 @@ export class HelpOption extends ConsoleOption {
     }
 
     public async execute(
-        {usagePrinter}: UsagePrinter,
+        {usagePrinter}: {
+            readonly usagePrinter: UsagePrinter,
+        },
         {command, options, next}: {
             readonly command: ConsoleCommand,
             readonly options: Map<string, unknown>,

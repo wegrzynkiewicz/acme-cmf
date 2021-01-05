@@ -10,13 +10,7 @@ export class ConsoleOption implements Executable {
     public readonly shortFlags: string[];
 
     public constructor(
-        {
-            description,
-            longFlags,
-            name,
-            parameter,
-            shortFlags,
-        }: {
+        {description, longFlags, name, parameter, shortFlags}: {
             readonly description?: string,
             readonly longFlags?: string[],
             readonly name: string,
@@ -43,9 +37,7 @@ export class ConsoleOption implements Executable {
 
     public async execute(
         globalContext: Record<string, unknown>,
-        {
-            next,
-        }: {
+        {next}: {
             next: () => Promise<number>,
         },
     ): Promise<number> {
