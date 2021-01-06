@@ -1,14 +1,14 @@
-import {bootstrap, CoreParticle} from '@acme/core';
-import {TranslatorParticle} from '@acme/translator';
-import {LogParticle} from '@acme/log';
+import {AppParticle} from '@acme/app';
 import {ConfigParticle} from '@acme/config';
 import {ConsoleParticle} from '@acme/console';
-import {HTTPBaseParticle} from '@acme/http';
+import {bootstrap, CoreParticle} from '@acme/core';
 import {DaemonParticle} from '@acme/daemon';
-import {AppParticle} from '@acme/app';
+import {DBBaseParticle, DBInstanceParticle} from '@acme/database';
+import {HTTPBaseParticle} from '@acme/http';
+import {LogParticle} from '@acme/log';
 import {SchemaParticle} from '@acme/schema';
 import {ShopAppParticle} from '@acme/shop-app';
-import {DBBaseParticle, DBInstanceParticle} from '@acme/database';
+import {TranslatorParticle} from '@acme/translator';
 
 (async () => {
     const {argv, env, stderr, stdin, stdout} = process;
@@ -19,7 +19,13 @@ import {DBBaseParticle, DBInstanceParticle} from '@acme/database';
                 environmentVariables: env,
             }),
             new CoreParticle({process}),
-            new ConsoleParticle({argv, stderr, stdin, stdout}),
+            new ConsoleParticle({
+                argv,
+                setExitCode: (exitCode) => process.exitCode = exitCode,
+                stderr,
+                stdin,
+                stdout,
+            }),
             new DaemonParticle(),
             new DBBaseParticle(),
             new DBInstanceParticle({name: 'main'}),
@@ -30,5 +36,5 @@ import {DBBaseParticle, DBInstanceParticle} from '@acme/database';
             new TranslatorParticle(),
         ],
     });
-    process.exitCode = await run();
+    await run();
 })();

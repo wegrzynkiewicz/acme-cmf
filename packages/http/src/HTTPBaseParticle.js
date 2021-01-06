@@ -3,11 +3,8 @@ import {HTTPManager} from './HTTPManager';
 export class HTTPBaseParticle {
 
     onPreInitServices({serviceRegistry}) {
-        serviceRegistry.registerService({
-            comment: 'Contain all information about http network entities.',
-            key: 'httpManager',
-            service: new HTTPManager(),
-        });
+        const httpManager = new HTTPManager();
+        serviceRegistry.registerService('httpManager', httpManager);
     }
 
     onInitCommands({commander}) {

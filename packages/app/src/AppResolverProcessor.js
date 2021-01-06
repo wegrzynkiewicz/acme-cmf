@@ -10,10 +10,7 @@ export class AppResolverProcessor {
         const {serviceRegistry, request} = context;
         const app = this.appRepository.findByRequest(request);
 
-        serviceRegistry.registerService({
-            key: 'app',
-            service: app,
-        });
+        serviceRegistry.registerService('app', app);
 
         const processor = this.httpManager.getProcessor(app.processor);
 

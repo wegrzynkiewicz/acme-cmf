@@ -98,6 +98,12 @@ module.exports = {
         ],
         'import/order': [
             'error',
+            {
+                alphabetize: {
+                    order: 'asc',
+                    caseInsensitive: true,
+                },
+            },
         ],
         'import/prefer-default-export': [
             'off',

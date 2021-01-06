@@ -1,6 +1,6 @@
 import {HTTPNetworkParticle} from '@acme/http';
-import {appSchema} from './appSchema';
 import {AppResolverProcessor} from './AppResolverProcessor';
+import {appSchema} from './appSchema';
 
 export class AppParticle {
 

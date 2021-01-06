@@ -1,7 +1,7 @@
 import {ErrorHandler} from './network/ErrorHandler';
 import {Network} from './network/Network';
-import {Server} from './network/Server';
 import {Proxy} from './network/Proxy';
+import {Server} from './network/Server';
 
 export class HTTPNetworkParticle {
 

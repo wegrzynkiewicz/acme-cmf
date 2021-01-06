@@ -1,5 +1,5 @@
-import {ConsoleOption} from '../define/ConsoleOption';
 import type {ConsoleCommand} from '../define/ConsoleCommand';
+import {ConsoleOption} from '../define/ConsoleOption';
 import type {UsagePrinter} from '../runtime/UsagePrinter';
 
 export class HelpOption extends ConsoleOption {

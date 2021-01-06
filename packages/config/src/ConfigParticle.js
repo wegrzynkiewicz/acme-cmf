@@ -8,23 +8,14 @@ export class ConfigParticle {
     }
 
     onPreInitConfig({serviceRegistry}) {
-        serviceRegistry.registerService({
-            comment: 'Collect all configuration variables.',
-            key: 'configRegistry',
-            service: new ConfigRegistry(),
-        });
+        const configRegistry = new ConfigRegistry();
+        serviceRegistry.registerService('configRegistry', configRegistry);
     }
 
     onPreInitServices({configRegistry, serviceRegistry}) {
-
         const {environmentVariables} = this;
         const configResolver = new ConfigResolver({environmentVariables});
         const config = configResolver.resolve({configRegistry});
-
-        serviceRegistry.registerService({
-            comment: 'Stores global configuration.',
-            key: 'config',
-            service: config,
-        });
+        serviceRegistry.registerService('config', config);
     }
 }

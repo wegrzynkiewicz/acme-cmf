@@ -1,5 +1,5 @@
-import {ConsoleArgument} from '../define/ConsoleArgument';
 import type {ConsoleApplication} from '../define/ConsoleApplication';
+import {ConsoleArgument} from '../define/ConsoleArgument';
 import {ConsoleCommand} from '../define/ConsoleCommand';
 import type {ConsoleOption} from '../define/ConsoleOption';
 import type {UsagePrinter} from '../runtime/UsagePrinter';

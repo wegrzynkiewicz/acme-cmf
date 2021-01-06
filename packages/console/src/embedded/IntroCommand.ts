@@ -1,7 +1,7 @@
 import type {ConsoleApplication} from '../define/ConsoleApplication';
 import {ConsoleCommand} from '../define/ConsoleCommand';
-import type {UsagePrinter} from '../runtime/UsagePrinter';
 import type {Output} from '../runtime/Output';
+import type {UsagePrinter} from '../runtime/UsagePrinter';
 import {HelpOption} from './HelpOption';
 
 export class IntroCommand extends ConsoleCommand {

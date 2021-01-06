@@ -1,5 +1,4 @@
 import {createServiceLocator} from '@acme/service';
-import {Exit} from './Exit';
 import {ParticleManager} from './ParticleManager';
 
 const stages = [
@@ -17,7 +16,6 @@ const stages = [
 export function bootstrap({particles}) {
     const {serviceLocator, serviceRegistry} = createServiceLocator();
     const particleManager = new ParticleManager({serviceLocator, stages});
-    const exit = new Exit();
 
     const run = async () => {
         for (const particle of particles) {
@@ -29,24 +27,10 @@ export function bootstrap({particles}) {
         await particleManager.run('initCommands');
         await particleManager.run('initSchemas');
         await particleManager.run('execute');
-        return exit.getExitCode();
     };
 
-    serviceRegistry.registerService({
-        comment: 'Manage application particle instances.',
-        key: 'particleManager',
-        service: particleManager,
-    });
-    serviceRegistry.registerService({
-        comment: 'Function which allow run stages pipeline.',
-        key: 'run',
-        service: run,
-    });
-    serviceRegistry.registerService({
-        comment: 'Function which can set and save exit code.',
-        key: 'exit',
-        service: exit,
-    });
+    serviceRegistry.registerService('particleManager', particleManager);
+    serviceRegistry.registerService('run', run);
 
     return serviceLocator;
 }

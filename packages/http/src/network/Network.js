@@ -20,17 +20,8 @@ export class Network {
 
     async processRequest(request, response) {
         const {serviceRegistry, serviceLocator} = createServiceLocator();
-
-        serviceRegistry.registerService({
-            key: 'request',
-            service: request,
-        });
-
-        serviceRegistry.registerService({
-            key: 'response',
-            service: response,
-        });
-
+        serviceRegistry.registerService('request', request);
+        serviceRegistry.registerService('response', response);
         await this.processor.process(this.serviceLocator, serviceLocator);
     }
 }

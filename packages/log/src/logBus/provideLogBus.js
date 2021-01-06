@@ -1,5 +1,5 @@
-import {PlainFormatter} from '../formaters/PlainFormatter';
 import {SeverityFilter} from '../filters/SeverityFilter';
+import {PlainFormatter} from '../formaters/PlainFormatter';
 import {StreamHandler} from '../handlers/StreamHandler';
 import {LogBus} from './LogBus';
 

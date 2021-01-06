@@ -1,6 +1,11 @@
 import type {Writable} from 'stream';
-import {ConsoleApplication, HelpCommand, IntroCommand, Output, UsagePrinter, VersionCommand} from '@acme/console';
 import type {ServiceRegistry} from '@acme/service';
+import {ConsoleApplication} from './define/ConsoleApplication';
+import {HelpCommand} from './embedded/HelpCommand';
+import {IntroCommand} from './embedded/IntroCommand';
+import {VersionCommand} from './embedded/VersionCommand';
+import {Output} from './runtime/Output';
+import {UsagePrinter} from './runtime/UsagePrinter';
 
 export class ConsoleParticle {
 

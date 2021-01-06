@@ -1,6 +1,6 @@
 import {createDebugger} from '@acme/debug';
-import {InputParser} from '../runtime/InputParser';
 import {HelpOption} from '../embedded/HelpOption';
+import {InputParser} from '../runtime/InputParser';
 import {ConsoleArgument} from './ConsoleArgument';
 import {ConsoleCommand} from './ConsoleCommand';
 import type {Executable} from './Executable';

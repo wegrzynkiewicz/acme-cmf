@@ -1,6 +1,6 @@
 import {IncomingMessage} from 'http';
-import uniqid from 'uniqid';
 import {createDebugger} from '@acme/debug';
+import uniqid from 'uniqid';
 
 const debug = createDebugger('http-base');
 

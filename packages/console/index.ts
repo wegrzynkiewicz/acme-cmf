@@ -1,3 +1,4 @@
+export * from './src/ConsoleParticle';
 export * from './src/define/ConsoleApplication';
 export * from './src/define/ConsoleArgument';
 export * from './src/define/ConsoleCommand';
