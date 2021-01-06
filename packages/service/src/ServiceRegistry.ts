@@ -12,8 +12,14 @@ export class ServiceRegistry {
     private readonly promises: Map<string, Promise<unknown>> = new Map<string, Promise<unknown>>();
     private readonly resolvers: Map<string, (unknown) => void> = new Map<string, (unknown) => void>();
     private readonly timeout: number = 100;
+    private readonly serviceLocator: Record<string, unknown>;
 
-    public constructor(private serviceLocator: Record<string, unknown>) {
+    public constructor(
+        {serviceLocator}: {
+            serviceLocator: Record<string, unknown>,
+        },
+    ) {
+        this.serviceLocator = serviceLocator;
     }
 
     public registerService(key: string, service: unknown): void {
