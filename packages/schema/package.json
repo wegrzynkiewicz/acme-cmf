@@ -2,8 +2,12 @@
   "name": "@acme/schema",
   "version": "0.0.0",
   "private": true,
-  "main": "index.js",
-  "module": "index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@acme/debug": "^0.0.0"
   }

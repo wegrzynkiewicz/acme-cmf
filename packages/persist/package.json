@@ -1,5 +1,5 @@
 {
-  "name": "@acme/app",
+  "name": "@acme/persist",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/cjs/index.js",
@@ -7,8 +7,5 @@
   "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
-  ],
-  "dependencies": {
-    "@acme/schema": "^0.0.0"
-  }
+  ]
 }
