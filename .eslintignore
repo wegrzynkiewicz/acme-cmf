@@ -1,4 +1,5 @@
 dist/
 docker/
+jest.config.js
 node_modules/
 packages/eslint-config/

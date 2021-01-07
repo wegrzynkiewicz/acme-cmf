@@ -1,4 +1,4 @@
-import assert from 'assert';
+import {assert} from 'chai';
 import {bindParameters} from './bindParameters';
 
 describe('bindParameters', () => {

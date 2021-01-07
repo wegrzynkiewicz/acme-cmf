@@ -5,6 +5,7 @@ globals:
   Atomics: false
   SharedArrayBuffer: false
 overrides:
+  
   - extends:
       - '@acme/eslint-config/typescript'
     files: [ '*.ts', '*.tsx' ]
@@ -13,13 +14,15 @@ overrides:
       project: './tsconfig.eslint.json'
     plugins:
       - '@typescript-eslint'
+  
   - env:
-      mocha: true
+      jest: true
     extends:
-      - '@acme/eslint-config/mocha'
-    files: [ '*.test.js']
+      - '@acme/eslint-config/jest'
+    files: [ '*.test.ts']
     plugins:
-      - mocha
+      - jest
+
 parser: ''
 parserOptions:
   ecmaVersion: 2018
