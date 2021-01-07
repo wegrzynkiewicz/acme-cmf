@@ -1,7 +1,7 @@
-import {createServiceLocator} from '@acme/service';
-import {ParticleManager} from './ParticleManager';
+import type {ParticleInterface, ServiceRegistry} from '@acme/service';
+import {createServiceLocator, ParticleManager} from '@acme/service';
 
-const stages = [
+const stages = new Set<string>([
     'initParticles',
     'initConfig',
     'initServices',
@@ -11,13 +11,18 @@ const stages = [
     'execute',
     'listening',
     'finalize',
-];
+]);
 
-export function bootstrap({particles}) {
-    const {serviceLocator, serviceRegistry} = createServiceLocator();
+export function bootstrap(
+    {particles}: {
+        particles: ParticleInterface[],
+    },
+): Record<string, unknown> {
+    const serviceLocator = createServiceLocator();
+    const serviceRegistry = serviceLocator.serviceRegistry as ServiceRegistry;
     const particleManager = new ParticleManager({serviceLocator, stages});
 
-    const run = async () => {
+    const run = async (): Promise<void> => {
         for (const particle of particles) {
             await particleManager.registerParticle(particle);
         }
