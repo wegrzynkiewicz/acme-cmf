@@ -1,5 +1,5 @@
 {
-  "name": "@acme/app",
+  "name": "@acme/unit",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/cjs/index.js",
@@ -9,7 +9,6 @@
     "dist"
   ],
   "dependencies": {
-    "@acme/schema": "^0.0.0",
-    "@acme/unit": "^0.0.0"
+    "@acme/debug": "^0.0.0"
   }
 }

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "declarationMap": true,
     "module": "CommonJS",
   },
   "extends": "./tsconfig.json",

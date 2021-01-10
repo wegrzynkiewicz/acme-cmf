@@ -1,14 +1,16 @@
 export class Schema {
 
     public readonly description?: string;
+    public readonly items?: Schema;
     public readonly properties?: Record<string, Schema>;
     public readonly required?: string[];
     public readonly title?: string;
     public readonly type: string;
 
     public constructor(
-        {description, properties, required, title, type}: {
+        {description, items, properties, required, title, type}: {
             description?: string,
+            items?: Schema,
             properties?: Record<string, Schema>,
             required?: string[],
             title?: string,
@@ -16,6 +18,7 @@ export class Schema {
         },
     ) {
         this.description = description;
+        this.items = items;
         this.properties = properties;
         this.required = required;
         this.title = title;
