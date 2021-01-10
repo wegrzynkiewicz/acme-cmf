@@ -20,6 +20,10 @@ export interface ParticleInterface {
     onInitSchemas?: (serviceLocator: Record<string, unknown>) => Promise<void>,
     onPostInitSchemas?: (serviceLocator: Record<string, unknown>) => Promise<void>,
 
+    onPreInitUnitBlueprints?: (serviceLocator: Record<string, unknown>) => Promise<void>,
+    onInitUnitBlueprints?: (serviceLocator: Record<string, unknown>) => Promise<void>,
+    onPostInitUnitBlueprints?: (serviceLocator: Record<string, unknown>) => Promise<void>,
+
     onPreInitRouting?: (serviceLocator: Record<string, unknown>) => Promise<void>,
     onInitRouting?: (serviceLocator: Record<string, unknown>) => Promise<void>,
     onPostInitRouting?: (serviceLocator: Record<string, unknown>) => Promise<void>,

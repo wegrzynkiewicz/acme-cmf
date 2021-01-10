@@ -7,6 +7,7 @@ const stages = new Set<string>([
     'initServices',
     'initCommands',
     'initSchemas',
+    'initUnitBlueprints',
     'initRouting',
     'execute',
     'listening',
@@ -31,6 +32,7 @@ export function bootstrap(
         await particleManager.run('initServices');
         await particleManager.run('initCommands');
         await particleManager.run('initSchemas');
+        await particleManager.run('initUnitBlueprints');
         await particleManager.run('execute');
     };
 
