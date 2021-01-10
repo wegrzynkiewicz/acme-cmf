@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "@acme/schema": "^0.0.0",
+    "@acme/service": "^0.0.0",
     "@acme/unit": "^0.0.0"
   }
 }

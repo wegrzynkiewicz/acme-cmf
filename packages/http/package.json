@@ -2,10 +2,18 @@
   "name": "@acme/http",
   "version": "0.0.0",
   "private": true,
-  "main": "index.js",
-  "module": "index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
+    "@acme/config": "^0.0.0",
     "@acme/service": "^0.0.0",
     "uniqid": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/uniqid": "^5.2.0"
   }
 }

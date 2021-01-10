@@ -1,5 +1,5 @@
 {
-  "name": "@acme/entry",
+  "name": "@acme/start",
   "version": "0.0.0",
   "private": true,
   "main": "index.js",

@@ -4,10 +4,7 @@ module.exports = {
             'error',
         ],
         'jest/expect-expect': [
-            'error',
-            {
-                "assertFunctionNames": ["assert"]
-            }
+            'off'
         ],
         'jest/lowercase-name': [
             'error',

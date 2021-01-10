@@ -5,7 +5,7 @@ import {UnitBlueprint, PlainUnitPropertyBlueprint} from '@acme/unit';
 export class App {
     public _id?: ObjectId;
     public domains?: string[];
-    public processor?: string;
+    public processorName?: string;
 
     public static createBlueprint(): UnitBlueprint {
         const app = new UnitBlueprint();
@@ -25,12 +25,12 @@ export class App {
         });
         app.properties.set('domains', domains);
 
-        const processor = new PlainUnitPropertyBlueprint({
+        const processorName = new PlainUnitPropertyBlueprint({
             schema: new Schema({
                 type: 'string',
             }),
         });
-        app.properties.set('processor', processor);
+        app.properties.set('processorName', processorName);
 
         return app;
     }

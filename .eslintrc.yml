@@ -5,25 +5,28 @@ globals:
   Atomics: false
   SharedArrayBuffer: false
 overrides:
-  
   - extends:
-      - '@acme/eslint-config/typescript'
-    files: [ '*.ts', '*.tsx' ]
-    parser: '@typescript-eslint/parser'
+      - "@acme/eslint-config/typescript"
+    excludedFiles:
+      - "*.test.ts"
+    files:
+      - "*.ts"
+      - "*.tsx"
+    parser: "@typescript-eslint/parser"
     parserOptions:
-      project: './tsconfig.eslint.json'
+      project: "./tsconfig.eslint.json"
     plugins:
-      - '@typescript-eslint'
-  
+      - "@typescript-eslint"
   - env:
       jest: true
     extends:
-      - '@acme/eslint-config/jest'
-    files: [ '*.test.ts']
+      - "@acme/eslint-config/jest"
+    files:
+      - "*.test.ts"
     plugins:
       - jest
-
-parser: ''
+      - "@typescript-eslint"
+parser: ""
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
@@ -32,7 +35,7 @@ plugins:
   - node
   - security
 extends:
-  - '@acme/eslint-config/import'
-  - '@acme/eslint-config/node'
-  - '@acme/eslint-config/recommended'
-  - '@acme/eslint-config/security'
+  - "@acme/eslint-config/import"
+  - "@acme/eslint-config/node"
+  - "@acme/eslint-config/recommended"
+  - "@acme/eslint-config/security"
