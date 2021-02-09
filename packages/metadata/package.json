@@ -1,0 +1,14 @@
+{
+  "name": "@acme/meta",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "reflect-metadata": "^0.1.13"
+  }
+}
