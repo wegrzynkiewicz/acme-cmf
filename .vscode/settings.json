@@ -1,0 +1,6 @@
+{
+    "files.insertFinalNewline": true,
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+    "typescript.preferences.quoteStyle": "single"
+}
